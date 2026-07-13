@@ -98,25 +98,28 @@ function Nav() {
         </div>
       </div>
 
-      <div className="nav-mobile-menu" role="dialog" aria-modal="true">
-        <div className="nav-mobile-links">
-          {links.map(([label, p]) => (
-            <a key={p}
-               href={`#${p}`}
-               className={activePage === p ? 'active' : ''}
-               onClick={(e) => { e.preventDefault(); go(p); }}>
-              {label}
-            </a>
-          ))}
-        </div>
-        <div className="nav-mobile-foot">
-          <span className="mono nav-availability">
-            <span className="pulse-dot"></span>
-            <span>NOW BOOKING Q3 2026</span>
-          </span>
-          <Button kind="gold" arrow={true} href="#contact" onClick={() => setMenuOpen(false)} style={{ width: '100%', justifyContent: 'center' }}>Book a free call</Button>
-        </div>
-      </div>
+      {ReactDOM.createPortal(
+        <div className={`nav-mobile-menu ${menuOpen ? 'open' : ''}`} role="dialog" aria-modal="true">
+          <div className="nav-mobile-links">
+            {links.map(([label, p]) => (
+              <a key={p}
+                 href={`#${p}`}
+                 className={activePage === p ? 'active' : ''}
+                 onClick={(e) => { e.preventDefault(); go(p); }}>
+                {label}
+              </a>
+            ))}
+          </div>
+          <div className="nav-mobile-foot">
+            <span className="mono nav-availability">
+              <span className="pulse-dot"></span>
+              <span>NOW BOOKING Q3 2026</span>
+            </span>
+            <Button kind="gold" arrow={true} href="#contact" onClick={() => setMenuOpen(false)} style={{ width: '100%', justifyContent: 'center' }}>Book a free call</Button>
+          </div>
+        </div>,
+        document.body
+      )}
     </nav>
   );
 }
@@ -160,6 +163,7 @@ function Nav() {
         left: 0;
         right: 0;
         bottom: 0;
+        z-index: 2147483000;
         padding: 8px var(--page-pad) calc(24px + env(safe-area-inset-bottom));
         background: var(--bg);
         border-top: 1px solid var(--border);
@@ -169,7 +173,7 @@ function Nav() {
         pointer-events: none;
         transition: opacity 0.22s ease, transform 0.22s ease;
       }
-      .nav.menu-open .nav-mobile-menu {
+      .nav-mobile-menu.open {
         transform: translateY(0);
         opacity: 1;
         pointer-events: auto;

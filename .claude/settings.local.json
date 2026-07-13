@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chromium-cli help *)",
+      "Bash(command -v chromium-cli)",
+      "Read(//usr/local/bin/**)",
+      "Bash(npx --no-install chromium-cli)",
+      "Bash(node -e \"require\\('playwright'\\); console.log\\('playwright ok'\\)\")",
+      "Bash(node -e \"require\\('puppeteer'\\); console.log\\('puppeteer ok'\\)\")",
+      "Bash(npm ls *)",
+      "Bash(timeout 20 npm view playwright version)",
+      "Bash(mkdir -p /tmp/claude-1000/-mnt-d-corelogics-website/904b2497-a32e-4735-a431-122945a8a46e/scratchpad/pw)",
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Bash(echo \"started in background, pid $!\")",
+      "Bash(wait)",
+      "Read(//tmp/**)",
+      "Bash(npx playwright *)",
+      "Bash(echo \"started $!\")",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(pkill -f \"playwright install\")",
+      "Bash(pkill -f \"chrome-linux\")",
+      "Bash(identify assets/favicon.png)",
+      "Bash(python3 -c \"from PIL import Image; im=Image.open\\('assets/favicon.png'\\); print\\(im.size, im.mode\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(curl -sf http://localhost:8811/index.html)",
+      "Bash(pkill -f \"http.server 8811\")",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(python3 -c \"import PIL; print\\('PIL available'\\)\")",
+      "Bash(pip install *)",
+      "Bash(python3 -c \"import PIL; print\\('PIL now available', PIL.__version__\\)\")",
+      "Bash(python3 -m venv /tmp/claude-1000/-mnt-d-corelogics-website/904b2497-a32e-4735-a431-122945a8a46e/scratchpad/venv)",
+      "Bash(/tmp/claude-1000/-mnt-d-corelogics-website/904b2497-a32e-4735-a431-122945a8a46e/scratchpad/venv/bin/pip install *)",
+      "Bash(node -e \"const j = require\\('jimp'\\); console.log\\(Object.keys\\(j\\)\\);\")",
+      "Bash(curl -sf http://localhost:8000/nav.jsx)",
+      "Bash(curl -sf http://localhost:8000/assets/favicon.png -o /tmp/check-favicon.png)"
+    ]
+  }
+}
