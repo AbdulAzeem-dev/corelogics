@@ -3,11 +3,23 @@
 function Nav() {
   const { page, setPage, theme, toggleTheme } = useRouter();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navRef = useRef(null);
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  // Measure the visible nav bar height so the mobile drawer can sit flush beneath it
+  useEffect(() => {
+    const inner = navRef.current && navRef.current.querySelector('.nav-inner');
+    if (!inner) return;
+    const setH = () => document.documentElement.style.setProperty('--nav-h', `${inner.offsetHeight}px`);
+    setH();
+    window.addEventListener('resize', setH);
+    return () => window.removeEventListener('resize', setH);
   }, []);
   const links = [
     ['Services', 'services'],
@@ -15,11 +27,30 @@ function Nav() {
     ['Case Studies', 'cases'],
     ['About', 'about'],
   ];
-  const go = (p) => { setPage(p); window.scrollTo({ top: 0, behavior: 'instant' }); };
+  const go = (p) => { setPage(p); setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'instant' }); };
   // Highlight "Case Studies" link on detail pages too
   const activePage = page === 'case' ? 'cases' : page;
+
+  // Lock body scroll while the mobile menu is open
+  useEffect(() => {
+    if (!menuOpen) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = prev; };
+  }, [menuOpen]);
+
+  // Close the mobile menu if the viewport grows back past the breakpoint
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 921px)');
+    const onChange = () => setMenuOpen(false);
+    mq.addEventListener ? mq.addEventListener('change', onChange) : mq.addListener(onChange);
+    return () => {
+      mq.removeEventListener ? mq.removeEventListener('change', onChange) : mq.removeListener(onChange);
+    };
+  }, []);
+
   return (
-    <nav className={`nav ${scrolled ? 'scrolled' : ''}`}>
+    <nav ref={navRef} className={`nav ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
       <div className="page nav-inner">
         <div onClick={() => go('home')} style={{ cursor: 'pointer' }}>
           <Logo />
@@ -54,6 +85,36 @@ function Nav() {
             </svg>
           </button>
           <Button kind="gold" arrow={true} href="#contact">Book a free call</Button>
+          <button
+            className={`nav-burger ${menuOpen ? 'open' : ''}`}
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+
+      <div className="nav-mobile-menu" role="dialog" aria-modal="true">
+        <div className="nav-mobile-links">
+          {links.map(([label, p]) => (
+            <a key={p}
+               href={`#${p}`}
+               className={activePage === p ? 'active' : ''}
+               onClick={(e) => { e.preventDefault(); go(p); }}>
+              {label}
+            </a>
+          ))}
+        </div>
+        <div className="nav-mobile-foot">
+          <span className="mono nav-availability">
+            <span className="pulse-dot"></span>
+            <span>NOW BOOKING Q3 2026</span>
+          </span>
+          <Button kind="gold" arrow={true} href="#contact" onClick={() => setMenuOpen(false)} style={{ width: '100%', justifyContent: 'center' }}>Book a free call</Button>
         </div>
       </div>
     </nav>
@@ -75,9 +136,49 @@ function Nav() {
     .nav-links a.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--gold); }
     .nav-right { display: flex; align-items: center; gap: 18px; }
     .nav-availability { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-dim); letter-spacing: 0.14em; text-transform: uppercase; }
+
+    .nav-burger { display: none; width: 38px; height: 38px; border-radius: 999px; align-items: center; justify-content: center; flex-shrink: 0; flex-direction: column; gap: 5px; }
+    .nav-burger span { display: block; width: 18px; height: 1.5px; background: var(--text); transition: transform 0.25s ease, opacity 0.25s ease; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .nav-mobile-menu { display: none; }
+
     @media (max-width: 920px) {
       .nav-links { display: none; }
       .nav-availability { display: none; }
+      .nav-right .btn-gold { display: none; }
+      .nav-burger { display: inline-flex; }
+
+      .nav-mobile-menu {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: fixed;
+        top: var(--nav-h, 68px);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 8px var(--page-pad) calc(24px + env(safe-area-inset-bottom));
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        overflow-y: auto;
+        transform: translateY(-8px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s ease, transform 0.22s ease;
+      }
+      .nav.menu-open .nav-mobile-menu {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .nav-mobile-links { display: flex; flex-direction: column; padding-top: 12px; }
+      .nav-mobile-links a { font-size: 26px; font-weight: 500; letter-spacing: -0.02em; padding: 16px 0; border-bottom: 1px solid var(--border); color: var(--text); }
+      .nav-mobile-links a.active { color: var(--gold); }
+      .nav-mobile-foot { display: flex; flex-direction: column; align-items: center; gap: 20px; padding-top: 24px; }
+      .nav-mobile-foot .nav-availability { display: inline-flex; }
     }
   `;
   document.head.appendChild(s);

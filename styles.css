@@ -226,6 +226,24 @@ img, svg { display: block; max-width: 100%; }
   opacity: 0.6;
 }
 
+/* Tighten oversized vertical section rhythm on small screens — the desktop
+   layout uses 100–140px of top/bottom section padding, which reads as
+   excessive dead space on a ~700px-tall phone viewport. */
+@media (max-width: 640px) {
+  .about-story, .principles, .team, .locations, .case-section, .case-hero,
+  .case-cross, .cases-featured, .contact-thanks, .services-overview,
+  .pipeline, .industries-preview, .cases-preview, .metrics, .closing-cta,
+  .page-header, .ai-tier, .integrated, .suite-tier, .engagement,
+  .industries-list, .manifesto, .cases-stats, .contact-body {
+    padding-block: 64px !important;
+  }
+  .facts { padding-block: 48px 64px !important; }
+
+  /* Photo/screenshot frames use a fixed inline height sized for desktop columns —
+     shrink it on phones so it doesn't dominate the viewport. */
+  .pfx { height: 240px !important; }
+}
+
 /* Density tweak */
 [data-density="compact"] {
   --page-pad: clamp(16px, 3vw, 40px);
