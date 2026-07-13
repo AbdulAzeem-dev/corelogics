@@ -35,7 +35,9 @@
       "Bash(/tmp/claude-1000/-mnt-d-corelogics-website/904b2497-a32e-4735-a431-122945a8a46e/scratchpad/venv/bin/pip install *)",
       "Bash(node -e \"const j = require\\('jimp'\\); console.log\\(Object.keys\\(j\\)\\);\")",
       "Bash(curl -sf http://localhost:8000/nav.jsx)",
-      "Bash(curl -sf http://localhost:8000/assets/favicon.png -o /tmp/check-favicon.png)"
+      "Bash(curl -sf http://localhost:8000/assets/favicon.png -o /tmp/check-favicon.png)",
+      "Bash(rm -rf /tmp/claude-1000/-mnt-d-corelogics-website/904b2497-a32e-4735-a431-122945a8a46e/scratchpad/verify)",
+      "Bash(curl -sf http://localhost:8000/page-industries.jsx)"
     ]
   }
 }

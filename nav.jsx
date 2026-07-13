@@ -159,7 +159,7 @@ function Nav() {
         flex-direction: column;
         justify-content: space-between;
         position: fixed;
-        top: var(--nav-h, 68px);
+        top: var(--nav-h, 76px);
         left: 0;
         right: 0;
         bottom: 0;

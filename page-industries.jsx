@@ -126,7 +126,7 @@ function PageIndustries() {
   const s = document.createElement('style');
   s.id = 'industries-css';
   s.textContent = `
-    .industry-filter-bar { padding: 18px 0; position: sticky; top: 64px; z-index: 20; background: oklch(0.14 0.01 250 / 0.85); backdrop-filter: blur(12px); }
+    .industry-filter-bar { padding: 18px 0; position: sticky; top: var(--nav-h, 76px); z-index: 20; background: oklch(0.14 0.01 250 / 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .filter-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
     .filter-label { font-size: 11px; letter-spacing: 0.18em; color: var(--text-faint); }
     .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -150,6 +150,13 @@ function PageIndustries() {
       .industry-block { grid-template-columns: 1fr; gap: 48px; }
       .industry-block.flip { direction: ltr; }
       .industry-metric-card { right: 16px; bottom: 16px; }
+    }
+
+    /* A second sticky bar stacked under the sticky nav is a tight, glitchy
+       fit on phones (the two can visually collide during momentum scroll,
+       and it eats scarce vertical space) — just let it scroll with the page. */
+    @media (max-width: 700px) {
+      .industry-filter-bar { position: static; top: auto; backdrop-filter: none; -webkit-backdrop-filter: none; }
     }
   `;
   document.head.appendChild(s);
