@@ -5,6 +5,40 @@ const { useState, useEffect, useRef, useMemo, useCallback, createContext, useCon
 const RouterCtx = createContext({ page: 'home', setPage: () => {} });
 const useRouter = () => useContext(RouterCtx);
 
+// ─── URL routing helpers ────────────────────────────────────────────────
+// Every page gets a real, shareable, bookmarkable hash URL (e.g. #/case-studies/amanah).
+const ROUTES = [
+  { page: 'home', path: '/' },
+  { page: 'services', path: '/services' },
+  { page: 'industries', path: '/industries' },
+  { page: 'cases', path: '/case-studies' },
+  { page: 'about', path: '/about' },
+  { page: 'contact', path: '/contact' },
+];
+
+function pathFor(page, slug) {
+  if (page === 'case' && slug) return `#/case-studies/${slug}`;
+  const route = ROUTES.find(r => r.page === page);
+  return `#${route ? route.path : '/'}`;
+}
+
+function parseHash(hash) {
+  const clean = String(hash || '').replace(/^#/, '');
+  const segments = clean.split('/').filter(Boolean);
+  if (segments.length === 0) return { page: 'home', slug: null };
+  if (segments[0] === 'case-studies') {
+    return segments[1] ? { page: 'case', slug: segments[1] } : { page: 'cases', slug: null };
+  }
+  const known = ROUTES.find(r => r.page === segments[0]);
+  return known ? { page: known.page, slug: null } : { page: 'home', slug: null };
+}
+
+// True for a plain left-click with no modifier keys — i.e. a click that should be
+// intercepted for SPA navigation rather than left to the browser's default (new tab, etc.)
+function isPlainClick(e) {
+  return e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
+}
+
 // ─── Pieces ─────────────────────────────────────────────────────────────
 
 function Eyebrow({ children, dot = true, style }) {
@@ -25,15 +59,17 @@ function Button({ kind = 'primary', children, onClick, href, arrow = true, style
     </React.Fragment>
   );
   const { setPage } = useRouter();
+  const isInternal = href && href.startsWith('#') && !href.startsWith('#/');
+  const resolvedHref = isInternal ? pathFor(href.slice(1)) : href;
   const handle = (e) => {
-    if (href && href.startsWith('#')) {
+    if (isInternal && isPlainClick(e)) {
       e.preventDefault();
       setPage(href.slice(1));
     }
     if (onClick) onClick(e);
   };
   return (
-    <a className={cls} href={href || '#'} onClick={handle} style={style}>{inner}</a>
+    <a className={cls} href={resolvedHref || '#'} onClick={handle} style={style}>{inner}</a>
   );
 }
 
@@ -211,7 +247,11 @@ function Footer() {
             <div key={c.h} className="footer-col">
               <div className="mono footer-h">{c.h}</div>
               {c.items.map(([label, page]) => (
-                <a key={label} href={`#${page}`} onClick={(e) => { e.preventDefault(); setPage(page); window.scrollTo({ top: 0 }); }}>{label}</a>
+                <a
+                  key={label}
+                  href={pathFor(page)}
+                  onClick={(e) => { if (isPlainClick(e)) { e.preventDefault(); setPage(page); window.scrollTo({ top: 0 }); } }}
+                >{label}</a>
               ))}
             </div>
           ))}
@@ -235,7 +275,7 @@ function Footer() {
 
 function Logo({ size = 26 }) {
   return (
-    <a href="#home" onClick={(e) => { e.preventDefault(); }} className="logo-a">
+    <a href={pathFor('home')} onClick={(e) => { e.preventDefault(); }} className="logo-a">
       <img
         src="assets/corelogics-logo.png"
         alt="Corelogics"
@@ -295,6 +335,6 @@ const componentsCss = `
 Object.assign(window, {
   React,
   useState, useEffect, useRef, useMemo, useCallback, createContext, useContext,
-  RouterCtx, useRouter,
+  RouterCtx, useRouter, pathFor, parseHash, isPlainClick,
   Eyebrow, Button, CornerCard, Reveal, Counter, PlaceholderSlot, PipelineDiagram, Footer, Logo,
 });

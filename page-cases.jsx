@@ -64,7 +64,8 @@ function PageCases() {
                       </div>
                       <Button
                         kind="primary"
-                        onClick={() => setPage('case', c.slug)}
+                        href={pathFor('case', c.slug)}
+                        onClick={(e) => { if (isPlainClick(e)) { e.preventDefault(); setPage('case', c.slug); } }}
                         arrow
                       >
                         Read the case study

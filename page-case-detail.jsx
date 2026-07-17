@@ -368,8 +368,8 @@ function PageCaseDetail({ slug }) {
           <Reveal delay={160}>
             <a
               className="case-next"
-              onClick={(e) => { e.preventDefault(); setPage('case', nextCase.slug); }}
-              href="#"
+              href={pathFor('case', nextCase.slug)}
+              onClick={(e) => { if (isPlainClick(e)) { e.preventDefault(); setPage('case', nextCase.slug); } }}
             >
               <div className="mono case-next-l">Next case study</div>
               <div className="case-next-name">{nextCase.name}</div>

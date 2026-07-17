@@ -298,8 +298,8 @@ function CasesPreviewSection() {
           {(window.CASE_STUDIES || []).map((c, i) => (
             <Reveal key={c.slug} delay={i * 100}>
               <a
-                href={`#case/${c.slug}`}
-                onClick={(e) => { e.preventDefault(); setPage('case', c.slug); }}
+                href={pathFor('case', c.slug)}
+                onClick={(e) => { if (isPlainClick(e)) { e.preventDefault(); setPage('case', c.slug); } }}
                 className="case-card"
                 style={{ '--case-accent': c.accent, '--case-accent-soft': c.accentSoft }}
               >

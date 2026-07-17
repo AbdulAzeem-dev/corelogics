@@ -13,19 +13,66 @@ const ACCENT_SWATCHES = {
   violet: '#b18cf0',
 };
 
+const PAGE_TITLES = {
+  home: 'Corelogics — AI Products Built for Founders, Launched in Weeks',
+  services: 'Services — Corelogics',
+  industries: 'Industries — Corelogics',
+  cases: 'Case Studies — Corelogics',
+  about: 'About — Corelogics',
+  contact: 'Contact — Corelogics',
+};
+
+function titleFor(page, slug) {
+  if (page === 'case') {
+    const c = (window.CASE_BY_SLUG || {})[slug];
+    return c ? `${c.name} — Case Study — Corelogics` : 'Case Study Not Found — Corelogics';
+  }
+  return PAGE_TITLES[page] || PAGE_TITLES.home;
+}
+
 function App() {
-  const [page, setPageRaw] = useState('home');
-  const [slug, setSlug] = useState(null);
+  // Read the initial page/slug straight from the URL so deep links (e.g. a shared
+  // case-study link) load directly into the right page instead of always landing on home.
+  const [page, setPageRaw] = useState(() => parseHash(window.location.hash).page);
+  const [slug, setSlug] = useState(() => parseHash(window.location.hash).slug);
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [theme, setTheme] = useState(() => {
     try { return localStorage.getItem('cl-theme') || 'dark'; } catch (e) { return 'dark'; }
   });
 
   // Two-arg navigation: setPage('case', 'qefa') or setPage('about')
+  // Pushes a real URL for the destination so every page (and every case study) is
+  // independently bookmarkable, shareable, and reload-safe.
   const setPage = useCallback((next, nextSlug = null) => {
+    const target = pathFor(next, nextSlug);
+    if (window.location.hash !== target) {
+      window.history.pushState(null, '', target);
+    }
     setPageRaw(next);
     setSlug(nextSlug);
   }, []);
+
+  // Keep state in sync with the URL for browser back/forward and manual hash edits.
+  useEffect(() => {
+    const syncFromHash = () => {
+      const parsed = parseHash(window.location.hash);
+      setPageRaw(parsed.page);
+      setSlug(parsed.slug);
+    };
+    window.addEventListener('popstate', syncFromHash);
+    window.addEventListener('hashchange', syncFromHash);
+    if (!window.location.hash) {
+      window.history.replaceState(null, '', pathFor(page, slug));
+    }
+    return () => {
+      window.removeEventListener('popstate', syncFromHash);
+      window.removeEventListener('hashchange', syncFromHash);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.title = titleFor(page, slug);
+  }, [page, slug]);
 
   const toggleTheme = useCallback(() => {
     setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));

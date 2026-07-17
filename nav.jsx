@@ -27,7 +27,13 @@ function Nav() {
     ['Case Studies', 'cases'],
     ['About', 'about'],
   ];
-  const go = (p) => { setPage(p); setMenuOpen(false); window.scrollTo({ top: 0, behavior: 'instant' }); };
+  const go = (p, e) => {
+    if (e && !isPlainClick(e)) return;
+    if (e) e.preventDefault();
+    setPage(p);
+    setMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
   // Highlight "Case Studies" link on detail pages too
   const activePage = page === 'case' ? 'cases' : page;
 
@@ -58,9 +64,9 @@ function Nav() {
         <div className="nav-links">
           {links.map(([label, p]) => (
             <a key={p}
-               href={`#${p}`}
+               href={pathFor(p)}
                className={activePage === p ? 'active' : ''}
-               onClick={(e) => { e.preventDefault(); go(p); }}>
+               onClick={(e) => go(p, e)}>
               {label}
             </a>
           ))}
@@ -103,9 +109,9 @@ function Nav() {
           <div className="nav-mobile-links">
             {links.map(([label, p]) => (
               <a key={p}
-                 href={`#${p}`}
+                 href={pathFor(p)}
                  className={activePage === p ? 'active' : ''}
-                 onClick={(e) => { e.preventDefault(); go(p); }}>
+                 onClick={(e) => go(p, e)}>
                 {label}
               </a>
             ))}
