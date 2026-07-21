@@ -55,7 +55,19 @@
       "Bash(apt-cache search *)",
       "Bash(pkill -f \"http.server 8934\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" --max-time 2 http://localhost:8934/index.html)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Skill(run)",
+      "Bash(npx --yes chromium-cli --help)",
+      "Bash(node -e \"require\\('playwright'\\)\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://www.googletagmanager.com/gtag/js?id=G-FY4JJN1Y0J\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://www.googletagmanager.com/gtm.js?id=GTM-NFGWM2GX\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://www.googletagmanager.com/ns.html?id=GTM-NFGWM2GX\")",
+      "Bash(ldconfig -p)",
+      "Bash(find / -xdev -iname \"libnspr4.so*\")",
+      "Bash(find / -xdev -iname \"libnss3.so*\")",
+      "Bash(kill %1)",
+      "Bash(pkill -f \"http.server 8791\")",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8791/ --max-time 2)"
     ]
   }
 }
