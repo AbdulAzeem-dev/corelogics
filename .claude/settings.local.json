@@ -67,7 +67,12 @@
       "Bash(find / -xdev -iname \"libnss3.so*\")",
       "Bash(kill %1)",
       "Bash(pkill -f \"http.server 8791\")",
-      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8791/ --max-time 2)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8791/ --max-time 2)",
+      "Bash(command -v google-chrome)",
+      "Bash(command -v chromium)",
+      "Bash(command -v playwright)",
+      "Bash(npx --yes playwright --version)",
+      "Bash(npx --yes -p @babel/core -p @babel/preset-react -p @babel/preset-env babel-node -e ' *)"
     ]
   }
 }
