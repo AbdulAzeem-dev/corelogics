@@ -115,13 +115,13 @@ function PageAbout() {
                   <svg viewBox="0 0 400 280" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
                     <defs>
                       <radialGradient id="loc-glow" cx="60%" cy="40%">
-                        <stop offset="0" stopColor="var(--gold)" stopOpacity="0.4" />
-                        <stop offset="1" stopColor="var(--gold)" stopOpacity="0" />
+                        <stop offset="0" stopColor="var(--accent)" stopOpacity="0.4" />
+                        <stop offset="1" stopColor="var(--accent)" stopOpacity="0" />
                       </radialGradient>
                     </defs>
-                    <rect width="400" height="280" fill="oklch(0.13 0.012 250)" />
+                    <rect width="400" height="280" fill="var(--bg-2)" />
                     {/* Grid */}
-                    <g stroke="oklch(0.22 0.018 250)" strokeWidth="0.5">
+                    <g stroke="var(--border)" strokeWidth="0.5">
                       {Array.from({ length: 8 }).map((_, i) => (
                         <line key={`v${i}`} x1={i * 50} y1="0" x2={i * 50} y2="280" />
                       ))}
@@ -131,23 +131,23 @@ function PageAbout() {
                     </g>
                     {/* Stylized coastline / arabian peninsula */}
                     <path d="M 60 100 Q 100 80 140 90 L 180 70 Q 230 60 270 90 Q 310 110 320 160 Q 310 200 270 220 Q 220 230 180 220 L 140 200 Q 100 190 80 160 Q 60 130 60 100 Z"
-                          fill="oklch(0.18 0.014 250)" stroke="oklch(0.30 0.02 250)" strokeWidth="1" />
+                          fill="var(--surface-3)" stroke="var(--border-strong)" strokeWidth="1" />
                     {/* Glow at location */}
                     <circle cx="240" cy="120" r="80" fill="url(#loc-glow)" />
                     {/* Location pin */}
                     <g transform="translate(240, 120)">
-                      <circle r="14" fill="none" stroke="var(--gold)" strokeWidth="1" opacity="0.5">
+                      <circle r="14" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5">
                         <animate attributeName="r" from="6" to="22" dur="2.4s" repeatCount="indefinite" />
                         <animate attributeName="opacity" from="0.6" to="0" dur="2.4s" repeatCount="indefinite" />
                       </circle>
-                      <circle r="5" fill="var(--gold)" />
-                      <circle r="2.5" fill="oklch(0.18 0.02 80)" />
+                      <circle r="5" fill="var(--accent)" />
+                      <circle r="2.5" fill="var(--accent-ink)" />
                     </g>
                     {/* Label */}
                     <g transform="translate(258, 116)">
                       <line x1="0" y1="0" x2="20" y2="-20" stroke="var(--text-dim)" strokeWidth="0.6" />
-                      <text x="24" y="-24" fontFamily="JetBrains Mono" fontSize="9" letterSpacing="2" fill="var(--text-muted)">AJMAN · AE</text>
-                      <text x="24" y="-12" fontFamily="JetBrains Mono" fontSize="8" fill="var(--text-faint)">25.4°N · 55.5°E</text>
+                      <text x="24" y="-24" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="9" letterSpacing="2" fill="var(--text-muted)">AJMAN · AE</text>
+                      <text x="24" y="-12" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="8" fill="var(--text-faint)">25.4°N · 55.5°E</text>
                     </g>
                   </svg>
                 </div>
@@ -187,43 +187,42 @@ function PageAbout() {
   const s = document.createElement('style');
   s.id = 'about-css';
   s.textContent = `
-    .about-story { padding: 100px 0; }
-    .about-story-inner { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: start; }
-    .about-story-side { position: sticky; top: 100px; }
+    .about-story { padding: var(--section-y) 0; }
+    .about-story-inner { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.2fr); gap: clamp(40px, 6vw, 80px); align-items: start; }
+    .about-story-side { position: sticky; top: 104px; }
     .about-story-text { display: flex; flex-direction: column; gap: 22px; font-size: 17px; line-height: 1.7; color: var(--text); max-width: 60ch; }
-    .about-story-text em { font-family: var(--font-serif); font-style: italic; color: var(--gold); }
+    .about-story-text em { font-family: var(--font-serif); font-style: italic; color: var(--accent); }
     .about-story-text p:first-child { font-size: 19px; color: var(--text); }
     @media (max-width: 980px) { .about-story-inner { grid-template-columns: 1fr; } .about-story-side { position: static; } }
 
-    .principles { padding: 120px 0; }
-    .principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .principle { padding: 32px; }
-    .principle-n { font-size: 11px; letter-spacing: 0.18em; color: var(--text-faint); margin-bottom: 18px; }
+    .principles { padding: var(--section-y) 0; }
+    .principles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .principle { padding: 30px; height: 100%; }
+    .principle-n { font-size: 11.5px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 18px; }
     .principle-t { margin-bottom: 12px; }
     .principle-d { font-size: 14.5px; max-width: 32ch; }
     @media (max-width: 980px) { .principles-grid { grid-template-columns: 1fr; } }
 
-    .team { padding: 120px 0; }
-    .team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .team-card { }
-    .team-meta { margin-top: 20px; }
-    .team-role { font-size: 11px; letter-spacing: 0.14em; color: var(--gold); text-transform: uppercase; margin-top: 8px; }
+    .team { padding: var(--section-y) 0; }
+    .team-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+        .team-meta { margin-top: 20px; }
+    .team-role { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-top: 8px; }
     .team-desc { font-size: 13.5px; margin-top: 12px; line-height: 1.55; }
     @media (max-width: 980px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
 
-    .locations { padding: 120px 0; }
+    .locations { padding: var(--section-y) 0; }
     .location-card { padding: 0; overflow: hidden; }
     .location-grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0; align-items: stretch; }
     .location-meta { padding: 48px; display: flex; flex-direction: column; gap: 16px; }
-    .location-flag { font-size: 11px; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; }
-    .location-city { font-family: var(--font-sans); font-size: clamp(32px, 4vw, 48px); font-weight: 500; letter-spacing: -0.03em; line-height: 1; margin-top: 4px; }
+    .location-flag { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; color: var(--accent); text-transform: uppercase; }
+    .location-city { font-family: var(--font-sans); font-size: clamp(32px, 4vw, 46px); font-weight: 600; letter-spacing: -0.038em; line-height: 1; margin-top: 4px; }
     .location-address { font-size: 14.5px; line-height: 1.7; margin-top: 12px; }
     .location-contacts { display: flex; flex-direction: column; gap: 8px; margin-top: auto; padding-top: 28px; border-top: 1px solid var(--border); }
     .location-link { font-family: var(--font-mono); font-size: 13px; color: var(--text); transition: color 0.2s ease; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 9px; }
-    .location-link:hover { color: var(--gold); }
-    .loc-ico { width: 15px; height: 15px; flex-shrink: 0; color: var(--gold); }
-    .location-map { border-left: 1px solid var(--border); min-height: 360px; background: oklch(0.12 0.01 250); }
+    .location-link:hover { color: var(--accent); }
+    .loc-ico { width: 15px; height: 15px; flex-shrink: 0; color: var(--accent); }
+    .location-map { border-left: 1px solid var(--border); min-height: 360px; background: var(--bg-2); }
     .location-map svg { display: block; width: 100%; height: 100%; }
     @media (max-width: 980px) {
       .location-grid { grid-template-columns: 1fr; }
@@ -231,11 +230,11 @@ function PageAbout() {
       .location-meta { padding: 32px; }
     }
 
-    .facts { padding: 80px 0 120px; }
-    .facts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-    .fact { padding: 28px 24px; background: oklch(0.15 0.012 250); }
-    .fact-k { font-size: 10.5px; letter-spacing: 0.16em; color: var(--text-faint); text-transform: uppercase; margin-bottom: 14px; }
-    .fact-v { font-size: 18px; letter-spacing: -0.01em; }
+    .facts { padding: clamp(48px, 6vw, 72px) 0 var(--section-y); }
+    .facts-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .fact { padding: 28px 24px; background: var(--surface); transition: background-color 0.2s var(--ease); }
+    .fact-k { font-size: 11px; font-weight: 500; letter-spacing: 0.13em; color: var(--text-faint); text-transform: uppercase; margin-bottom: 13px; }
+    .fact-v { font-size: 17.5px; font-weight: 500; letter-spacing: -0.016em; }
     @media (max-width: 880px) { .facts-grid { grid-template-columns: repeat(2, 1fr); } }
   `;
   document.head.appendChild(s);

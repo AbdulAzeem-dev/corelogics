@@ -56,7 +56,7 @@
       -webkit-mask-composite: xor; mask-composite: exclude;
       opacity: 0; transition: opacity .35s ease; z-index: 3;
     }
-    .cfx:hover > .cfx-spot { opacity: .9; }
+    .cfx:hover > .cfx-spot { opacity: .75; }
 
     /* Block cards: lift + shadow + brighter border on hover */
     .corner-card, .role-card, .principle, .cap-card, .aside-card,
@@ -70,17 +70,18 @@
       .cap-card:hover, .aside-card:hover, .location-card:hover,
       .suite-card:hover, .ai-card:hover {
         transform: translateY(-4px);
-        box-shadow: 0 22px 44px -22px oklch(0.04 0.02 250 / 0.7);
+        box-shadow: var(--shadow-3);
         border-color: var(--case-accent, var(--border-strong));
       }
-      .ai-card:hover { border-color: oklch(0.83 0.13 86 / 0.5); box-shadow: 0 22px 50px -22px oklch(0.83 0.13 86 / 0.25); }
-      .suite-card:hover .suite-icon { color: var(--gold); border-color: oklch(0.83 0.13 86 / 0.4); background: var(--gold-glow); transition: all .3s ease; }
+      .ai-card:hover { border-color: var(--accent-glow); box-shadow: var(--shadow-3); }
+      .ai-card-cta:hover { border-color: transparent; }
+      .suite-card:hover .suite-icon { color: var(--accent-ink); border-color: var(--accent); background: var(--accent); transition: color .3s ease, background-color .3s ease, border-color .3s ease; }
     }
 
     /* Corner ticks ignite to the accent on hover */
     .cfx.corner-card:hover .corner::before,
     .cfx.corner-card:hover .corner::after {
-      background: var(--case-accent, var(--gold));
+      background: var(--case-accent, var(--accent));
       transition: background .3s ease;
     }
 
@@ -90,9 +91,9 @@
       position: relative;
     }
     .fact:hover, .metric:hover, .outcome:hover, .case-result:hover {
-      background: oklch(0.18 0.016 250);
+      background: var(--surface-2);
     }
-    .metric:hover .metric-val { color: var(--gold); transition: color .35s ease; }
+    .metric:hover .metric-val { color: var(--accent); transition: color .35s ease; }
     .outcome:hover .outcome-v { filter: brightness(1.12); transition: filter .35s ease; }
 
     /* Press feedback for clickable cards */

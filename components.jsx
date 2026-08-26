@@ -14,6 +14,9 @@ const ROUTES = [
   { page: 'cases', path: '/case-studies' },
   { page: 'about', path: '/about' },
   { page: 'contact', path: '/contact' },
+  { page: 'privacy', path: '/privacy' },
+  { page: 'terms', path: '/terms' },
+  { page: '404', path: '/not-found' },
 ];
 
 function pathFor(page, slug) {
@@ -29,8 +32,9 @@ function parseHash(hash) {
   if (segments[0] === 'case-studies') {
     return segments[1] ? { page: 'case', slug: segments[1] } : { page: 'cases', slug: null };
   }
-  const known = ROUTES.find(r => r.page === segments[0]);
-  return known ? { page: known.page, slug: null } : { page: 'home', slug: null };
+  const known = ROUTES.find(r => r.page === segments[0] || r.path === `/${segments[0]}`);
+  // An unrecognised URL gets the real not-found page, not a silent redirect home.
+  return known ? { page: known.page, slug: null } : { page: '404', slug: null };
 }
 
 // True for a plain left-click with no modifier keys — i.e. a click that should be
@@ -178,147 +182,243 @@ function PlaceholderSlot({ label = 'image', height = 280, hint, className = '', 
   );
 }
 
-// SVG: stylized pipeline diagram (data → model → deploy)
+// The delivery loop, drawn plainly. The stage names are the ones used in the
+// surrounding copy — "data / train / deploy / monitor" was engineering shorthand
+// that a founder reading this page would not recognise.
 function PipelineDiagram({ height = 220 }) {
+  const stages = ['Build', 'Launch', 'Measure', 'Improve'];
+  const xs = [86, 262, 438, 614];
+  const y = 96;
   return (
-    <svg viewBox="0 0 600 220" width="100%" height={height} style={{ display: 'block' }}>
-      <defs>
-        <linearGradient id="pl-line" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="var(--accent)" stopOpacity="0.0" />
-          <stop offset="0.3" stopColor="var(--accent)" stopOpacity="0.7" />
-          <stop offset="0.7" stopColor="var(--accent)" stopOpacity="0.7" />
-          <stop offset="1" stopColor="var(--accent)" stopOpacity="0.0" />
-        </linearGradient>
-        <radialGradient id="pl-node" cx="0.5" cy="0.5" r="0.5">
-          <stop offset="0" stopColor="var(--accent)" stopOpacity="0.7" />
-          <stop offset="1" stopColor="var(--accent)" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      {/* horizontal flow line */}
-      <line x1="40" y1="110" x2="560" y2="110" stroke="url(#pl-line)" strokeWidth="1" />
-      {/* dashed feedback line */}
-      <path d="M 540 110 Q 540 30 300 30 Q 60 30 60 110" fill="none" stroke="var(--border-strong)" strokeWidth="1" strokeDasharray="3 4" />
-      {/* nodes */}
-      {[80, 220, 380, 520].map((x, i) => (
-        <g key={i}>
-          <circle cx={x} cy={110} r="22" fill="url(#pl-node)" />
-          <circle cx={x} cy={110} r="6" fill="var(--bg-2)" stroke="var(--accent)" strokeWidth="1.2" />
+    <svg viewBox="0 0 700 200" width="100%" height={height} role="img"
+         aria-label="A four-stage loop: build, launch, measure, improve — then back to build."
+         style={{ display: 'block' }}>
+      {/* the forward line */}
+      <line x1={xs[0]} y1={y} x2={xs[3]} y2={y} stroke="var(--border-strong)" strokeWidth="1.5" />
+
+      {/* the feedback arc, back to the start */}
+      <path d={`M ${xs[3]} ${y + 26} Q ${xs[3]} ${y + 76} ${(xs[0] + xs[3]) / 2} ${y + 76} Q ${xs[0]} ${y + 76} ${xs[0]} ${y + 26}`}
+            fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeDasharray="5 5" opacity="0.7" />
+      <text x={(xs[0] + xs[3]) / 2} y={y + 94} textAnchor="middle"
+            fontFamily="Geist, system-ui, sans-serif" fontSize="12.5" fill="var(--accent)">
+        every month, not just at launch
+      </text>
+
+      {stages.map((label, i) => (
+        <g key={label} transform={`translate(${xs[i]}, ${y})`}>
+          <rect x="-13" y="-13" width="26" height="26" rx="5"
+                fill="var(--surface)" stroke="var(--accent)" strokeWidth="1.5" />
+          <text textAnchor="middle" y="4.5"
+                fontFamily="Geist Mono, ui-monospace, monospace" fontSize="11" fontWeight="500"
+                fill="var(--accent)">{i + 1}</text>
+          <text textAnchor="middle" y="-28"
+                fontFamily="Geist, system-ui, sans-serif" fontSize="15" fontWeight="500"
+                letterSpacing="-0.2" fill="var(--text)">{label}</text>
         </g>
       ))}
-      {/* labels */}
-      {[
-        { x: 80, t: 'DATA' },
-        { x: 220, t: 'TRAIN' },
-        { x: 380, t: 'DEPLOY' },
-        { x: 520, t: 'MONITOR' },
-      ].map(({ x, t }, i) => (
-        <text key={i} x={x} y={170} textAnchor="middle" fontFamily="JetBrains Mono" fontSize="10" letterSpacing="2" fill="var(--text-dim)">{t}</text>
-      ))}
-      {/* moving pulse */}
-      <circle r="3" fill="var(--gold)">
-        <animateMotion dur="6s" repeatCount="indefinite" path="M 40 110 L 560 110" />
+
+      {/* a single mark travelling the loop */}
+      <circle r="4" fill="var(--accent)">
+        <animateMotion dur="7s" repeatCount="indefinite"
+          path={`M ${xs[0]} ${y} L ${xs[3]} ${y} Q ${xs[3]} ${y + 76} ${(xs[0] + xs[3]) / 2} ${y + 76} Q ${xs[0]} ${y + 76} ${xs[0]} ${y}`} />
       </circle>
     </svg>
   );
 }
 
-// Footer
+// Footer — three navigational paths plus the legal row, not a link farm.
 function Footer() {
   const { setPage } = useRouter();
+  const go = (page) => (e) => {
+    if (!isPlainClick(e)) return;
+    e.preventDefault();
+    setPage(page);
+    window.scrollTo({ top: 0 });
+  };
   const cols = [
-    { h: 'Company', items: [['About', 'about'], ['Case Studies', 'cases'], ['Industries', 'industries'], ['Contact', 'contact']] },
-    { h: 'AI Product Development', items: [['Computer Vision', 'services'], ['AI Chatbots & Agents', 'services'], ['Data Preparation', 'services'], ['Keeping AI Reliable', 'services'], ['Fast & Affordable Hosting', 'services']] },
-    { h: 'Product & Engineering', items: [['App & Product Design', 'services'], ['Web Development', 'services'], ['Mobile Apps', 'services'], ['Data Infrastructure', 'services'], ['Reporting & Fintech', 'services']] },
+    { h: 'Work', items: [['Case studies', 'cases'], ['Industries', 'industries'], ['Services', 'services']] },
+    { h: 'Company', items: [['About', 'about'], ['Contact', 'contact']] },
   ];
   return (
-    <footer className="footer hairline">
+    <footer className="footer on-inverse">
       <div className="page footer-inner">
         <div className="footer-brand">
-          <Logo size={28} />
-          <div className="mono" style={{ fontSize: 11, color: 'var(--text-dim)', marginTop: 18, letterSpacing: '0.14em' }}>
-            AI PRODUCTS, BUILT END-TO-END · SINCE 2022
-          </div>
-          <div className="mono" style={{ fontSize: 11, color: 'var(--text-faint)', marginTop: 12 }}>
-            © 2026 Corelogics Technologies · Established 2022
-          </div>
+          <Logo size={30} />
+          <p className="footer-line">
+            AI products, built end to end. Working software in four weeks,
+            production platforms after that.
+          </p>
+          <a className="footer-mail" href="mailto:info@corelogics.co">info@corelogics.co</a>
         </div>
-        <div className="footer-cols">
+
+        <nav className="footer-cols" aria-label="Footer">
           {cols.map(c => (
             <div key={c.h} className="footer-col">
-              <div className="mono footer-h">{c.h}</div>
+              <h2 className="mono footer-h">{c.h}</h2>
               {c.items.map(([label, page]) => (
-                <a
-                  key={label}
-                  href={pathFor(page)}
-                  onClick={(e) => { if (isPlainClick(e)) { e.preventDefault(); setPage(page); window.scrollTo({ top: 0 }); } }}
-                >{label}</a>
+                <a key={label} href={pathFor(page)} onClick={go(page)}>{label}</a>
               ))}
             </div>
           ))}
           <div className="footer-col">
-            <div className="mono footer-h">Connect</div>
-            <a href="mailto:info@corelogics.co">info@corelogics.co</a>
-            <a href="https://www.corelogics.co">www.corelogics.co</a>
-            <a href="https://www.linkedin.com/company/corelogics-ai" target="_blank" rel="noopener">LinkedIn</a>
+            <h2 className="mono footer-h">Elsewhere</h2>
+            <a href="https://www.linkedin.com/company/corelogics-ai" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <a href="https://www.corelogics.co">corelogics.co</a>
           </div>
-        </div>
+        </nav>
       </div>
-      <div className="footer-rule"></div>
+
       <div className="page footer-rail">
-        <span className="mono">BASED IN THE UAE · SERVING CLIENTS WORLDWIDE</span>
-        <span className="mono">STATUS · <span className="pulse-dot"></span> AVAILABLE FOR NEW PROJECTS</span>
-        <span className="mono">v2026.05</span>
+        <span className="footer-legal-note">
+          © 2026 Corelogics Technologies FZ-LLC · Established 2022 · Ajman, UAE
+        </span>
+        <span className="footer-legal-links">
+          <a href={pathFor('privacy')} onClick={go('privacy')}>Privacy</a>
+          <a href={pathFor('terms')} onClick={go('terms')}>Terms</a>
+          <span className="footer-status">
+            <span className="pulse-dot"></span> Available for new projects
+          </span>
+        </span>
       </div>
     </footer>
   );
 }
 
-function Logo({ size = 26 }) {
+// Both artworks render; CSS shows the one that suits the surface.
+// Only one carries the alt text so screen readers announce the brand once.
+function Logo({ size = 26, as: As = 'span' }) {
+  const h = Math.round(size * 1.5);
   return (
-    <a href={pathFor('home')} onClick={(e) => { e.preventDefault(); }} className="logo-a">
-      <img
-        src="assets/corelogics-logo.png"
-        alt="Corelogics"
-        className="logo-img"
-        style={{ height: size * 1.7, width: 'auto' }}
-      />
-    </a>
+    <As className="logo-a">
+      <img src="assets/logo-dark.png" alt="Corelogics"
+           className="logo-img on-paper" style={{ height: h }} width="556" height="176" />
+      <img src="assets/logo-light.png" alt="" aria-hidden="true"
+           className="logo-img on-dark" style={{ height: h }} width="556" height="176" />
+    </As>
+  );
+}
+
+// The standalone brace mark, for tight spots (mobile nav, avatars, favicons).
+function LogoMark({ size = 28 }) {
+  return (
+    <span className="logo-a">
+      <img src="assets/logo-mark-dark.png" alt="Corelogics"
+           className="logo-img on-paper" style={{ height: size }} />
+      <img src="assets/logo-mark.png" alt="" aria-hidden="true"
+           className="logo-img on-dark" style={{ height: size }} />
+    </span>
   );
 }
 
 // ─── Auxiliary CSS injected ─────────────────────────────────────────────
 const componentsCss = `
-.corner-card { position: relative; border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(180deg, oklch(0.20 0.014 250 / 0.55), oklch(0.16 0.012 250 / 0.45)); }
+/* ── Corner-bracket card — a quiet technical signal, not a bordered box ── */
+.corner-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  transition: box-shadow 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.25s var(--ease);
+}
 .corner-card .corner { position: absolute; width: 9px; height: 9px; pointer-events: none; }
-.corner-card .corner::before, .corner-card .corner::after { content: ""; position: absolute; background: var(--text-faint); }
+.corner-card .corner::before, .corner-card .corner::after { content: ""; position: absolute; background: var(--border-strong); transition: background 0.25s var(--ease); }
 .corner-card .corner.tl { top: -1px; left: -1px; } .corner-card .corner.tr { top: -1px; right: -1px; } .corner-card .corner.bl { bottom: -1px; left: -1px; } .corner-card .corner.br { bottom: -1px; right: -1px; }
 .corner-card .corner.tl::before, .corner-card .corner.bl::before { width: 1px; height: 9px; left: 4px; top: 0; }
 .corner-card .corner.tr::before, .corner-card .corner.br::before { width: 1px; height: 9px; right: 4px; top: 0; }
 .corner-card .corner.tl::after, .corner-card .corner.tr::after { width: 9px; height: 1px; top: 4px; left: 0; }
 .corner-card .corner.bl::after, .corner-card .corner.br::after { width: 9px; height: 1px; bottom: 4px; left: 0; }
+.corner-card:hover .corner::before, .corner-card:hover .corner::after { background: var(--accent); }
 
+/* ── Placeholder slot ──────────────────────────────────────────────────── */
 .ph-slot { position: relative; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg-2); }
-.ph-stripes { position: absolute; inset: 0; background-image: repeating-linear-gradient(135deg, oklch(0.22 0.015 250 / 1) 0 14px, oklch(0.17 0.012 250 / 1) 14px 28px); opacity: 0.45; }
+.ph-stripes { position: absolute; inset: 0; background-image: repeating-linear-gradient(135deg, var(--surface-3) 0 14px, var(--bg-2) 14px 28px); opacity: 0.6; }
 .ph-meta { position: absolute; left: 14px; top: 14px; }
 
-.footer { padding: 80px 0 32px; background: oklch(0.12 0.01 250); position: relative; }
-.footer-inner { display: grid; grid-template-columns: 1.1fr 3fr; gap: 60px; }
-.footer-cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-.footer-col a { display: block; color: var(--text-muted); margin-top: 10px; font-size: 14px; transition: color 0.15s ease; }
-.footer-col a:hover { color: var(--text); }
-.footer-h { font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
-.footer-rule { height: 1px; background: var(--border); margin: 56px 0 18px; }
-.footer-rail { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-faint); letter-spacing: 0.12em; text-transform: uppercase; flex-wrap: wrap; gap: 12px; }
-.pulse-dot { display: inline-block; width: 6px; height: 6px; border-radius: 999px; background: var(--green); box-shadow: 0 0 0 0 oklch(0.78 0.15 152 / 0.6); animation: pulse 2s infinite; vertical-align: middle; margin-right: 4px; }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 oklch(0.78 0.15 152 / 0.6); } 70% { box-shadow: 0 0 0 8px oklch(0.78 0.15 152 / 0); } 100% { box-shadow: 0 0 0 0 oklch(0.78 0.15 152 / 0); } }
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.footer { padding: clamp(64px, 7vw, 96px) 0 28px; position: relative; }
+.footer-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.6fr);
+  gap: clamp(40px, 6vw, 88px);
+  align-items: start;
+}
+.footer-line {
+  margin-top: 22px;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--inverse-text-muted);
+  max-width: 34ch;
+}
+.footer-mail {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 14.5px;
+  color: var(--inverse-text);
+  border-bottom: 1px solid var(--inverse-border);
+  padding-bottom: 2px;
+  transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.footer-mail:hover { color: var(--accent); border-color: var(--accent); }
 
-.logo-a { display: inline-flex; align-items: center; gap: 10px; }
-.logo-wm { font-size: 17px; font-weight: 500; letter-spacing: -0.02em; }
-.logo-img { display: block; width: auto; object-fit: contain; }
+.footer-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.footer-col a {
+  display: block;
+  color: var(--inverse-text-muted);
+  margin-top: 11px;
+  font-size: 14.5px;
+  width: fit-content;
+  transition: color 0.18s var(--ease), transform 0.18s var(--ease);
+}
+.footer-col a:hover { color: var(--inverse-text); transform: translateX(2px); }
+.footer-h {
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--inverse-text-dim);
+  margin-bottom: 4px;
+}
+
+.footer-rail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px 28px;
+  flex-wrap: wrap;
+  margin-top: clamp(48px, 6vw, 76px);
+  padding-top: 20px;
+  border-top: 1px solid var(--inverse-border);
+  font-size: 12.5px;
+  color: var(--inverse-text-dim);
+}
+.footer-legal-links { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+.footer-legal-links a { transition: color 0.18s var(--ease); }
+.footer-legal-links a:hover { color: var(--inverse-text); }
+.footer-status { display: inline-flex; align-items: center; gap: 7px; }
+
+/* ── Live status dot ───────────────────────────────────────────────────── */
+.pulse-dot {
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 999px;
+  background: var(--green);
+  box-shadow: 0 0 0 0 var(--green-wash);
+  animation: pulse 2.4s infinite;
+  flex-shrink: 0;
+}
+@keyframes pulse {
+  0%   { box-shadow: 0 0 0 0 var(--green-wash); }
+  70%  { box-shadow: 0 0 0 7px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
 
 @media (max-width: 880px) {
-  .footer-inner { grid-template-columns: 1fr; gap: 40px; }
-  .footer-cols { grid-template-columns: repeat(2, 1fr); }
+  .footer-inner { grid-template-columns: 1fr; gap: 44px; }
+  .footer-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 32px; }
+}
+@media (max-width: 520px) {
+  .footer-rail { flex-direction: column; align-items: flex-start; }
 }
 `;
 
@@ -336,5 +436,5 @@ Object.assign(window, {
   React,
   useState, useEffect, useRef, useMemo, useCallback, createContext, useContext,
   RouterCtx, useRouter, pathFor, parseHash, isPlainClick,
-  Eyebrow, Button, CornerCard, Reveal, Counter, PlaceholderSlot, PipelineDiagram, Footer, Logo,
+  Eyebrow, Button, CornerCard, Reveal, Counter, PlaceholderSlot, PipelineDiagram, Footer, Logo, LogoMark,
 });

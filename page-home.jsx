@@ -26,9 +26,10 @@ function HeroSection() {
       <div className="page hero-content">
         <Reveal>
           <div className="hero-tag">
-            <span className="mono">CORELOGICS · ESTABLISHED 2022</span>
-            <span className="bar"></span>
-            <span className="mono">AI PRODUCTS FOR FOUNDERS &amp; COMPANIES</span>
+            <span className="hero-tag-mark" aria-hidden="true"></span>
+            <span>Established 2022</span>
+            <span className="bar" aria-hidden="true"></span>
+            <span>AI products for founders and companies</span>
           </div>
         </Reveal>
 
@@ -49,31 +50,43 @@ function HeroSection() {
 
         <Reveal delay={360}>
           <div className="hero-ctas">
-            <Button kind="gold" href="#contact">Book a free call</Button>
+            <Button kind="accent" href="#contact">Book a free call</Button>
             <Button kind="ghost" href="#services">See what we build</Button>
           </div>
         </Reveal>
 
-        <Reveal delay={520}>
+        <Reveal delay={440}>
+          <dl className="hero-facts">
+            <div>
+              <dt>First launch</dt>
+              <dd>4 weeks, on average</dd>
+            </div>
+            <div>
+              <dt>Team</dt>
+              <dd>One, start to finish</dd>
+            </div>
+            <div>
+              <dt>Based in</dt>
+              <dd>The UAE, working worldwide</dd>
+            </div>
+          </dl>
+        </Reveal>
+
+        <Reveal delay={560}>
           <div className="hero-marquee">
             <div className="marquee-track">
-              {['AI CHATBOTS & AGENTS', 'COMPUTER VISION', 'MOBILE APPS', 'WEB APPS', 'AUTOMATION', 'DASHBOARDS & REPORTING', 'PRODUCT DESIGN', 'MVP IN 4 WEEKS', 'SINCE 2022', 'ONE TEAM · START TO FINISH', 'AI CHATBOTS & AGENTS', 'COMPUTER VISION', 'MOBILE APPS', 'WEB APPS', 'AUTOMATION', 'PRODUCT DESIGN'].map((t, i) => (
-                <span key={i} className="mono">{t}</span>
-              ))}
+              {(() => {
+                const items = ['AI chatbots & agents', 'Computer vision', 'Mobile apps', 'Web apps',
+                  'Automation', 'Dashboards & reporting', 'Product design', 'MVP in 4 weeks',
+                  'One team, start to finish'];
+                // Rendered twice so the -50% translate loops without a seam.
+                return items.concat(items).map((t, i) => <span key={i}>{t}</span>);
+              })()}
             </div>
           </div>
         </Reveal>
       </div>
 
-      <div className="hero-corner-left mono">
-        <div>ESTABLISHED 2022</div>
-        <div>BASED IN THE UAE</div>
-        <div className="dim" style={{ marginTop: 6 }}>SERVING CLIENTS WORLDWIDE</div>
-      </div>
-      <div className="hero-corner-right mono">
-        <div>AVG. FIRST LAUNCH · 4 WEEKS</div>
-        <div className="dim" style={{ marginTop: 6 }}>ONE TEAM · START TO FINISH</div>
-      </div>
     </section>
   );
 }
@@ -166,7 +179,7 @@ function ServicesOverviewSection() {
                   </h3>
                   <p className="service-desc">{it.d}</p>
                   <div className="service-tags">
-                    {it.tags.map(tg => <span key={tg} className="tag mono">{tg}</span>)}
+                    {it.tags.map(tg => <span key={tg} className="tag">{tg}</span>)}
                   </div>
                 </div>
                 <div className="service-arrow">
@@ -178,8 +191,8 @@ function ServicesOverviewSection() {
         </div>
 
         <Reveal delay={120}>
-          <div style={{ marginTop: 44, display: 'flex', justifyContent: 'center' }}>
-            <Button kind="ghost" onClick={() => setPage('services')}>See all services</Button>
+          <div style={{ marginTop: 32 }}>
+            <Button kind="text" onClick={() => setPage('services')}>See all services</Button>
           </div>
         </Reveal>
       </div>
@@ -206,22 +219,20 @@ function PipelineSection() {
             </p>
           </Reveal>
           <Reveal delay={300}>
-            <ul className="pipeline-list mono">
-              <li><span className="gold">→</span> Every update is tested before your customers ever see it.</li>
-              <li><span className="gold">→</span> A real person double-checks the AI&rsquo;s work — not just an algorithm.</li>
-              <li><span className="gold">→</span> We catch problems before your customers do, not after.</li>
+            <ul className="pipeline-list">
+              <li>Every update is tested before your customers ever see it.</li>
+              <li>A real person double-checks the AI&rsquo;s work — not just an algorithm.</li>
+              <li>We catch problems before your customers do, not after.</li>
             </ul>
           </Reveal>
         </div>
         <Reveal delay={200} className="pipeline-vis">
-          <CornerCard style={{ padding: 28, position: 'relative' }}>
-            <div className="mono" style={{ fontSize: 11, color: 'var(--text-dim)', letterSpacing: '0.16em', marginBottom: 16, textTransform: 'uppercase' }}>
-              How a Corelogics product improves over time
-            </div>
-            <PipelineDiagram height={240} />
-            <div className="pipeline-readout mono">
-              <div><span className="dim">MONITORING</span> <span className="gold">ALWAYS ON</span></div>
-              <div><span className="dim">RESPONSE</span> <span>FAST</span></div>
+          <CornerCard style={{ padding: 'clamp(24px, 3vw, 34px)', position: 'relative' }}>
+            <div className="pipeline-card-h">How a Corelogics product improves over time</div>
+            <PipelineDiagram height={210} />
+            <div className="pipeline-readout">
+              <span><span className="dim">Monitoring</span> <strong>always on</strong></span>
+              <span><span className="dim">Response</span> <strong>same day</strong></span>
             </div>
           </CornerCard>
         </Reveal>
@@ -257,11 +268,11 @@ function IndustriesPreviewSection() {
 
         <div className="industries-grid">
           {items.map((it, i) => (
-            <Reveal key={it.t} delay={i * 80}>
-              <CornerCard className="industry-card">
+            <Reveal key={it.t} delay={i * 80} className={i === 0 ? 'industry-lead' : ''}>
+              <CornerCard className={`industry-card ${i === 0 ? 'lead' : ''}`}>
                 <div className="industry-kpi">
-                  <div className="industry-kpi-val gold">{it.kpi}</div>
-                  <div className="mono industry-kpi-label">{it.kpiLabel}</div>
+                  <div className="industry-kpi-val">{it.kpi}</div>
+                  <div className="industry-kpi-label">{it.kpiLabel}</div>
                 </div>
                 <div className="industry-text">
                   <h3 className="h-card">{it.t}</h3>
@@ -310,7 +321,7 @@ function CasesPreviewSection() {
                     <span className="dot" style={{ background: '#28c840' }}></span>
                     <span className="case-frame-url mono">{c.slug}.corelogics.app</span>
                   </div>
-                  <img src={c.heroImage} alt={`${c.name} screenshot`} />
+                  <img src={c.heroImage} alt={`${c.name} screenshot`} loading="lazy" decoding="async" />
                 </div>
                 <div className="case-card-body">
                   <div className="case-meta mono">
@@ -325,7 +336,7 @@ function CasesPreviewSection() {
                       {c.outcomes.slice(0, 1).map(o => (
                         <div key={o.l}>
                           <div className="case-card-v">{o.v}</div>
-                          <div className="mono case-card-l">{o.l}</div>
+                          <div className="case-card-l">{o.l}</div>
                         </div>
                       ))}
                     </div>
@@ -344,30 +355,36 @@ function CasesPreviewSection() {
 // ─── Metrics ────────────────────────────────────────────────────────────
 function MetricsSection() {
   const stats = [
-    { v: 2022, suffix: '', label: 'Founded — building AI products ever since', prefix: '', decimals: 0, plain: true },
-    { v: 38, suffix: '', label: 'AI products designed and shipped', prefix: '' },
-    { v: 12, suffix: '', label: 'Industries we’ve built for', prefix: '' },
+    { v: 38, suffix: '', label: 'AI products designed and shipped' },
+    { v: 12, suffix: '', label: 'Industries we’ve built for' },
     { v: 99.98, suffix: '%', label: 'Uptime — your product stays online', decimals: 2 },
-    { v: 6.4, suffix: '×', label: 'Lower running costs vs. typical AI setups', decimals: 1 },
+    { v: 6.4, suffix: '×', label: 'Lower running costs than a typical AI setup', decimals: 1 },
   ];
   return (
     <section className="metrics">
-      <div className="page">
-        <Reveal><Eyebrow>By the numbers</Eyebrow></Reveal>
-        <div className="metrics-grid">
+      <div className="page metrics-inner">
+        <div className="metrics-head">
+          <Reveal><Eyebrow>By the numbers</Eyebrow></Reveal>
+          <Reveal delay={100}>
+            <p className="metrics-since">
+              Building AI products since <strong>2022</strong>.
+            </p>
+          </Reveal>
+        </div>
+        <dl className="metrics-grid">
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 80} className="metric">
-              <div className="metric-val">
-                {s.plain ? s.v : <React.Fragment>{s.prefix}<Counter to={s.v} suffix={s.suffix} decimals={s.decimals || 0} /></React.Fragment>}
-              </div>
-              <div className="metric-label">{s.label}</div>
+              <dt className="metric-val">
+                <Counter to={s.v} suffix={s.suffix} decimals={s.decimals || 0} />
+              </dt>
+              <dd className="metric-label">{s.label}</dd>
             </Reveal>
           ))}
-        </div>
+        </dl>
         <Reveal delay={500}>
-          <p className="mono metrics-note">
-            <span className="dim">NOTE — </span> These numbers reflect projects delivered since our founding in 2022, through Q2 2026.
-            Ask us for the details behind any of them.
+          <p className="metrics-note">
+            Figures cover projects delivered between our founding in 2022 and Q2 2026.
+            Ask us for the working behind any of them.
           </p>
         </Reveal>
       </div>
@@ -378,7 +395,7 @@ function MetricsSection() {
 // ─── Closing CTA ────────────────────────────────────────────────────────
 function ClosingCtaSection() {
   return (
-    <section className="closing-cta">
+    <section className="closing-cta on-inverse">
       <div className="page closing-inner">
         <div className="closing-bg" aria-hidden="true">
           <HeroAurora />
@@ -399,7 +416,7 @@ function ClosingCtaSection() {
           </Reveal>
           <Reveal delay={360}>
             <div className="hero-ctas" style={{ marginTop: 28 }}>
-              <Button kind="gold" href="#contact">Book a free call</Button>
+              <Button kind="accent" href="#contact">Book a free call</Button>
               <Button kind="ghost" href="#cases">Read the case studies</Button>
             </div>
           </Reveal>
@@ -417,104 +434,283 @@ function ClosingCtaSection() {
   s.textContent = `
     .home section { position: relative; }
 
-    /* Hero */
-    .hero { position: relative; min-height: 92vh; padding: 80px 0 100px; overflow: hidden; }
-    .hero-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 40% at 50% 100%, transparent, var(--bg) 70%); pointer-events: none; }
-    .hero-content { position: relative; z-index: 2; padding-top: 4vh; }
-    .hero-tag { display: inline-flex; align-items: center; gap: 14px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: oklch(0.16 0.012 250 / 0.6); font-size: 10.5px; letter-spacing: 0.18em; color: var(--text-dim); }
-    .hero-tag .bar { width: 1px; height: 12px; background: var(--border-strong); }
-    .hero-h { margin-top: 28px; max-width: 18ch; }
-    .hero-lede { margin-top: 28px; max-width: 56ch; }
-    .hero-ctas { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
-    .hero-marquee { margin-top: 72px; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 0; overflow: hidden; max-width: 100%; }
-    .marquee-track { display: inline-flex; gap: 48px; white-space: nowrap; animation: marq 50s linear infinite; }
-    .marquee-track span { font-size: 11px; color: var(--text-faint); letter-spacing: 0.22em; }
+    /* ── Hero ────────────────────────────────────────────────────────── */
+    .hero { position: relative; min-height: 88dvh; padding: 64px 0 clamp(72px, 9vw, 112px); overflow: hidden; }
+    .hero-vignette {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 70% 55% at 62% 34%, var(--accent-wash), transparent 68%),
+                  radial-gradient(ellipse 60% 45% at 50% 108%, transparent, var(--bg) 72%);
+    }
+    .hero-content { position: relative; z-index: 2; padding-top: 2vh; }
+
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 13px; color: var(--text-dim);
+      padding: 7px 14px 7px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      box-shadow: var(--shadow-1);
+    }
+    .hero-tag-mark { width: 6px; height: 6px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+    .hero-tag .bar { width: 1px; height: 13px; background: var(--border); }
+
+    .hero-h { margin-top: 30px; max-width: 20ch; }
+    .hero-lede { margin-top: 26px; max-width: 54ch; }
+    .hero-ctas { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* Fact strip — replaces the two floating console rails. Shared baseline,
+       so the three values line up across columns. */
+    .hero-facts {
+      margin-top: clamp(48px, 6vw, 72px);
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, max-content));
+      gap: 14px clamp(32px, 6vw, 72px);
+    }
+    .hero-facts dt {
+      font-family: var(--font-mono);
+      font-size: 10.5px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .hero-facts dd { margin-top: 7px; font-size: 15px; font-weight: 500; letter-spacing: -0.014em; }
+
+    .hero-marquee {
+      margin-top: clamp(40px, 5vw, 60px);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 13px 0; overflow: hidden; max-width: 100%;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+              mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .marquee-track { display: inline-flex; gap: 44px; white-space: nowrap; animation: marq 60s linear infinite; }
+    .marquee-track span { font-size: 13px; color: var(--text-faint); letter-spacing: -0.008em; }
+    .hero-marquee:hover .marquee-track { animation-play-state: paused; }
     @keyframes marq { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    .hero-corner-left, .hero-corner-right { position: absolute; bottom: 24px; font-size: 10.5px; letter-spacing: 0.18em; color: var(--text-dim); line-height: 1.6; z-index: 2; }
-    .hero-corner-left { left: var(--page-pad); }
-    .hero-corner-right { right: var(--page-pad); text-align: right; }
-    @media (max-width: 900px) { .hero-corner-left, .hero-corner-right { display: none; } }
+    @media (max-width: 760px) {
+      .hero-facts { grid-template-columns: 1fr 1fr; }
+      .hero-facts > div:last-child { grid-column: 1 / -1; }
+    }
 
-    /* Manifesto */
-    .manifesto { padding: 80px 0; }
-    .manifesto-inner { max-width: 1000px; }
-    .manifesto-text { font-size: clamp(22px, 2.6vw, 36px); line-height: 1.25; margin-top: 22px; letter-spacing: -0.02em; }
-    .manifesto-text em { font-family: var(--font-serif); font-style: italic; color: var(--gold); }
+    /* ── Manifesto ───────────────────────────────────────────────────── */
+    .manifesto { padding: var(--section-y) 0; }
+    .manifesto-inner > * { max-width: 980px; }
+    .manifesto-text {
+      font-size: clamp(21px, 2.4vw, 33px);
+      line-height: 1.32; margin-top: 22px; letter-spacing: -0.024em;
+      font-weight: 400;
+    }
+    .manifesto-text em { font-family: var(--font-serif); font-style: italic; color: var(--accent); letter-spacing: -0.01em; }
 
-    /* Section head */
-    .section-head { display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: end; margin-bottom: 56px; }
+    /* ── Section head — asymmetric: title left, support text offset right ── */
+    .section-head {
+      display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.85fr);
+      gap: clamp(32px, 5vw, 72px); align-items: end;
+      margin-bottom: clamp(40px, 5vw, 60px);
+    }
     .section-head-cta { display: flex; justify-content: flex-end; align-self: end; }
-    @media (max-width: 880px) { .section-head { grid-template-columns: 1fr; gap: 28px; } }
+    @media (max-width: 880px) {
+      .section-head { grid-template-columns: 1fr; gap: 24px; align-items: start; }
+      .section-head-cta { justify-content: flex-start; }
+    }
 
-    /* Services */
-    .services-overview { padding: 120px 0; }
+    /* ── Services — a list, not a card row ───────────────────────────── */
+    .services-overview { padding: var(--section-y) 0 calc(var(--section-y) * 1.1); }
     .services-grid { border-top: 1px solid var(--border); }
     .service-row-wrap { display: block; }
-    .service-row { display: grid; grid-template-columns: 80px 1fr 40px; align-items: start; gap: 32px; padding: 32px 8px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.3s ease; }
-    .service-row:hover { background: oklch(0.18 0.014 250 / 0.5); }
-    .service-num { font-size: 11px; color: var(--text-faint); letter-spacing: 0.16em; padding-top: 4px; }
-    .service-title { transition: color 0.2s ease; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-    .service-flag { font-size: 9px; letter-spacing: 0.16em; color: var(--gold); border: 1px solid oklch(0.83 0.13 86 / 0.4); padding: 4px 9px; border-radius: 999px; background: var(--gold-glow); }
-    .service-row:hover .service-title { color: var(--gold); }
-    .service-desc { color: var(--text-muted); margin-top: 10px; max-width: 62ch; }
-    .service-tags { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px; }
-    .tag { display: inline-block; padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; font-size: 10.5px; color: var(--text-dim); letter-spacing: 0.12em; text-transform: uppercase; }
-    .service-arrow { color: var(--text-faint); padding-top: 4px; transition: color 0.2s ease, transform 0.2s ease; }
-    .service-row:hover .service-arrow { color: var(--gold); transform: translateX(4px); }
+    .service-row {
+      display: grid; grid-template-columns: 64px minmax(0, 1fr) 40px;
+      align-items: start; gap: clamp(16px, 3vw, 32px);
+      padding: 30px 16px 30px 8px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: background-color 0.25s var(--ease);
+    }
+    .service-row:hover, .service-row.open { background: var(--bg-2); }
+    .service-num { font-family: var(--font-mono); font-size: 11.5px; color: var(--text-faint); letter-spacing: 0.1em; padding-top: 5px; }
+    .service-title { transition: color 0.2s var(--ease); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .service-flag {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.11em; text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent-glow);
+      background: var(--accent-wash);
+      padding: 3px 7px; border-radius: var(--radius-xs);
+    }
+    .service-row:hover .service-title { color: var(--accent); }
+    .service-desc { color: var(--text-muted); margin-top: 9px; max-width: 62ch; font-size: 15px; }
+    .service-tags { margin-top: 15px; display: flex; flex-wrap: wrap; gap: 7px; }
+    .tag {
+      display: inline-block; padding: 4px 9px;
+      border: 1px solid var(--border); border-radius: var(--radius-xs);
+      background: var(--surface);
+      font-size: 11.5px; color: var(--text-dim); letter-spacing: -0.004em;
+      text-transform: none;
+    }
+    .service-arrow { color: var(--text-faint); padding-top: 4px; justify-self: end; transition: color 0.2s var(--ease), transform 0.2s var(--ease); }
+    .service-row:hover .service-arrow { color: var(--accent); transform: translateX(4px); }
+    @media (max-width: 620px) {
+      .service-row { grid-template-columns: minmax(0, 1fr) 32px; }
+      .service-num { grid-row: 1; grid-column: 1; padding-top: 0; margin-bottom: -6px; }
+      .service-body { grid-column: 1; }
+      .service-arrow { grid-row: 1; grid-column: 2; }
+    }
 
-    /* Pipeline */
-    .pipeline { padding: 120px 0; }
-    .pipeline-inner { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 80px; align-items: center; }
-    .pipeline-list { list-style: none; margin-top: 28px; }
-    .pipeline-list li { font-size: 13px; color: var(--text-muted); padding: 12px 0; border-bottom: 1px dashed var(--border); letter-spacing: 0.04em; }
+    /* ── Pipeline ────────────────────────────────────────────────────── */
+    .pipeline { padding: var(--section-y) 0; }
+    .pipeline-inner { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(40px, 6vw, 80px); align-items: center; }
+    .pipeline-list { list-style: none; margin-top: 26px; }
+    .pipeline-list li {
+      font-size: 14.5px; color: var(--text-muted);
+      padding: 13px 0 13px 26px; position: relative;
+      border-bottom: 1px solid var(--border);
+    }
+    .pipeline-list li::before {
+      content: ""; position: absolute; left: 2px; top: 21px;
+      width: 10px; height: 1.5px; background: var(--accent); border-radius: 1px;
+    }
     .pipeline-list li:last-child { border-bottom: none; }
-    .pipeline-list li .gold { margin-right: 10px; }
-    .pipeline-readout { position: absolute; right: 28px; bottom: 28px; display: flex; gap: 24px; font-size: 10.5px; letter-spacing: 0.14em; color: var(--text-muted); text-transform: uppercase; }
-    @media (max-width: 980px) { .pipeline-inner { grid-template-columns: 1fr; gap: 48px; } }
+    .pipeline-card-h {
+      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--text-faint);
+      padding-bottom: 18px; margin-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+    .pipeline-readout {
+      display: flex; gap: 26px; flex-wrap: wrap;
+      margin-top: 8px; padding-top: 18px;
+      border-top: 1px solid var(--border);
+      font-size: 13px; color: var(--text-muted);
+    }
+    .pipeline-readout strong { font-weight: 500; color: var(--text); }
+    @media (max-width: 980px) {
+      .pipeline-inner { grid-template-columns: 1fr; gap: 44px; }
+    }
 
-    /* Industries */
-    .industries-preview { padding: 120px 0; }
-    .industries-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-    .industry-card { padding: 36px; display: grid; grid-template-columns: 180px 1fr; gap: 36px; align-items: center; min-height: 220px; }
-    .industry-kpi { border-right: 1px solid var(--border); padding-right: 24px; }
-    .industry-kpi-val { font-family: var(--font-sans); font-size: 56px; font-weight: 400; letter-spacing: -0.04em; line-height: 0.95; }
-    .industry-kpi-label { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-top: 10px; max-width: 16ch; }
-    @media (max-width: 980px) { .industries-grid { grid-template-columns: 1fr; } .industry-card { grid-template-columns: 1fr; gap: 24px; } .industry-kpi { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 20px; } }
+    /* ── Industries — lead card spans, the rest sit tighter beneath ───── */
+    .industries-preview { padding: var(--section-y) 0; }
+    .industries-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .industry-lead { grid-column: 1 / -1; }
+    .industry-card {
+      padding: 30px; height: 100%;
+      display: grid; grid-template-rows: minmax(112px, auto) 1fr; gap: 22px;
+      border-radius: var(--radius-lg);
+    }
+    .industry-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-3); }
+    .industry-card.lead {
+      grid-template-rows: none;
+      grid-template-columns: minmax(0, 230px) minmax(0, 1fr);
+      gap: clamp(28px, 5vw, 56px); align-items: center;
+      padding: clamp(32px, 4vw, 44px);
+      background: var(--bg-2);
+    }
+    .industry-kpi { padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .industry-card.lead .industry-kpi { padding-bottom: 0; border-bottom: none; border-right: 1px solid var(--border); padding-right: 32px; }
+    .industry-kpi-val {
+      font-family: var(--font-sans);
+      font-size: clamp(40px, 4.4vw, 60px);
+      font-weight: 600; letter-spacing: -0.045em; line-height: 0.94;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+    }
+    .industry-kpi-label { font-size: 13px; line-height: 1.4; color: var(--text-muted); margin-top: 11px; max-width: 26ch; }
+    @media (max-width: 980px) {
+      .industries-grid { grid-template-columns: 1fr; }
+      .industry-card.lead { grid-template-columns: 1fr; align-items: start; }
+      .industry-card.lead .industry-kpi { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 20px; }
+    }
 
-    /* Cases preview */
-    .cases-preview { padding: 120px 0; }
-    .cases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .case-card { display: flex; flex-direction: column; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; background: linear-gradient(180deg, oklch(0.17 0.014 250 / 0.5), oklch(0.14 0.01 250 / 0.3)); }
-    .case-card:hover { transform: translateY(-6px); border-color: var(--case-accent, var(--border-strong)); box-shadow: 0 24px 40px -16px oklch(0.05 0.02 250 / 0.5); }
-    .case-card-frame { background: oklch(0.13 0.012 250); border-bottom: 1px solid var(--border); }
-    .case-card-frame img { display: block; width: 100%; height: 180px; object-fit: cover; object-position: top left; }
+    /* ── Case studies — one lead, two supporting ─────────────────────── */
+    .cases-preview { padding: var(--section-y) 0; }
+    .cases-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .cases-grid > *:first-child { grid-column: 1 / -1; }
+
+    .case-card {
+      display: flex; flex-direction: column; height: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow-2);
+      transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .cases-grid > *:first-child .case-card { flex-direction: row; align-items: stretch; }
+    .cases-grid > *:first-child .case-card-frame { flex: 1 1 56%; border-bottom: none; border-right: 1px solid var(--border); }
+    .cases-grid > *:first-child .case-card-frame img { height: 100%; min-height: 300px; }
+    .cases-grid > *:first-child .case-card-body { flex: 1 1 44%; padding: clamp(28px, 3vw, 40px); justify-content: center; }
+    /* In the lead card the text block is centred as a group, so the copy must
+       not stretch to fill — otherwise a gap opens between it and the figure. */
+    .cases-grid > *:first-child .case-card-position { flex: 0 1 auto; }
+    .cases-grid > *:first-child .case-foot { margin-top: 28px; }
+    .cases-grid > *:first-child .case-card-name { font-size: clamp(28px, 3vw, 38px); }
+
+    .case-card:hover { transform: translateY(-5px); border-color: var(--case-accent, var(--border-strong)); box-shadow: var(--shadow-4); }
+    .case-card-frame { background: var(--surface-3); border-bottom: 1px solid var(--border); }
+    .case-frame-bar {
+      display: flex; align-items: center; gap: 7px;
+      padding: 9px 12px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+    .case-frame-bar .dot { width: 9px; height: 9px; border-radius: 999px; display: block; }
+    .case-frame-url { margin-left: 8px; font-size: 10.5px; color: var(--text-dim); }
+    .case-card-frame img { display: block; width: 100%; height: 190px; object-fit: cover; object-position: top left; }
     .case-card-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
-    .case-card-name { font-size: 24px; font-weight: 500; letter-spacing: -0.02em; margin-top: 12px; line-height: 1.1; }
-    .case-card-position { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; flex: 1; }
-    .case-meta { font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; display: flex; gap: 8px; }
-    .case-foot { display: flex; justify-content: space-between; align-items: end; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
+    .case-card-name { font-size: 24px; font-weight: 600; letter-spacing: -0.03em; margin-top: 12px; line-height: 1.08; }
+    .case-card-position { font-size: 14.5px; color: var(--text-muted); line-height: 1.55; margin-top: 12px; flex: 1; }
+    .case-meta { font-size: 11px; letter-spacing: 0.11em; text-transform: uppercase; display: flex; gap: 8px; }
+    /* Pinned to the bottom so the outcome numbers form one clean line */
+    .case-foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--border); }
     .case-card-outcomes { display: flex; flex-direction: column; gap: 4px; }
-    .case-card-v { font-size: 26px; font-weight: 400; letter-spacing: -0.03em; line-height: 1; color: var(--case-accent, var(--gold)); }
-    .case-card-l { font-size: 10.5px; letter-spacing: 0.12em; color: var(--text-dim); text-transform: uppercase; max-width: 20ch; }
-    .case-arrow { color: var(--text-faint); transition: color 0.2s ease, transform 0.2s ease; font-size: 22px; }
-    .case-card:hover .case-arrow { color: var(--case-accent, var(--gold)); transform: translateX(4px); }
-    @media (max-width: 980px) { .cases-grid { grid-template-columns: 1fr; } }
+    .case-card-v { font-size: 26px; font-weight: 600; letter-spacing: -0.035em; line-height: 1; color: var(--case-accent, var(--accent)); font-variant-numeric: tabular-nums; }
+    .case-card-l { font-size: 12.5px; line-height: 1.4; color: var(--text-muted); max-width: 26ch; }
+    .case-arrow { color: var(--text-faint); transition: color 0.2s var(--ease), transform 0.2s var(--ease); font-size: 20px; line-height: 1; }
+    .case-card:hover .case-arrow { color: var(--case-accent, var(--accent)); transform: translateX(4px); }
+    @media (max-width: 900px) {
+      .cases-grid { grid-template-columns: 1fr; }
+      .cases-grid > *:first-child .case-card { flex-direction: column; }
+      .cases-grid > *:first-child .case-card-frame { border-right: none; border-bottom: 1px solid var(--border); }
+      .cases-grid > *:first-child .case-card-frame img { min-height: 0; height: 190px; }
+    }
 
-    /* Metrics */
-    .metrics { padding: 120px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: oklch(0.13 0.012 250 / 0.6); }
-    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 40px; border: 1px solid var(--border); }
-    .metric { padding: 36px 28px; background: oklch(0.14 0.01 250); }
-    .metric-val { font-family: var(--font-sans); font-size: clamp(40px, 5vw, 64px); font-weight: 400; letter-spacing: -0.04em; line-height: 1; color: var(--text); }
-    .metric-label { font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 18px; max-width: 22ch; }
-    .metrics-note { font-size: 11px; color: var(--text-faint); margin-top: 28px; letter-spacing: 0.06em; }
-    @media (max-width: 880px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+    /* ── Metrics ─────────────────────────────────────────────────────── */
+    .metrics {
+      padding: var(--section-y) 0;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      background: var(--bg-2);
+    }
+    .metrics-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+    .metrics-since { font-size: 15px; color: var(--text-muted); }
+    .metrics-since strong { color: var(--text); font-weight: 600; }
+    .metrics-grid {
+      display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px; background: var(--border);
+      margin-top: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .metric { padding: clamp(28px, 3vw, 40px) 28px; background: var(--surface); }
+    .metric-val {
+      font-family: var(--font-sans);
+      font-size: clamp(36px, 4.6vw, 58px);
+      font-weight: 600; letter-spacing: -0.045em; line-height: 1;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .metric-label {
+      font-size: 13px; color: var(--text-muted);
+      line-height: 1.45; margin-top: 16px; max-width: 22ch;
+    }
+    .metrics-note { font-size: 13px; color: var(--text-dim); margin-top: 26px; max-width: 68ch; }
+    @media (max-width: 880px) { .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 460px) { .metrics-grid { grid-template-columns: 1fr; } }
 
-    /* Closing CTA */
-    .closing-cta { padding: 140px 0; position: relative; overflow: hidden; }
+    /* ── Closing CTA — the start of the dark zone that carries into the
+          footer, so this is one deliberate region, not a stray stripe. ── */
+    .closing-cta { padding: clamp(88px, 10vw, 140px) 0; position: relative; overflow: hidden; }
     .closing-inner { position: relative; }
-    .closing-bg { position: absolute; inset: -100px; opacity: 0.5; z-index: 0; }
-    .closing-content { position: relative; z-index: 2; max-width: 760px; }
+    .closing-bg { position: absolute; inset: -120px; opacity: 0.55; z-index: 0; }
+    .closing-content { position: relative; z-index: 2; max-width: 740px; }
   `;
   document.head.appendChild(s);
 })();

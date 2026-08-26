@@ -21,7 +21,7 @@ function PageCases() {
           ].map((s, i) => (
             <Reveal key={i} delay={i * 80} className="stat">
               <div className="stat-val"><Counter to={s.v} suffix={s.s} decimals={s.d || 0} /></div>
-              <div className="stat-l mono">{s.l}</div>
+              <div className="stat-l">{s.l}</div>
             </Reveal>
           ))}
         </div>
@@ -37,7 +37,7 @@ function PageCases() {
                   style={{ '--case-accent': c.accent, '--case-accent-soft': c.accentSoft }}
                 >
                   <div className="cover-meta">
-                    <div className="mono cover-n">CASE 0{i + 1}</div>
+                    <div className="mono cover-n">Case 0{i + 1}</div>
                     <div className="cover-domain mono">{c.domain}</div>
 
                     <h2 className="cover-name h-display">{c.name}</h2>
@@ -49,18 +49,18 @@ function PageCases() {
                       {c.outcomes.slice(0, 2).map(o => (
                         <div key={o.l} className="cover-metric">
                           <div className="cover-metric-v">{o.v}</div>
-                          <div className="mono cover-metric-l">{o.l}</div>
+                          <div className="cover-metric-l">{o.l}</div>
                         </div>
                       ))}
                     </div>
 
                     <div className="cover-bottom">
-                      <div className="cover-rail mono">
-                        <span><span className="dim">YEAR · </span>{c.year}</span>
-                        <span className="dim">·</span>
-                        <span><span className="dim">DUR · </span>{c.duration}</span>
-                        <span className="dim">·</span>
-                        <span><span className="dim">SCALE · </span>{c.scale}</span>
+                      <div className="cover-rail">
+                        <span><span className="dim">Year </span>{c.year}</span>
+                        <span className="dim" aria-hidden="true">·</span>
+                        <span><span className="dim">Duration </span>{c.duration}</span>
+                        <span className="dim" aria-hidden="true">·</span>
+                        <span><span className="dim">Scale </span>{c.scale}</span>
                       </div>
                       <Button
                         kind="primary"
@@ -84,7 +84,7 @@ function PageCases() {
                         <span className="dot" style={{ background: '#28c840' }}></span>
                         <span className="case-frame-url mono">{c.slug}.corelogics.app</span>
                       </div>
-                      <img src={c.heroImage} alt={`${c.name} product screenshot`} />
+                      <img src={c.heroImage} alt={`${c.name} product screenshot`} loading="lazy" decoding="async" />
                     </div>
                     <div className="cover-glow"></div>
                   </div>
@@ -105,37 +105,37 @@ function PageCases() {
   const s = document.createElement('style');
   s.id = 'cases-index-css';
   s.textContent = `
-    .cases-stats { padding: 60px 0; background: oklch(0.13 0.012 250 / 0.6); }
+    .cases-stats { padding: clamp(48px, 6vw, 72px) 0; background: var(--bg-2); border-bottom: 1px solid var(--border); }
     .cases-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-    .stat-val { font-size: clamp(36px, 4vw, 56px); font-weight: 400; letter-spacing: -0.04em; line-height: 1; }
-    .stat-l { font-size: 11px; letter-spacing: 0.14em; color: var(--text-dim); text-transform: uppercase; margin-top: 14px; max-width: 22ch; }
+    .stat-val { font-size: clamp(34px, 3.8vw, 52px); font-weight: 600; letter-spacing: -0.045em; line-height: 1; }
+    .stat-l { font-size: 13px; color: var(--text-muted); line-height: 1.45; margin-top: 13px; max-width: 22ch; }
     @media (max-width: 880px) { .cases-stats-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    .cases-featured { padding: 100px 0; }
-    .cases-featured-list { display: flex; flex-direction: column; gap: 40px; }
+    .cases-featured { padding: var(--section-y) 0; }
+    .cases-featured-list { display: flex; flex-direction: column; gap: clamp(28px, 4vw, 44px); }
 
-    .cover { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; padding: 56px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: linear-gradient(180deg, oklch(0.17 0.014 250 / 0.6), oklch(0.14 0.01 250 / 0.4)); position: relative; overflow: hidden; }
-    .cover::before { content: ""; position: absolute; top: -50%; right: -10%; width: 60%; height: 200%; background: radial-gradient(ellipse, var(--case-accent-soft), transparent 60%); filter: blur(60px); pointer-events: none; z-index: 0; }
+    .cover { display: grid; grid-template-columns: 1fr 1.1fr; gap: 56px; align-items: center; padding: 56px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--surface); box-shadow: var(--shadow-2); position: relative; overflow: hidden; }
+    .cover::before { content: ""; position: absolute; top: -50%; right: -10%; width: 60%; height: 200%; background: radial-gradient(ellipse, var(--case-accent-soft), transparent 62%); filter: blur(70px); pointer-events: none; z-index: 0; opacity: 0.9; }
     .cover-flip { grid-template-columns: 1.1fr 1fr; }
     .cover-flip .cover-meta { order: 2; }
     .cover-flip .cover-visual { order: 1; }
     .cover-flip::before { right: auto; left: -10%; }
 
     .cover-meta { position: relative; z-index: 2; }
-    .cover-n { font-size: 11px; letter-spacing: 0.18em; color: var(--text-faint); }
-    .cover-domain { font-size: 10.5px; letter-spacing: 0.16em; color: var(--case-accent); text-transform: uppercase; margin-top: 8px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
-    .cover-name { font-size: clamp(48px, 6vw, 80px); margin-top: 28px; line-height: 0.95; }
-    .cover-name-full { font-size: 12px; color: var(--text-muted); margin-top: 8px; letter-spacing: 0.06em; }
+    .cover-n { font-size: 11.5px; letter-spacing: 0.14em; color: var(--text-faint); }
+    .cover-domain { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; color: var(--case-accent); text-transform: uppercase; margin-top: 8px; padding-bottom: 22px; border-bottom: 1px solid var(--border); }
+    .cover-name { font-size: clamp(42px, 5.4vw, 72px); font-weight: 600; letter-spacing: -0.042em; margin-top: 26px; line-height: 0.95; }
+    .cover-name-full { font-size: 12.5px; color: var(--text-dim); margin-top: 9px; letter-spacing: 0.04em; }
     .cover-position { font-size: clamp(17px, 1.6vw, 21px); line-height: 1.4; color: var(--text-muted); margin-top: 32px; max-width: 40ch; font-family: var(--font-serif); font-style: italic; letter-spacing: -0.005em; }
     .cover-metrics { display: flex; gap: 36px; margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--border); }
-    .cover-metric-v { font-size: clamp(28px, 3vw, 38px); font-weight: 400; letter-spacing: -0.03em; line-height: 1; color: var(--case-accent); }
-    .cover-metric-l { font-size: 10.5px; letter-spacing: 0.14em; color: var(--text-dim); text-transform: uppercase; margin-top: 10px; max-width: 22ch; }
+    .cover-metric-v { font-size: clamp(28px, 3vw, 38px); font-weight: 600; letter-spacing: -0.038em; line-height: 1; color: var(--case-accent); font-variant-numeric: tabular-nums; }
+    .cover-metric-l { font-size: 12.5px; color: var(--text-muted); line-height: 1.4; margin-top: 10px; max-width: 22ch; }
     .cover-bottom { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 24px; }
-    .cover-rail { font-size: 10.5px; letter-spacing: 0.14em; color: var(--text-muted); display: flex; flex-wrap: wrap; gap: 12px; }
+    .cover-rail { font-size: 12px; color: var(--text-dim); display: flex; flex-wrap: wrap; gap: 8px 14px; }
 
     .cover-visual { position: relative; z-index: 2; cursor: pointer; }
-    .cover-frame { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: oklch(0.13 0.012 250); box-shadow: 0 30px 60px -20px oklch(0.05 0.02 250 / 0.6); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-    .cover-visual:hover .cover-frame { transform: translateY(-6px); box-shadow: 0 40px 80px -20px oklch(0.05 0.02 250 / 0.7); }
+    .cover-frame { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface-3); box-shadow: var(--shadow-3); transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease); }
+    .cover-visual:hover .cover-frame { transform: translateY(-6px); box-shadow: var(--shadow-4); }
     .cover-frame img { display: block; width: 100%; height: auto; }
     .cover-glow { position: absolute; left: 10%; right: 10%; bottom: -20px; height: 60px; background: radial-gradient(ellipse, var(--case-accent-soft), transparent 70%); filter: blur(40px); }
 

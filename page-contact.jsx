@@ -126,7 +126,7 @@ function PageContact() {
                     : form.services.length + ' service areas'
                   }</span></div>
                   <div><span className="dim mono">STAGE</span> <span>{form.stage}</span></div>
-                  <div><span className="dim mono">RESPONSE</span> <span className="gold">&lt; 24h</span></div>
+                  <div><span className="dim mono">RESPONSE</span> <span className="accent-text">&lt; 24h</span></div>
                 </div>
               </CornerCard>
             </Reveal>
@@ -191,7 +191,7 @@ function PageContact() {
 
             <Reveal delay={160}>
               <CornerCard className="aside-card aside-card-honest">
-                <div className="mono aside-h gold">Worth knowing</div>
+                <div className="mono aside-h accent-text">Worth knowing</div>
                 <ul className="honest-list">
                   <li><span className="bullet"></span><span>We take your product from idea to a live, working system — AI, design, engineering, and data — as one team, with nothing outsourced.</span></li>
                   <li><span className="bullet"></span><span>AI is our specialty: smart chatbots, agents, and computer vision. Everything else we build exists to make that AI actually useful.</span></li>
@@ -207,18 +207,18 @@ function PageContact() {
               <div className="mono form-section-h">01 · About you</div>
               <div className="form-row">
                 <Field label="Name" required err={errors.name}>
-                  <input type="text" value={form.name} onChange={e => set('name', e.target.value)} placeholder="Jane Engineer" />
+                  <input type="text" value={form.name} onChange={e => set('name', e.target.value)} placeholder="Priya Raghunathan" />
                 </Field>
                 <Field label="Work email" required err={errors.email}>
-                  <input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="jane@company.com" />
+                  <input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="priya@northbeam.io" />
                 </Field>
               </div>
               <div className="form-row">
                 <Field label="Company" required err={errors.company}>
-                  <input type="text" value={form.company} onChange={e => set('company', e.target.value)} placeholder="Company name" />
+                  <input type="text" value={form.company} onChange={e => set('company', e.target.value)} placeholder="Northbeam Logistics" />
                 </Field>
                 <Field label="Role">
-                  <input type="text" value={form.role} onChange={e => set('role', e.target.value)} placeholder="e.g. CTO, VP Eng, PM" />
+                  <input type="text" value={form.role} onChange={e => set('role', e.target.value)} placeholder="Founder, Head of Product, CTO…" />
                 </Field>
               </div>
             </div>
@@ -294,7 +294,7 @@ function PageContact() {
                   placeholder="The shorter and sharper, the better. What problem are you solving, and what does success look like?"
                 ></textarea>
                 <div className="field-counter mono">
-                  <span className={form.detail.length < 20 ? 'dim' : 'gold'}>{form.detail.length}</span>
+                  <span className={form.detail.length < 20 ? 'dim' : 'accent-text'}>{form.detail.length}</span>
                   <span className="dim"> / 20 minimum</span>
                 </div>
               </Field>
@@ -307,12 +307,12 @@ function PageContact() {
             </div>
 
             <div className="form-submit">
-              <button type="submit" className="btn btn-gold" disabled={submitting}>
+              <button type="submit" className="btn btn-accent" disabled={submitting}>
                 {submitting ? <span>Submitting…</span> : <React.Fragment><span>Send your message</span><span className="arrow">→</span></React.Fragment>}
               </button>
               <div className="mono submit-note">
                 <span className="dim">EXPECTED REPLY · </span>
-                <span className="gold">&lt; 24 hours</span>
+                <span className="accent-text">&lt; 24 hours</span>
               </div>
             </div>
             {sendError && (
@@ -355,65 +355,68 @@ function Field({ label, required, err, children }) {
     .aside-l { font-size: 10.5px; letter-spacing: 0.14em; margin-bottom: 6px; }
     .aside-v { font-size: 14px; line-height: 1.5; color: var(--text); }
     a.aside-v { transition: color 0.2s ease; }
-    a.aside-v:hover { color: var(--gold); }
+    a.aside-v:hover { color: var(--accent); }
     .aside-contact { display: inline-flex; align-items: center; gap: 9px; }
-    .aside-ico { width: 15px; height: 15px; flex-shrink: 0; color: var(--gold); }
+    .aside-ico { width: 15px; height: 15px; flex-shrink: 0; color: var(--accent); }
     .honest-list { list-style: none; margin-top: 4px; }
     .honest-list li { display: flex; gap: 12px; padding: 10px 0; font-size: 13.5px; color: var(--text-muted); line-height: 1.55; border-bottom: 1px dashed var(--border); }
     .honest-list li:last-child { border-bottom: none; }
-    .honest-list .bullet { width: 5px; height: 5px; border-radius: 999px; background: var(--gold); margin-top: 8px; flex-shrink: 0; }
+    .honest-list .bullet { width: 5px; height: 5px; border-radius: 1px; background: var(--accent); margin-top: 8px; flex-shrink: 0; }
     @media (max-width: 1000px) { .contact-aside { position: static; } }
 
-    .contact-form { border: 1px solid var(--border); border-radius: var(--radius); padding: 40px; background: linear-gradient(180deg, oklch(0.16 0.012 250 / 0.6), oklch(0.14 0.01 250 / 0.4)); }
+    .contact-form { border: 1px solid var(--border); border-radius: var(--radius-lg); padding: clamp(26px, 3.5vw, 40px); background: var(--surface); box-shadow: var(--shadow-2); }
     .form-section { padding: 24px 0; border-bottom: 1px solid var(--border); }
     .form-section:first-child { padding-top: 0; }
     .form-section:last-of-type { border-bottom: none; }
-    .form-section-h { font-size: 11px; letter-spacing: 0.18em; color: var(--gold); text-transform: uppercase; margin-bottom: 22px; }
+    .form-section-h { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; margin-bottom: 20px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
     .field { margin-bottom: 18px; }
-    .field-label { display: flex; gap: 8px; align-items: baseline; font-size: 11px; letter-spacing: 0.14em; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; }
-    .field-label .req { color: var(--gold); }
-    .field-label .err-msg { color: var(--red); margin-left: auto; letter-spacing: 0.06em; text-transform: none; font-size: 12px; }
+    .field-label { display: flex; gap: 8px; align-items: baseline; font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+    .field-label .req { color: var(--accent); font-weight: 600; }
+    .field-label .err-msg { color: var(--red); margin-left: auto; font-weight: 400; font-size: 12.5px; }
     .field input[type="text"], .field input[type="email"], .field select, .field textarea {
-      width: 100%; background: oklch(0.13 0.012 250); border: 1px solid var(--border); color: var(--text);
-      border-radius: var(--radius-sm); padding: 14px 16px; font: inherit; font-size: 14.5px; transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      width: 100%; background: var(--bg); border: 1px solid var(--border-strong); color: var(--text);
+      border-radius: var(--radius-sm); padding: 13px 15px; font: inherit; font-size: 15px;
+      transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease), background-color 0.2s var(--ease);
     }
-    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); }
-    .field.has-err input, .field.has-err select, .field.has-err textarea { border-color: var(--red); }
+    .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--text-faint); }
+    .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-glow); }
+    .field.has-err input, .field.has-err select, .field.has-err textarea { border-color: var(--red); background: var(--red-wash); }
     .field textarea { resize: vertical; line-height: 1.55; }
-    .field-counter { margin-top: 8px; font-size: 11px; letter-spacing: 0.1em; text-align: right; }
+    .field-counter { margin-top: 8px; font-size: 11.5px; letter-spacing: 0.04em; text-align: right; color: var(--text-faint); }
 
     .seg { display: flex; flex-wrap: wrap; gap: 6px; }
-    .seg-btn { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: oklch(0.14 0.01 250); color: var(--text-muted); font-size: 13px; transition: all 0.2s ease; cursor: pointer; }
-    .seg-btn:hover { color: var(--text); border-color: var(--border-strong); transform: translateY(-1px); }
+    .seg-btn { padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); font-size: 13.5px; transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background-color 0.2s var(--ease), transform 0.12s var(--ease); cursor: pointer; }
+    .seg-btn:hover { color: var(--text); border-color: var(--border-strong); background: var(--surface-2); }
+    .seg-btn:active { transform: translateY(1px); }
     .seg-btn.on { background: var(--text); color: var(--bg); border-color: var(--text); }
 
     .svc-pick { display: flex; flex-direction: column; gap: 10px; }
-    .svc-pick-group { font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-faint); margin-top: 8px; }
+    .svc-pick-group { font-size: 10.5px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-faint); margin-top: 10px; }
     .svc-pick-group:first-child { margin-top: 0; }
     .chip-multi { display: inline-flex; align-items: center; gap: 7px; }
-    .chip-multi.on { background: var(--gold); color: oklch(0.18 0.02 80); border-color: var(--gold); }
+    .chip-multi.on { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
     .chip-multi.on:hover { filter: brightness(1.04); }
     .chip-check { font-size: 11px; font-weight: 700; line-height: 1; }
 
     .check { display: flex; gap: 12px; align-items: flex-start; cursor: pointer; font-size: 14px; padding: 12px 0; }
     .check input { position: absolute; opacity: 0; pointer-events: none; }
-    .check-box { width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--border-strong); background: oklch(0.13 0.012 250); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: all 0.2s ease; }
-    .check input:checked + .check-box { background: var(--gold); border-color: var(--gold); }
-    .check-mark { width: 10px; height: 6px; border-left: 2px solid var(--bg); border-bottom: 2px solid var(--bg); transform: rotate(-45deg) scale(0); transition: transform 0.2s ease; margin-top: -2px; }
+    .check-box { width: 18px; height: 18px; border-radius: var(--radius-xs); border: 1px solid var(--border-strong); background: var(--bg); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; transition: background-color 0.2s var(--ease), border-color 0.2s var(--ease); }
+    .check input:checked + .check-box { background: var(--accent); border-color: var(--accent); }
+    .check-mark { width: 10px; height: 6px; border-left: 2px solid var(--accent-ink); border-bottom: 2px solid var(--accent-ink); transform: rotate(-45deg) scale(0); transition: transform 0.2s var(--ease-spring); margin-top: -2px; }
     .check input:checked + .check-box .check-mark { transform: rotate(-45deg) scale(1); }
 
     .form-submit { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; gap: 20px; flex-wrap: wrap; }
     .form-submit .btn:disabled { opacity: 0.6; cursor: wait; }
-    .submit-note { font-size: 11px; letter-spacing: 0.14em; }
-    .form-send-error { margin-top: 16px; padding: 12px 16px; border: 1px solid var(--red); border-radius: var(--radius-sm); background: oklch(0.70 0.18 25 / 0.08); color: var(--red); font-size: 13px; }
+    .submit-note { font-size: 12.5px; color: var(--text-dim); }
+    .form-send-error { margin-top: 16px; padding: 12px 16px; border: 1px solid var(--red); border-radius: var(--radius-sm); background: var(--red-wash); color: var(--red); font-size: 13.5px; }
 
     /* Thanks state */
-    .contact-thanks { padding: 120px 0; min-height: 70vh; }
-    .thanks-inner { max-width: 760px; }
+    .contact-thanks { padding: var(--section-y) 0; min-height: 66dvh; }
+    .thanks-inner > * { max-width: 760px; }
     .thanks-receipt { margin-top: 64px; padding: 28px 32px; }
-    .receipt-h { font-size: 11px; letter-spacing: 0.18em; color: var(--text-faint); padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
+    .receipt-h { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; color: var(--text-faint); padding-bottom: 16px; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
     .receipt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 32px; font-size: 13px; }
     .receipt-grid > div { display: flex; flex-direction: column; gap: 6px; }
     .receipt-grid .mono { font-size: 10.5px; letter-spacing: 0.14em; }

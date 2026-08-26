@@ -73,9 +73,9 @@ function PageIndustries() {
         <div className="page filter-row">
           <span className="mono filter-label">FILTER</span>
           <div className="filter-chips">
-            <button className={`chip mono ${filter === 'all' ? 'on' : ''}`} onClick={() => setFilter('all')}>All</button>
+            <button className={`chip ${filter === 'all' ? 'on' : ''}`} onClick={() => setFilter('all')}>All</button>
             {industries.map(i => (
-              <button key={i.key} className={`chip mono ${filter === i.key ? 'on' : ''}`} onClick={() => setFilter(i.key)}>{i.t}</button>
+              <button key={i.key} className={`chip ${filter === i.key ? 'on' : ''}`} onClick={() => setFilter(i.key)}>{i.t}</button>
             ))}
           </div>
         </div>
@@ -91,8 +91,8 @@ function PageIndustries() {
                     return <IndustryPhoto industryKey={it.key} accent="var(--accent)" />;
                   })()}
                   <CornerCard className="industry-metric-card">
-                    <div className="metric-val gold" style={{ fontSize: 48, letterSpacing: '-0.04em', lineHeight: 1 }}>{it.metric.v}</div>
-                    <div className="mono" style={{ fontSize: 10.5, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--text-dim)', marginTop: 10, maxWidth: '22ch' }}>{it.metric.l}</div>
+                    <div className="metric-val accent-text" style={{ fontSize: 48, letterSpacing: '-0.04em', lineHeight: 1 }}>{it.metric.v}</div>
+                    <div style={{ fontSize: 13, lineHeight: 1.4, color: 'var(--text-muted)', marginTop: 10, maxWidth: '22ch' }}>{it.metric.l}</div>
                   </CornerCard>
                 </div>
                 <div className="industry-content">
@@ -100,14 +100,14 @@ function PageIndustries() {
                   <h2 className="h-section" style={{ marginTop: 14 }}>{it.t}</h2>
                   <p className="lede" style={{ marginTop: 20 }}>{it.lede}</p>
 
-                  <div className="industry-sub-h mono">PROBLEMS WE SOLVE</div>
+                  <div className="industry-sub-h">Problems we solve</div>
                   <ul className="industry-problems">
                     {it.problems.map(p => <li key={p}><span className="bullet"></span><span>{p}</span></li>)}
                   </ul>
 
-                  <div className="industry-sub-h mono">CAPABILITIES</div>
+                  <div className="industry-sub-h">Capabilities</div>
                   <div className="pillar-tags">
-                    {it.capabilities.map(c => <span key={c} className="tag mono">{c}</span>)}
+                    {it.capabilities.map(c => <span key={c} className="tag">{c}</span>)}
                   </div>
                 </div>
               </article>
@@ -126,25 +126,25 @@ function PageIndustries() {
   const s = document.createElement('style');
   s.id = 'industries-css';
   s.textContent = `
-    .industry-filter-bar { padding: 18px 0; position: sticky; top: var(--nav-h, 76px); z-index: 20; background: oklch(0.14 0.01 250 / 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .industry-filter-bar { padding: 16px 0; position: sticky; top: var(--nav-h, 76px); z-index: var(--z-sticky); background: color-mix(in oklab, var(--bg) 86%, transparent); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border-bottom: 1px solid var(--border); }
     .filter-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
-    .filter-label { font-size: 11px; letter-spacing: 0.18em; color: var(--text-faint); }
+    .filter-label { font-size: 11.5px; letter-spacing: 0.14em; color: var(--text-faint); }
     .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-    .chip { font-size: 11px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.2s ease; }
-    .chip:hover { color: var(--text); border-color: var(--border-strong); }
+    .chip { font-size: 13px; padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background-color 0.2s var(--ease); }
+    .chip:hover { color: var(--text); border-color: var(--border-strong); background: var(--surface-2); }
     .chip.on { color: var(--bg); background: var(--text); border-color: var(--text); }
 
-    .industries-list { padding: 80px 0; }
-    .industry-block { display: grid; grid-template-columns: 1.05fr 1fr; gap: 80px; align-items: center; padding: 64px 0; border-bottom: 1px solid var(--border); }
+    .industries-list { padding: clamp(56px, 7vw, 88px) 0; }
+    .industry-block { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 80px); align-items: center; padding: clamp(44px, 5vw, 68px) 0; border-bottom: 1px solid var(--border); }
     .industry-block:last-child { border-bottom: none; }
     .industry-block.flip { direction: rtl; }
     .industry-block.flip > * { direction: ltr; }
     .industry-visual { position: relative; }
-    .industry-metric-card { position: absolute; bottom: -24px; right: -24px; padding: 24px; background: var(--bg); min-width: 220px; }
-    .industry-sub-h { font-size: 11px; letter-spacing: 0.18em; color: var(--text-faint); text-transform: uppercase; margin-top: 36px; padding-bottom: 14px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+    .industry-metric-card { position: absolute; bottom: -24px; right: -24px; padding: 24px; background: var(--surface); box-shadow: var(--shadow-3); min-width: 220px; }
+    .industry-sub-h { font-size: 11px; font-weight: 500; letter-spacing: 0.15em; color: var(--text-faint); text-transform: uppercase; margin-top: 34px; padding-bottom: 13px; border-bottom: 1px solid var(--border); margin-bottom: 14px; }
     .industry-problems { list-style: none; }
     .industry-problems li { display: flex; gap: 14px; padding: 10px 0; font-size: 14.5px; color: var(--text); line-height: 1.55; }
-    .industry-problems .bullet { width: 6px; height: 6px; border-radius: 0; background: var(--gold); margin-top: 9px; flex-shrink: 0; transform: rotate(45deg); }
+    .industry-problems .bullet { width: 6px; height: 6px; border-radius: 1px; background: var(--accent); margin-top: 9px; flex-shrink: 0; transform: rotate(45deg); }
 
     @media (max-width: 980px) {
       .industry-block { grid-template-columns: 1fr; gap: 48px; }

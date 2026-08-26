@@ -96,11 +96,11 @@ function CaseExtraVisual({ caseStudy }) {
       <svg viewBox="0 0 800 360" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style={{ display: 'block' }}>
         <defs>
           <linearGradient id={`cx-bg-${caseStudy.slug}`} x1="0" y1="0" x2="0" y2="360">
-            <stop offset="0" stopColor="oklch(0.18 0.025 250)" />
-            <stop offset="1" stopColor="oklch(0.12 0.01 250)" />
+            <stop offset="0" stopColor="var(--surface)" />
+            <stop offset="1" stopColor="var(--surface-3)" />
           </linearGradient>
           <radialGradient id={`cx-glow-${caseStudy.slug}`} cx="0.5" cy="0.5">
-            <stop offset="0" stopColor={accent} stopOpacity="0.3" />
+            <stop offset="0" stopColor={accent} stopOpacity="0.16" />
             <stop offset="1" stopColor={accent} stopOpacity="0" />
           </radialGradient>
         </defs>
@@ -117,9 +117,9 @@ function CaseExtraVisual({ caseStudy }) {
                     y2="80" stroke={accent} strokeWidth="1" strokeDasharray="3 3" opacity="0.5" />
                 )}
                 <g transform={`translate(${x}, 80)`}>
-                  <circle r="24" fill="oklch(0.14 0.01 250)" stroke={accent} strokeWidth="1.4" />
-                  <text textAnchor="middle" y="4" fontFamily="JetBrains Mono" fontSize="9" fontWeight="600" fill="oklch(0.96 0.01 250)" letterSpacing="1">{String(i + 1).padStart(2, '0')}</text>
-                  <text textAnchor="middle" y="46" fontFamily="Inter Tight" fontSize="12" fontWeight="500" fill="oklch(0.92 0.01 250)">{stage}</text>
+                  <circle r="24" fill="var(--surface)" stroke={accent} strokeWidth="1.4" />
+                  <text textAnchor="middle" y="4" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="9" fontWeight="600" fill="var(--text)" letterSpacing="1">{String(i + 1).padStart(2, '0')}</text>
+                  <text textAnchor="middle" y="46" fontFamily="Geist, system-ui, sans-serif" fontSize="12" fontWeight="500" fill="var(--text-muted)">{stage}</text>
                 </g>
               </g>
             );
@@ -128,12 +128,12 @@ function CaseExtraVisual({ caseStudy }) {
         <g transform="translate(0, 260)">
           {caseStudy.outcomes.map((o, i) => (
             <g key={o.l} transform={`translate(${40 + i * 190}, 0)`}>
-              <text fontFamily="Inter Tight" fontSize="28" fontWeight="500" fill={accent} letterSpacing="-1">{o.v}</text>
-              <text y="20" fontFamily="JetBrains Mono" fontSize="8" letterSpacing="1.2" fill="oklch(0.65 0.014 250)">{o.l.length > 28 ? o.l.slice(0, 28) + '…' : o.l}</text>
+              <text fontFamily="Geist, system-ui, sans-serif" fontSize="28" fontWeight="600" fill={accent} letterSpacing="-1">{o.v}</text>
+              <text y="20" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="8" letterSpacing="1.2" fill="var(--text-dim)">{o.l.length > 28 ? o.l.slice(0, 28) + '…' : o.l}</text>
             </g>
           ))}
         </g>
-        <text x="32" y="36" fontFamily="JetBrains Mono" fontSize="9" letterSpacing="2" fill="oklch(0.55 0.014 250)">SYSTEM TOPOLOGY · {caseStudy.name.toUpperCase()}</text>
+        <text x="32" y="36" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="9" letterSpacing="2" fill="var(--text-faint)">SYSTEM TOPOLOGY · {caseStudy.name.toUpperCase()}</text>
       </svg>
     </PhotoFrameWrap>
   );
@@ -163,38 +163,72 @@ function PhotoFrameWrap({ children, label, height = 360, accent = 'var(--accent)
   const s = document.createElement('style');
   s.id = 'photo-css';
   s.textContent = `
+    /* Photo frame — a light browser-style chrome around the image. On paper
+       the picture stays close to natural; the old dark treatment (brightness
+       0.78 plus a multiply overlay) turned every photo to mud against white. */
     .pfx { width: 100%; overflow: hidden; }
-    .pfx-frame { width: 100%; height: 100%; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: oklch(0.13 0.012 250); display: flex; flex-direction: column; box-shadow: 0 20px 50px -16px oklch(0.05 0.02 250 / 0.5); }
-    .pfx-bar { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: oklch(0.17 0.014 250); border-bottom: 1px solid var(--border); flex-shrink: 0; }
-    .pfx-dot { width: 10px; height: 10px; border-radius: 999px; }
-    .pfx-label { margin-left: 14px; font-size: 10.5px; letter-spacing: 0.06em; color: var(--text-dim); }
-    .pfx-body { flex: 1; overflow: hidden; position: relative; min-height: 0;
-      background:
-        linear-gradient(135deg, oklch(0.20 0.03 250), oklch(0.15 0.02 250)),
-        radial-gradient(ellipse at 30% 20%, var(--pfx-accent, oklch(0.30 0.06 250)), transparent 70%); }
-    .pfx-img { display: block; width: 100%; height: 100%; background-size: cover; background-position: center center; background-repeat: no-repeat; filter: saturate(0.85) contrast(1.04) brightness(0.78); transition: filter 0.4s ease, transform 0.6s ease; }
-    .pfx-frame:hover .pfx-img { transform: scale(1.02); filter: saturate(0.95) contrast(1.04) brightness(0.82); }
-    .pfx-overlay { position: absolute; inset: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 50%, transparent, oklch(0.10 0.01 250 / 0.4) 100%),
-        linear-gradient(180deg, oklch(0.13 0.012 250 / 0) 60%, oklch(0.13 0.012 250 / 0.5)),
-        radial-gradient(ellipse 60% 40% at 50% 100%, var(--pfx-accent, transparent), transparent 70%);
-      mix-blend-mode: multiply;
-      opacity: 0.55;
+    .pfx-frame {
+      width: 100%; height: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--surface);
+      display: flex; flex-direction: column;
+      box-shadow: var(--shadow-3);
+      transition: box-shadow 0.35s var(--ease), border-color 0.35s var(--ease);
     }
-    .pfx-grain { position: absolute; inset: 0; pointer-events: none;
+    .pfx-frame:hover { box-shadow: var(--shadow-4); }
+    .pfx-bar {
+      display: flex; align-items: center; gap: 7px;
+      padding: 10px 14px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .pfx-dot { width: 9px; height: 9px; border-radius: 999px; }
+    .pfx-label { margin-left: 12px; font-size: 10.5px; letter-spacing: 0.05em; color: var(--text-dim); }
+    .pfx-body { flex: 1; overflow: hidden; position: relative; min-height: 0; background: var(--surface-3); }
+    .pfx-img {
+      display: block; width: 100%; height: 100%;
+      background-size: cover; background-position: center center; background-repeat: no-repeat;
+      filter: saturate(0.92) contrast(1.02);
+      transition: filter 0.4s var(--ease), transform 0.6s var(--ease);
+    }
+    .pfx-frame:hover .pfx-img { transform: scale(1.025); filter: saturate(1) contrast(1.03); }
+    /* A whisper of accent from the bottom edge, enough to tie the photo to the
+       palette without staining it. */
+    .pfx-overlay {
+      position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse 70% 45% at 50% 108%, var(--pfx-accent, transparent), transparent 72%);
+      opacity: 0.18;
+    }
+    .pfx-grain {
+      position: absolute; inset: 0; pointer-events: none;
       background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxMjAnIGhlaWdodD0nMTIwJz48ZmlsdGVyIGlkPSduJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nMC45JyBudW1PY3RhdmVzPScyJyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPScwIDAgMCAwIDEgIDAgMCAwIDAgMSAgMCAwIDAgMCAxICAwIDAgMCAwLjA3IDAnLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJyBmaWx0ZXI9J3VybCgjbiknLz48L3N2Zz4=");
-      mix-blend-mode: overlay; opacity: 0.6;
+      mix-blend-mode: soft-light; opacity: 0.5;
     }
 
-    .team-photo { position: relative; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); aspect-ratio: 10 / 7; background: oklch(0.13 0.012 250); }
-    .team-photo img, .team-photo-img { display: block; width: 100%; height: 100%; background-size: cover; background-position: center center; object-fit: cover; filter: saturate(0.8) contrast(1.04) brightness(0.85); transition: transform 0.6s ease, filter 0.4s ease; }
-    .team-photo:hover img, .team-photo:hover .team-photo-img { transform: scale(1.03); filter: saturate(0.95) brightness(0.9); }
-    .team-photo-overlay { position: absolute; inset: 0; pointer-events: none;
-      background:
-        linear-gradient(180deg, transparent 50%, oklch(0.10 0.01 250 / 0.55)),
-        radial-gradient(ellipse 60% 40% at 50% 100%, var(--team-accent, transparent), transparent 70%);
-      mix-blend-mode: multiply; opacity: 0.7;
+    /* Portraits — squircles rather than the default circle avatar. */
+    .team-photo {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      aspect-ratio: 10 / 7;
+      background: var(--surface-3);
+      box-shadow: var(--shadow-2);
+    }
+    .team-photo img, .team-photo-img {
+      display: block; width: 100%; height: 100%;
+      background-size: cover; background-position: center center; object-fit: cover;
+      filter: saturate(0.9) contrast(1.02);
+      transition: transform 0.6s var(--ease), filter 0.4s var(--ease);
+    }
+    .team-photo:hover img, .team-photo:hover .team-photo-img { transform: scale(1.03); filter: saturate(1); }
+    .team-photo-overlay {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, transparent 62%, var(--team-accent, transparent));
+      opacity: 0.22;
     }
   `;
   document.head.appendChild(s);

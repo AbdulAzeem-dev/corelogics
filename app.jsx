@@ -1,25 +1,29 @@
 /* App root + router + tweaks */
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "accent": "blue",
+  "accent": "brand",
   "hero": "particles",
   "density": "comfortable"
 }/*EDITMODE-END*/;
 
+// The default is the brand azure sampled from the logotype. The rest are
+// desaturated neighbours, offered for comparison — none of them shout.
 const ACCENT_SWATCHES = {
-  blue: '#6aa3ff',
-  gold: '#e6b86a',
-  cyan: '#74d3e0',
-  violet: '#b18cf0',
+  brand: '#0080ba',
+  deep: '#2d4fa8',
+  teal: '#2b7f92',
+  ink: '#3d4249',
 };
 
 const PAGE_TITLES = {
-  home: 'Corelogics — AI Products Built for Founders, Launched in Weeks',
+  home: 'Corelogics — AI products built for founders, launched in weeks',
   services: 'Services — Corelogics',
   industries: 'Industries — Corelogics',
-  cases: 'Case Studies — Corelogics',
+  cases: 'Case studies — Corelogics',
   about: 'About — Corelogics',
   contact: 'Contact — Corelogics',
+  privacy: 'Privacy policy — Corelogics',
+  terms: 'Terms of service — Corelogics',
 };
 
 function titleFor(page, slug) {
@@ -27,6 +31,7 @@ function titleFor(page, slug) {
     const c = (window.CASE_BY_SLUG || {})[slug];
     return c ? `${c.name} — Case Study — Corelogics` : 'Case Study Not Found — Corelogics';
   }
+  if (page === '404') return 'Page not found — Corelogics';
   return PAGE_TITLES[page] || PAGE_TITLES.home;
 }
 
@@ -37,7 +42,9 @@ function App() {
   const [slug, setSlug] = useState(() => parseHash(window.location.hash).slug);
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [theme, setTheme] = useState(() => {
-    try { return localStorage.getItem('cl-theme') || 'dark'; } catch (e) { return 'dark'; }
+    // Light is the design's default; the pre-render script in index.html has
+    // already painted this same value onto <html>.
+    try { return localStorage.getItem('cl-theme') || 'light'; } catch (e) { return 'light'; }
   });
 
   // Two-arg navigation: setPage('case', 'qefa') or setPage('about')
@@ -80,7 +87,7 @@ function App() {
 
   useEffect(() => {
     const root = document.documentElement;
-    if (t.accent === 'blue') root.removeAttribute('data-accent');
+    if (t.accent === 'brand') root.removeAttribute('data-accent');
     else root.setAttribute('data-accent', t.accent);
     if (t.density === 'comfortable') root.removeAttribute('data-density');
     else root.setAttribute('data-density', t.density);
@@ -104,21 +111,24 @@ function App() {
       case 'case':       return <PageCaseDetail slug={slug} />;
       case 'about':      return <PageAbout />;
       case 'contact':    return <PageContact />;
+      case 'privacy':    return <PageLegal doc="privacy" />;
+      case 'terms':      return <PageLegal doc="terms" />;
+      case '404':        return <PageNotFound />;
       default:           return <PageHome heroVariant={t.hero} />;
     }
   };
 
   // Accent color value for TweakColor — pass mapped hex
-  const accentValue = ACCENT_SWATCHES[t.accent] || ACCENT_SWATCHES.blue;
+  const accentValue = ACCENT_SWATCHES[t.accent] || ACCENT_SWATCHES.brand;
   const handleAccent = (hex) => {
     const entry = Object.entries(ACCENT_SWATCHES).find(([, v]) => v === hex);
-    setTweak('accent', entry ? entry[0] : 'blue');
+    setTweak('accent', entry ? entry[0] : 'brand');
   };
 
   return (
     <RouterCtx.Provider value={router}>
       <Nav />
-      <div key={`${page}-${slug || ''}`} className="page-transition">
+      <div id="main" tabIndex={-1} key={`${page}-${slug || ''}`} className="page-transition">
         {renderPage()}
       </div>
       <Footer />
@@ -127,7 +137,7 @@ function App() {
         <TweakRadio
           label="Mode"
           value={theme}
-          options={['dark', 'light']}
+          options={['light', 'dark']}
           onChange={(v) => setTheme(v)}
         />
         <TweakColor
@@ -160,6 +170,9 @@ function App() {
             { value: 'cases', label: 'Cases' },
             { value: 'about', label: 'About' },
             { value: 'contact', label: 'Contact' },
+            { value: 'privacy', label: 'Privacy' },
+            { value: 'terms', label: 'Terms' },
+            { value: '404', label: 'Not found' },
           ]}
           onChange={(v) => setPage(v)}
         />

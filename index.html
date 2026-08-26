@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Corelogics — AI Products Built for Founders, Launched in Weeks</title>
+<title>Corelogics — AI products built for founders, launched in weeks</title>
 <meta name="description" content="Corelogics builds full AI-powered products for founders and companies — from a working MVP in 4 weeks to a complete, production-ready platform. One team, start to finish." />
 
 <!-- Google tag (gtag.js) -->
@@ -40,14 +40,39 @@ initApollo();
 </script>
 <!-- End Apollo tracking -->
 
-<link rel="icon" type="image/png" href="assets/favicon.png" />
-<link rel="apple-touch-icon" href="assets/favicon.png" />
+<link rel="canonical" href="https://www.corelogics.co/" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#101215" media="(prefers-color-scheme: dark)" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Corelogics" />
+<meta property="og:url" content="https://www.corelogics.co/" />
+<meta property="og:title" content="Corelogics — AI products built for founders, launched in weeks" />
+<meta property="og:description" content="We design, build, and launch full AI-powered products — a working MVP in 4 weeks, then a production-ready platform. One team, start to finish. Established 2022." />
+<meta property="og:image" content="https://www.corelogics.co/assets/logo-dark.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Corelogics — AI products built for founders, launched in weeks" />
+<meta name="twitter:description" content="A working AI product in 4 weeks, then a production-ready platform. One team, start to finish." />
+<meta name="twitter:image" content="https://www.corelogics.co/assets/logo-dark.png" />
+
+<link rel="icon" type="image/png" href="assets/logo-mark-dark.png" />
+<link rel="apple-touch-icon" href="assets/logo-mark-dark.png" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 
 <link rel="stylesheet" href="styles.css" />
+
+<script>
+  // Paint the stored theme before first render so there is no flash.
+  // Light is the default; dark is opt-in via the nav toggle.
+  (function () {
+    var t = 'light';
+    try { t = localStorage.getItem('cl-theme') || 'light'; } catch (e) {}
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
 
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
@@ -59,15 +84,17 @@ initApollo();
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <template id="__bundler_thumbnail">
+<!-- Brand mark: the two braces around the chip, in the Corelogics azure. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-<rect width="100" height="100" fill="#14161c"/>
-<g transform="translate(50,50)">
-<path d="M0 -22 L19 -11 V11 L0 22 L-19 11 V-11 Z" fill="none" stroke="#e8e8ea" stroke-width="2.4" stroke-linejoin="round"/>
-<path d="M9 -8 A 11 11 0 1 0 9 8" fill="none" stroke="#e8e8ea" stroke-width="2.8" stroke-linecap="round"/>
-<circle cx="0" cy="0" r="3.4" fill="#e6b86a"/>
+<rect width="100" height="100" fill="#ffffff"/>
+<g fill="none" stroke="#0080ba" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+<path d="M38 28c-5 0-7 3-7 7s1 7-4 8c5 1 4 5 4 8s2 7 7 7"/>
+<path d="M62 28c5 0 7 3 7 7s-1 7 4 8c-5 1-4 5-4 8s-2 7-7 7"/>
 </g>
+<rect x="43" y="43" width="14" height="14" fill="none" stroke="#0b0b0b" stroke-width="6"/>
 </svg>
 </template>
+<a class="skip-link" href="#main">Skip to content</a>
 <div id="root"></div>
 
 <script type="text/babel" src="tweaks-panel.jsx"></script>
@@ -83,6 +110,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script type="text/babel" src="page-case-detail.jsx"></script>
 <script type="text/babel" src="page-about.jsx"></script>
 <script type="text/babel" src="page-contact.jsx"></script>
+<script type="text/babel" src="page-legal.jsx"></script>
 <script type="text/babel" src="app.jsx"></script>
 <script src="card-fx.js"></script>
 </body>

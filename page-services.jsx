@@ -14,8 +14,10 @@ const SvcIcon = {
   mlops: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M7 8a4 4 0 1 0 0 8c2.5 0 3.5-2 5-4s2.5-4 5-4a4 4 0 1 1 0 8c-2.5 0-3.5-2-5-4"/></svg>
   ),
+  // Deliberately not a rocket. Deployment here means the same model running
+  // on a phone and in the cloud — concentric reach, not a launch.
   deploy: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2c3 2.5 4.5 6 4.5 10L12 18l-4.5-6C7.5 8 9 4.5 12 2Z"/><circle cx="12" cy="9" r="1.6"/><path d="M7.5 14 5 17l3 .5M16.5 14 19 17l-3 .5"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="2.2"/><path d="M8.2 8.2a5.4 5.4 0 0 0 0 7.6M15.8 8.2a5.4 5.4 0 0 1 0 7.6"/><path d="M5.4 5.4a9.4 9.4 0 0 0 0 13.2M18.6 5.4a9.4 9.4 0 0 1 0 13.2"/></svg>
   ),
   uiux: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 9v12"/></svg>
@@ -105,7 +107,7 @@ function PageServices() {
             <Reveal>
               <div className="tier-label">
                 <span className="tier-star">✦</span>
-                <span className="mono">OUR SPECIALTY</span>
+                <span>Our specialty</span>
               </div>
             </Reveal>
             <Reveal delay={120}>
@@ -143,10 +145,10 @@ function PageServices() {
             {/* Trailing emphasis cell */}
             <Reveal delay={aiServices.length * 70}>
               <div className="ai-card ai-card-cta">
-                <div className="mono ai-cta-eyebrow">YOUR AI PRODUCT</div>
+                <div className="ai-cta-eyebrow">Your AI product</div>
                 <h3 className="ai-cta-h">Built once.<br/>Owned by you.</h3>
                 <p className="ai-cta-p">Start with one capability, or let us build and run the whole thing.</p>
-                <Button kind="gold" onClick={() => setPage('contact')}>Book a free call</Button>
+                <Button kind="accent" onClick={() => setPage('contact')}>Book a free call</Button>
               </div>
             </Reveal>
           </div>
@@ -174,17 +176,17 @@ function PageServices() {
           </Reveal>
 
           <Reveal delay={160} className="integrated-stack">
-            <div className="stack-label mono">A SINGLE TEAM, EVERY LAYER</div>
+            <div className="stack-label">A single team, every layer</div>
             {[
-              { l: 'Experience', s: 'app · website · mobile', accent: 'oklch(0.68 0.18 300)' },
-              { l: 'Intelligence', s: 'AI & automation', accent: 'oklch(0.83 0.13 86)', flag: true },
-              { l: 'Platform', s: 'behind-the-scenes systems', accent: 'oklch(0.66 0.18 252)' },
-              { l: 'Data', s: 'organized, reliable, ready', accent: 'oklch(0.78 0.13 200)' },
+              { l: 'Experience', s: 'app · website · mobile', accent: 'var(--accent-soft)' },
+              { l: 'Intelligence', s: 'AI & automation', accent: 'var(--accent)', flag: true },
+              { l: 'Platform', s: 'behind-the-scenes systems', accent: 'var(--text-dim)' },
+              { l: 'Data', s: 'organized, reliable, ready', accent: 'var(--text-faint)' },
             ].map((layer, i) => (
               <div key={layer.l} className={`stack-row ${layer.flag ? 'flag' : ''}`} style={{ '--row-accent': layer.accent }}>
                 <div className="stack-dot"></div>
-                <div className="stack-l">{layer.l}{layer.flag && <span className="stack-flag mono">OUR SPECIALTY</span>}</div>
-                <div className="stack-s mono">{layer.s}</div>
+                <div className="stack-l">{layer.l}{layer.flag && <span className="stack-flag">Our specialty</span>}</div>
+                <div className="stack-s">{layer.s}</div>
               </div>
             ))}
           </Reveal>
@@ -195,7 +197,7 @@ function PageServices() {
       <section className="suite-tier">
         <div className="page">
           <div className="tier-head">
-            <Reveal><div className="tier-label"><span className="mono">EVERYTHING ELSE YOUR PRODUCT NEEDS</span></div></Reveal>
+            <Reveal><div className="tier-label"><span>Everything else your product needs</span></div></Reveal>
             <Reveal delay={120}><h2 className="h-section tier-title">Everything a great product needs, beyond the AI.</h2></Reveal>
             <Reveal delay={200}>
               <p className="lede tier-lede">
@@ -211,12 +213,12 @@ function PageServices() {
                 <div className="suite-card">
                   <div className="suite-top">
                     <div className="suite-icon">{SvcIcon[s.icon]}</div>
-                    {s.ai && <span className="suite-ai mono">AI-ENABLED</span>}
+                    {s.ai && <span className="suite-ai">AI-enabled</span>}
                   </div>
                   <h3 className="suite-t">{s.t}</h3>
                   <p className="suite-value">{s.value}</p>
                   <div className="suite-tags">
-                    {s.tags.map(t => <span key={t} className="tag mono">{t}</span>)}
+                    {s.tags.map(t => <span key={t} className="tag">{t}</span>)}
                   </div>
                 </div>
               </Reveal>
@@ -262,7 +264,7 @@ function EngagementShape() {
               <div className="phase-body">
                 <div className="phase-head">
                   <h3 className="h-card">{p.t}</h3>
-                  <span className="mono phase-dur">{p.dur}</span>
+                  <span className="phase-dur">{p.dur}</span>
                 </div>
                 <p className="muted phase-d">{p.d}</p>
               </div>
@@ -298,84 +300,159 @@ function PageHeader({ eyebrow, title, lede }) {
   const s = document.createElement('style');
   s.id = 'services-css';
   s.textContent = `
-    .page-header { padding: 100px 0 80px; }
-    .page-header-inner { max-width: 1100px; }
-    .page-header-title { margin-top: 28px; max-width: 20ch; }
-    .page-header-lede { margin-top: 28px; max-width: 64ch; }
+    /* ── Shared page header ──────────────────────────────────────────── */
+    .page-header { padding: clamp(64px, 8vw, 104px) 0 clamp(56px, 6vw, 80px); }
+    .page-header-inner > * { max-width: 1060px; }
+    .page-header-title { margin-top: 24px; max-width: 20ch; }
+    .page-header-lede { margin-top: 26px; max-width: 64ch; }
 
-    /* Tier heads */
-    .tier-head { max-width: 880px; margin-bottom: 56px; }
-    .tier-label { display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px; border-radius: 999px; border: 1px solid oklch(0.83 0.13 86 / 0.35); background: var(--gold-glow); font-size: 11px; letter-spacing: 0.18em; color: var(--gold); }
-    .tier-star { color: var(--gold); }
+    /* ── Tier heads ──────────────────────────────────────────────────── */
+    .tier-head { max-width: 860px; margin-bottom: clamp(40px, 5vw, 56px); }
+    .tier-label {
+      display: inline-flex; align-items: center; gap: 9px;
+      padding: 5px 10px;
+      border-radius: var(--radius-xs);
+      border: 1px solid var(--accent-glow);
+      background: var(--accent-wash);
+      font-size: 11.5px; font-weight: 500; letter-spacing: 0.02em;
+      color: var(--accent);
+      text-transform: none;
+    }
+    .tier-star { color: var(--accent); }
     .tier-title { margin-top: 18px; }
     .tier-lede { margin-top: 18px; }
 
-    /* ── AI FLAGSHIP TIER ── */
-    .ai-tier { padding: 110px 0; position: relative; overflow: hidden; background: linear-gradient(180deg, oklch(0.155 0.014 250), oklch(0.135 0.012 250)); }
-    .ai-tier-glow { position: absolute; top: -10%; right: -5%; width: 50%; height: 70%; background: radial-gradient(ellipse, var(--gold-glow), transparent 65%); filter: blur(70px); pointer-events: none; }
-    .ai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; position: relative; }
-    .ai-card { padding: 32px; display: flex; flex-direction: column; min-height: 300px; }
-    .ai-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 26px; }
-    .ai-badge { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; color: var(--gold); background: var(--gold-glow); border: 1px solid oklch(0.83 0.13 86 / 0.3); }
-    .ai-badge svg { width: 24px; height: 24px; }
-    .ai-card-n { font-size: 11px; color: var(--text-faint); letter-spacing: 0.16em; }
-    .ai-card-t { font-size: 21px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
-    .ai-card-value { font-size: 14.5px; color: var(--text-muted); line-height: 1.5; margin-top: 12px; }
+    /* ── Flagship AI tier ────────────────────────────────────────────── */
+    .ai-tier { padding: var(--section-y) 0; position: relative; overflow: hidden; background: var(--bg-2); }
+    .ai-tier-glow {
+      position: absolute; top: -12%; right: -6%; width: 48%; height: 68%;
+      background: radial-gradient(ellipse, var(--accent-wash), transparent 66%);
+      filter: blur(70px); pointer-events: none;
+    }
+    /* Two columns, not three: the cards carry a capability list each and the
+       three-across version squeezed them into unreadable ribbons. */
+    .ai-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; position: relative; }
+    .ai-card { padding: clamp(26px, 3vw, 34px); display: flex; flex-direction: column; height: 100%; }
+    .ai-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+    .ai-badge {
+      width: 46px; height: 46px; border-radius: var(--radius);
+      display: grid; place-items: center;
+      color: var(--accent);
+      background: var(--accent-wash);
+      border: 1px solid var(--accent-glow);
+    }
+    .ai-badge svg { width: 23px; height: 23px; }
+    .ai-card-n { font-size: 11.5px; color: var(--text-faint); letter-spacing: 0.1em; }
+    .ai-card-t { font-size: 21px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.18; }
+    .ai-card-value { font-size: 14.5px; color: var(--text-muted); line-height: 1.55; margin-top: 11px; }
     .ai-card-caps { list-style: none; margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px; }
-    .ai-card-caps li { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--text); }
-    .cap-tick { width: 5px; height: 5px; border-radius: 999px; background: var(--gold); margin-top: 7px; flex-shrink: 0; }
-    .ai-learn { margin-top: auto; padding-top: 22px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gold); letter-spacing: -0.005em; align-self: flex-start; }
-    .ai-learn-arrow { transition: transform 0.2s ease; }
-    .ai-card:hover .ai-learn-arrow { transform: translateX(4px); }
+    .ai-card-caps li { display: flex; gap: 11px; align-items: flex-start; font-size: 13.5px; color: var(--text); }
+    .cap-tick { width: 5px; height: 5px; border-radius: 1px; background: var(--accent); margin-top: 8px; flex-shrink: 0; }
+    /* Pinned to the bottom so every card's link lands on the same line. */
+    .ai-learn {
+      margin-top: auto; padding-top: 24px;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13.5px; font-weight: 500; color: var(--accent);
+      align-self: flex-start;
+    }
+    .ai-learn-arrow { transition: transform 0.2s var(--ease); }
+    .ai-card:hover .ai-learn-arrow, .ai-learn:hover .ai-learn-arrow { transform: translateX(4px); }
 
-    .ai-card-cta { background: linear-gradient(160deg, oklch(0.83 0.13 86 / 0.16), oklch(0.16 0.012 250 / 0.4)); border: 1px solid oklch(0.83 0.13 86 / 0.3); border-radius: var(--radius); justify-content: center; }
-    .ai-cta-eyebrow { font-size: 11px; letter-spacing: 0.18em; color: var(--gold); }
-    .ai-cta-h { font-size: 28px; font-weight: 500; letter-spacing: -0.03em; line-height: 1.05; margin: 16px 0 14px; }
-    .ai-cta-p { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 24px; }
-    @media (max-width: 980px) { .ai-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 640px) { .ai-grid { grid-template-columns: 1fr; } }
+    .ai-card-cta {
+      background: var(--accent);
+      color: var(--accent-ink);
+      border: none;
+      border-radius: var(--radius-lg);
+      justify-content: center;
+      box-shadow: var(--shadow-accent);
+    }
+    .ai-card-cta .btn-accent { background: var(--accent-ink); color: var(--accent); box-shadow: none; }
+    .ai-card-cta .btn-accent:hover { background: var(--accent-ink); filter: brightness(0.94); }
+    .ai-cta-eyebrow { font-size: 11.5px; letter-spacing: 0.14em; opacity: 0.8; }
+    .ai-cta-h { font-size: clamp(26px, 2.6vw, 32px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.06; margin: 16px 0 14px; }
+    .ai-cta-p { font-size: 14.5px; line-height: 1.55; margin-bottom: 24px; opacity: 0.88; }
+    @media (max-width: 720px) { .ai-grid { grid-template-columns: 1fr; } }
 
-    /* ── INTEGRATED ── */
-    .integrated { padding: 120px 0; }
-    .integrated-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: center; }
-    .integrated-text em { font-family: var(--font-serif); font-style: italic; color: var(--gold); }
-    .integrated-stack { display: flex; flex-direction: column; gap: 10px; }
-    .stack-label { font-size: 10.5px; letter-spacing: 0.18em; color: var(--text-faint); text-transform: uppercase; margin-bottom: 10px; }
-    .stack-row { display: grid; grid-template-columns: 16px 1fr auto; align-items: center; gap: 16px; padding: 20px 22px; border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(180deg, oklch(0.18 0.014 250 / 0.5), oklch(0.15 0.012 250 / 0.3)); transition: border-color 0.3s ease, transform 0.3s ease; }
-    .stack-row:hover { transform: translateX(4px); border-color: var(--row-accent); }
-    .stack-row.flag { border-color: oklch(0.83 0.13 86 / 0.4); background: linear-gradient(180deg, oklch(0.83 0.13 86 / 0.12), oklch(0.15 0.012 250 / 0.3)); }
-    .stack-dot { width: 10px; height: 10px; border-radius: 999px; background: var(--row-accent); box-shadow: 0 0 12px var(--row-accent); }
-    .stack-l { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; display: flex; align-items: center; gap: 12px; }
-    .stack-flag { font-size: 9px; letter-spacing: 0.14em; color: var(--gold); border: 1px solid oklch(0.83 0.13 86 / 0.4); padding: 3px 7px; border-radius: 999px; }
-    .stack-s { font-size: 11px; letter-spacing: 0.08em; color: var(--text-dim); text-transform: uppercase; }
-    @media (max-width: 980px) { .integrated-inner { grid-template-columns: 1fr; gap: 48px; } }
+    /* ── Integrated stack ────────────────────────────────────────────── */
+    .integrated { padding: var(--section-y) 0; }
+    .integrated-inner { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(40px, 6vw, 80px); align-items: center; }
+    .integrated-text em { font-family: var(--font-serif); font-style: italic; color: var(--accent); }
+    .integrated-stack { display: flex; flex-direction: column; gap: 8px; }
+    .stack-label { font-size: 11px; letter-spacing: 0.14em; color: var(--text-faint); text-transform: uppercase; margin-bottom: 10px; }
+    .stack-row {
+      display: grid; grid-template-columns: 10px minmax(0, 1fr) auto;
+      align-items: center; gap: 16px;
+      padding: 18px 20px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow-1);
+      transition: border-color 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .stack-row:hover { transform: translateX(4px); border-color: var(--row-accent); box-shadow: var(--shadow-2); }
+    .stack-row.flag { border-color: var(--accent-glow); background: var(--accent-wash); }
+    .stack-dot { width: 9px; height: 9px; border-radius: 2px; background: var(--row-accent); }
+    .stack-l { font-size: 16.5px; font-weight: 500; letter-spacing: -0.018em; display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+    .stack-flag {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent-glow);
+      padding: 3px 7px; border-radius: var(--radius-xs);
+    }
+    .stack-s { font-size: 12px; color: var(--text-dim); }
+    @media (max-width: 980px) { .integrated-inner { grid-template-columns: 1fr; gap: 44px; } }
+    @media (max-width: 520px) { .stack-row { grid-template-columns: 10px minmax(0, 1fr); } .stack-s { grid-column: 2; } }
 
-    /* ── SUITE TIER ── */
-    .suite-tier { padding: 110px 0; background: oklch(0.13 0.012 250); }
-    .suite-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .suite-card { padding: 28px; border: 1px solid var(--border); border-radius: var(--radius); background: linear-gradient(180deg, oklch(0.17 0.014 250 / 0.5), oklch(0.15 0.012 250 / 0.3)); display: flex; flex-direction: column; min-height: 220px; }
-    .suite-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
-    .suite-icon { width: 42px; height: 42px; border-radius: 10px; display: grid; place-items: center; color: var(--accent); background: oklch(0.66 0.18 252 / 0.12); border: 1px solid oklch(0.66 0.18 252 / 0.25); }
-    .suite-icon svg { width: 22px; height: 22px; }
-    .suite-ai { font-size: 9px; letter-spacing: 0.14em; color: var(--gold); border: 1px solid oklch(0.83 0.13 86 / 0.35); padding: 4px 8px; border-radius: 999px; background: var(--gold-glow); }
-    .suite-t { font-size: 18px; font-weight: 500; letter-spacing: -0.015em; line-height: 1.2; }
-    .suite-value { font-size: 13.5px; color: var(--text-muted); line-height: 1.5; margin-top: 10px; flex: 1; }
-    .suite-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--border); }
-    @media (max-width: 980px) { .suite-grid { grid-template-columns: repeat(2, 1fr); } }
+    /* ── Suite tier ──────────────────────────────────────────────────── */
+    .suite-tier { padding: var(--section-y) 0; background: var(--bg-2); border-top: 1px solid var(--border); }
+    .suite-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .suite-card {
+      padding: 26px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      box-shadow: var(--shadow-1);
+      display: flex; flex-direction: column; height: 100%;
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease);
+    }
+    .suite-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-3); border-color: var(--border-strong); }
+    .suite-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+    .suite-icon {
+      width: 40px; height: 40px; border-radius: var(--radius-sm);
+      display: grid; place-items: center;
+      color: var(--accent);
+      background: var(--accent-wash);
+      border: 1px solid var(--accent-glow);
+      flex-shrink: 0;
+    }
+    .suite-icon svg { width: 21px; height: 21px; }
+    .suite-ai {
+      font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid var(--accent-glow);
+      padding: 3px 7px; border-radius: var(--radius-xs);
+      background: var(--accent-wash);
+    }
+    .suite-t { font-size: 18px; font-weight: 600; letter-spacing: -0.022em; line-height: 1.22; }
+    .suite-value { font-size: 14px; color: var(--text-muted); line-height: 1.55; margin-top: 10px; flex: 1; }
+    /* Aligned to the card foot so the tag rows form one line across columns. */
+    .suite-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+    @media (max-width: 980px) { .suite-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 600px) { .suite-grid { grid-template-columns: 1fr; } }
 
-    /* ── ENGAGEMENT ── */
-    .engagement { padding: 120px 0; }
+    /* ── Engagement timeline ─────────────────────────────────────────── */
+    .engagement { padding: var(--section-y) 0; }
     .engagement-timeline { position: relative; }
-    .phase { display: grid; grid-template-columns: 80px 60px 1fr; align-items: start; padding: 28px 0; border-bottom: 1px solid var(--border); gap: 24px; }
+    .phase { display: grid; grid-template-columns: 62px 34px minmax(0, 1fr); align-items: start; padding: 26px 0; border-bottom: 1px solid var(--border); gap: 20px; }
     .phase:last-child { border-bottom: none; }
-    .phase-marker { font-size: 11px; letter-spacing: 0.16em; color: var(--text-faint); padding-top: 6px; }
-    .phase-line { width: 8px; height: 8px; border-radius: 999px; background: var(--accent); margin-top: 8px; position: relative; }
-    .phase-line::after { content: ""; position: absolute; left: 50%; top: 100%; width: 1px; height: 80px; background: var(--border); transform: translateX(-50%); }
+    .phase-marker { font-size: 11.5px; letter-spacing: 0.1em; color: var(--text-faint); padding-top: 5px; }
+    .phase-line { width: 9px; height: 9px; border-radius: 2px; background: var(--accent); margin-top: 9px; position: relative; }
+    .phase-line::after { content: ""; position: absolute; left: 50%; top: 100%; width: 1px; height: 96px; background: var(--border); transform: translateX(-50%); }
     .phase:last-child .phase-line::after { display: none; }
-    .phase-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
-    .phase-dur { font-size: 11px; color: var(--text-faint); letter-spacing: 0.14em; text-transform: uppercase; }
+    .phase-head { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; flex-wrap: wrap; }
+    .phase-dur { font-size: 11.5px; color: var(--text-dim); letter-spacing: 0.06em; }
     .phase-d { margin-top: 8px; max-width: 64ch; font-size: 14.5px; }
+    @media (max-width: 560px) { .phase { grid-template-columns: 34px minmax(0, 1fr); } .phase-marker { display: none; } }
   `;
   document.head.appendChild(s);
 })();

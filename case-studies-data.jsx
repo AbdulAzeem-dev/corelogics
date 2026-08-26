@@ -8,8 +8,8 @@ const CASE_STUDIES = [
     domain: 'EdTech · Intelligent Exam Preparation',
     positioning: 'An AI-powered learning platform that turns decades of academic material into personalized exam preparation.',
     heroImage: 'assets/qefa-student.png',
-    accent: 'oklch(0.66 0.18 252)',     // QEFA blue
-    accentSoft: 'oklch(0.78 0.13 252 / 0.18)',
+    accent: 'oklch(0.545 0.148 254)',    // QEFA blue
+    accentSoft: 'oklch(0.545 0.148 254 / 0.12)',
     year: '2025',
     duration: '7 months',
     scale: '4 countries · 220k+ learners',
@@ -65,8 +65,8 @@ const CASE_STUDIES = [
     domain: 'AgriTech · Compliance AI · Edge Computing',
     positioning: 'An AI-powered compliance system bringing transparency and assurance to halal slaughterhouse operations.',
     heroImage: 'assets/amanah-admin.png',
-    accent: 'oklch(0.78 0.14 162)',     // Amanah green
-    accentSoft: 'oklch(0.78 0.14 162 / 0.16)',
+    accent: 'oklch(0.545 0.118 163)',   // Amanah green
+    accentSoft: 'oklch(0.545 0.118 163 / 0.12)',
     year: '2025',
     duration: '9 months',
     scale: '12 facilities · 3 jurisdictions',
@@ -123,8 +123,8 @@ const CASE_STUDIES = [
     domain: 'Personal AI · Multi-Modal Assistant',
     positioning: 'A personalized AI companion that knows you, plans with you, and grows with your ambitions.',
     heroImage: 'assets/morebetters-hero.png',
-    accent: 'oklch(0.70 0.14 240)',     // MB blue
-    accentSoft: 'oklch(0.70 0.14 240 / 0.18)',
+    accent: 'oklch(0.555 0.118 236)',   // MoreBetters blue
+    accentSoft: 'oklch(0.555 0.118 236 / 0.12)',
     year: '2025',
     duration: '5 months',
     scale: 'Public launch · iOS + web',
