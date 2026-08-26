@@ -69,7 +69,7 @@ function PageIndustries() {
         lede="From personal AI assistants to safety monitoring on a factory floor, we focus on the kinds of products we&rsquo;ve built before. Different industries, different challenges — same level of quality every time."
       />
 
-      <section className="industry-filter-bar hairline-b">
+      <section className="industry-filter-bar">
         <div className="page filter-row">
           <span className="mono filter-label">FILTER</span>
           <div className="filter-chips">
@@ -126,13 +126,13 @@ function PageIndustries() {
   const s = document.createElement('style');
   s.id = 'industries-css';
   s.textContent = `
-    .industry-filter-bar { padding: 16px 0; position: sticky; top: var(--nav-h, 76px); z-index: var(--z-sticky); background: color-mix(in oklab, var(--bg) 86%, transparent); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border-bottom: 1px solid var(--border); }
+    .industry-filter-bar { padding: 16px 0; position: sticky; top: var(--nav-h, 76px); z-index: var(--z-sticky); background: color-mix(in oklab, var(--bg-accent) 88%, transparent); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4); border-block: 1px solid var(--border-accent); }
     .filter-row { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
     .filter-label { font-size: 11.5px; letter-spacing: 0.14em; color: var(--text-faint); }
     .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .chip { font-size: 13px; padding: 6px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); transition: color 0.2s var(--ease), border-color 0.2s var(--ease), background-color 0.2s var(--ease); }
     .chip:hover { color: var(--text); border-color: var(--border-strong); background: var(--surface-2); }
-    .chip.on { color: var(--bg); background: var(--text); border-color: var(--text); }
+    .chip.on { color: var(--brand-ink); background: var(--brand); border-color: var(--brand); }
 
     .industries-list { padding: clamp(56px, 7vw, 88px) 0; }
     .industry-block { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: clamp(40px, 6vw, 80px); align-items: center; padding: clamp(44px, 5vw, 68px) 0; border-bottom: 1px solid var(--border); }

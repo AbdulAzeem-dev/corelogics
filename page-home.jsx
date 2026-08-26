@@ -20,71 +20,64 @@ function PageHome() {
 function HeroSection() {
   const { setPage } = useRouter();
   return (
-    <section className="hero">
+    <section className="hero on-inverse">
+      <div className="hero-glow" aria-hidden="true"><HeroAurora /></div>
       <HeroCanvas />
       <div className="hero-vignette"></div>
+      {/* The hero is always in view on load, so the entry is a plain CSS
+          cascade rather than scroll-triggered Reveals — one timeline, no
+          double delays, and it honours prefers-reduced-motion via the global
+          rule in styles.css. */}
       <div className="page hero-content">
-        <Reveal>
-          <div className="hero-tag">
-            <span className="hero-tag-mark" aria-hidden="true"></span>
-            <span>Established 2022</span>
-            <span className="bar" aria-hidden="true"></span>
-            <span>AI products for founders and companies</span>
+        <div className="hero-tag">
+          <span className="hero-tag-mark" aria-hidden="true"></span>
+          <span>Established 2022</span>
+          <span className="bar" aria-hidden="true"></span>
+          <span>AI products for founders and companies</span>
+        </div>
+
+        <h1 className="h-display hero-h">
+          <span className="hero-line"><span>We are the <em>engine</em> behind</span></span>
+          <span className="hero-line"><span>other people&rsquo;s AI products.</span></span>
+        </h1>
+
+        <p className="lede hero-lede">
+          We design, build, and launch full AI-powered products — websites, apps, and dashboards,
+          with the AI already working inside them. Not a slide deck, not a prototype: a real product
+          your customers can use. Founded in 2022, trusted by founders and companies ever since.
+        </p>
+
+        <div className="hero-ctas">
+          <Button kind="accent" href="#contact">Book a free call</Button>
+          <Button kind="ghost" href="#services">See what we build</Button>
+        </div>
+
+        <dl className="hero-facts">
+          <div>
+            <dt>First launch</dt>
+            <dd>4 weeks, on average</dd>
           </div>
-        </Reveal>
-
-        <Reveal delay={120}>
-          <h1 className="h-display hero-h">
-            We are the <em>engine</em> behind<br/>
-            other people&rsquo;s AI products.
-          </h1>
-        </Reveal>
-
-        <Reveal delay={240}>
-          <p className="lede hero-lede">
-            We design, build, and launch full AI-powered products — websites, apps, and dashboards,
-            with the AI already working inside them. Not a slide deck, not a prototype: a real product
-            your customers can use. Founded in 2022, trusted by founders and companies ever since.
-          </p>
-        </Reveal>
-
-        <Reveal delay={360}>
-          <div className="hero-ctas">
-            <Button kind="accent" href="#contact">Book a free call</Button>
-            <Button kind="ghost" href="#services">See what we build</Button>
+          <div>
+            <dt>Team</dt>
+            <dd>One, start to finish</dd>
           </div>
-        </Reveal>
-
-        <Reveal delay={440}>
-          <dl className="hero-facts">
-            <div>
-              <dt>First launch</dt>
-              <dd>4 weeks, on average</dd>
-            </div>
-            <div>
-              <dt>Team</dt>
-              <dd>One, start to finish</dd>
-            </div>
-            <div>
-              <dt>Based in</dt>
-              <dd>The UAE, working worldwide</dd>
-            </div>
-          </dl>
-        </Reveal>
-
-        <Reveal delay={560}>
-          <div className="hero-marquee">
-            <div className="marquee-track">
-              {(() => {
-                const items = ['AI chatbots & agents', 'Computer vision', 'Mobile apps', 'Web apps',
-                  'Automation', 'Dashboards & reporting', 'Product design', 'MVP in 4 weeks',
-                  'One team, start to finish'];
-                // Rendered twice so the -50% translate loops without a seam.
-                return items.concat(items).map((t, i) => <span key={i}>{t}</span>);
-              })()}
-            </div>
+          <div>
+            <dt>Based in</dt>
+            <dd>The UAE, working worldwide</dd>
           </div>
-        </Reveal>
+        </dl>
+
+        <div className="hero-marquee">
+          <div className="marquee-track">
+            {(() => {
+              const items = ['AI chatbots & agents', 'Computer vision', 'Mobile apps', 'Web apps',
+                'Automation', 'Dashboards & reporting', 'Product design', 'MVP in 4 weeks',
+                'One team, start to finish'];
+              // Rendered twice so the -50% translate loops without a seam.
+              return items.concat(items).map((t, i) => <span key={i}>{t}</span>);
+            })()}
+          </div>
+        </div>
       </div>
 
     </section>
@@ -203,7 +196,7 @@ function ServicesOverviewSection() {
 // ─── Pipeline visual ────────────────────────────────────────────────────
 function PipelineSection() {
   return (
-    <section className="pipeline hairline-b">
+    <section className="pipeline on-accent">
       <div className="page pipeline-inner">
         <div className="pipeline-text">
           <Reveal><Eyebrow>How we deliver</Eyebrow></Reveal>
@@ -289,7 +282,7 @@ function IndustriesPreviewSection() {
 
 // ─── Case studies preview ───────────────────────────────────────────────
 function CasesPreviewSection() {
-  const { setPage } = useRouter();
+  const { setPage, theme } = useRouter();
   return (
     <section className="cases-preview">
       <div className="page">
@@ -312,7 +305,7 @@ function CasesPreviewSection() {
                 href={pathFor('case', c.slug)}
                 onClick={(e) => { if (isPlainClick(e)) { e.preventDefault(); setPage('case', c.slug); } }}
                 className="case-card"
-                style={{ '--case-accent': c.accent, '--case-accent-soft': c.accentSoft }}
+                style={{ '--case-accent': theme === 'dark' ? c.accentDark : c.accent, '--case-accent-dark': c.accentDark, '--case-accent-soft': c.accentSoft }}
               >
                 <div className="case-card-frame">
                   <div className="case-frame-bar">
@@ -361,7 +354,7 @@ function MetricsSection() {
     { v: 6.4, suffix: '×', label: 'Lower running costs than a typical AI setup', decimals: 1 },
   ];
   return (
-    <section className="metrics">
+    <section className="metrics on-accent">
       <div className="page metrics-inner">
         <div className="metrics-head">
           <Reveal><Eyebrow>By the numbers</Eyebrow></Reveal>
@@ -434,30 +427,45 @@ function ClosingCtaSection() {
   s.textContent = `
     .home section { position: relative; }
 
-    /* ── Hero ────────────────────────────────────────────────────────── */
-    .hero { position: relative; min-height: 88dvh; padding: 64px 0 clamp(72px, 9vw, 112px); overflow: hidden; }
+    /* ── Hero — the page's ink block. Everything below it is paper, so the
+          fold reads as one deliberate dark plate. ────────────────────────── */
+    .hero { position: relative; min-height: 90dvh; padding: 64px 0 clamp(72px, 9vw, 112px); overflow: hidden; }
+    .hero-glow { position: absolute; inset: -20% -10% -30%; pointer-events: none; opacity: 0.5; }
     .hero-vignette {
       position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse 70% 55% at 62% 34%, var(--accent-wash), transparent 68%),
-                  radial-gradient(ellipse 60% 45% at 50% 108%, transparent, var(--bg) 72%);
+      background: radial-gradient(ellipse 60% 45% at 50% 108%, transparent, var(--inverse-bg) 76%);
     }
     .hero-content { position: relative; z-index: 2; padding-top: 2vh; }
 
     .hero-tag {
       display: inline-flex; align-items: center; gap: 12px;
-      font-size: 13px; color: var(--text-dim);
+      font-size: 13px; color: var(--text-muted);
       padding: 7px 14px 7px 12px;
-      border: 1px solid var(--border);
+      border: 1px solid oklch(1 0 0 / 0.14);
       border-radius: var(--radius-sm);
-      background: var(--surface);
-      box-shadow: var(--shadow-1);
+      background: oklch(1 0 0 / 0.05);
+      opacity: 0; animation: heroFade 0.8s var(--ease) 0.05s forwards;
     }
     .hero-tag-mark { width: 6px; height: 6px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
-    .hero-tag .bar { width: 1px; height: 13px; background: var(--border); }
+    .hero-tag .bar { width: 1px; height: 13px; background: oklch(1 0 0 / 0.18); }
 
+    /* Headline: each line rides up out of its own mask. The extra padding and
+       matching negative margin keep descenders and the italic's overhang from
+       being clipped by that mask. */
     .hero-h { margin-top: 30px; max-width: 20ch; }
-    .hero-lede { margin-top: 26px; max-width: 54ch; }
-    .hero-ctas { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-line { display: block; overflow: hidden; padding-bottom: 0.12em; margin-bottom: -0.12em; }
+    .hero-line > span {
+      display: block;
+      transform: translateY(108%);
+      animation: heroLine 1s var(--ease) forwards;
+    }
+    .hero-line:nth-child(1) > span { animation-delay: 0.12s; }
+    .hero-line:nth-child(2) > span { animation-delay: 0.24s; }
+    @keyframes heroLine { to { transform: none; } }
+    @keyframes heroFade { to { opacity: 1; } }
+    @keyframes heroRise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .hero-lede { margin-top: 26px; max-width: 54ch; opacity: 0; animation: heroRise 0.8s var(--ease) 0.42s forwards; }
+    .hero-ctas { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; opacity: 0; animation: heroRise 0.8s var(--ease) 0.56s forwards; }
 
     /* Fact strip — replaces the two floating console rails. Shared baseline,
        so the three values line up across columns. */
@@ -466,6 +474,7 @@ function ClosingCtaSection() {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, max-content));
       gap: 14px clamp(32px, 6vw, 72px);
+      opacity: 0; animation: heroRise 0.8s var(--ease) 0.70s forwards;
     }
     .hero-facts dt {
       font-family: var(--font-mono);
@@ -476,7 +485,8 @@ function ClosingCtaSection() {
 
     .hero-marquee {
       margin-top: clamp(40px, 5vw, 60px);
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      border-top: 1px solid oklch(1 0 0 / 0.12); border-bottom: 1px solid oklch(1 0 0 / 0.12);
+      opacity: 0; animation: heroRise 0.9s var(--ease) 0.84s forwards;
       padding: 13px 0; overflow: hidden; max-width: 100%;
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
               mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
@@ -491,7 +501,7 @@ function ClosingCtaSection() {
       .hero-facts > div:last-child { grid-column: 1 / -1; }
     }
 
-    /* ── Manifesto ───────────────────────────────────────────────────── */
+    /* ── Manifesto — the first paper section after the ink hero. ─────── */
     .manifesto { padding: var(--section-y) 0; }
     .manifesto-inner > * { max-width: 980px; }
     .manifesto-text {
@@ -556,7 +566,7 @@ function ClosingCtaSection() {
     }
 
     /* ── Pipeline ────────────────────────────────────────────────────── */
-    .pipeline { padding: var(--section-y) 0; }
+    .pipeline { padding: var(--section-y) 0; border-block: 1px solid var(--border-accent); }
     .pipeline-inner { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(40px, 6vw, 80px); align-items: center; }
     .pipeline-list { list-style: none; margin-top: 26px; }
     .pipeline-list li {
@@ -569,6 +579,7 @@ function ClosingCtaSection() {
       width: 10px; height: 1.5px; background: var(--accent); border-radius: 1px;
     }
     .pipeline-list li:last-child { border-bottom: none; }
+    .pipeline-vis .corner-card { background: var(--surface); }
     .pipeline-card-h {
       font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
       text-transform: uppercase; color: var(--text-faint);
@@ -673,11 +684,7 @@ function ClosingCtaSection() {
     }
 
     /* ── Metrics ─────────────────────────────────────────────────────── */
-    .metrics {
-      padding: var(--section-y) 0;
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      background: var(--bg-2);
-    }
+    .metrics { padding: var(--section-y) 0; border-block: 1px solid var(--border-accent); }
     .metrics-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap; }
     .metrics-since { font-size: 15px; color: var(--text-muted); }
     .metrics-since strong { color: var(--text); font-weight: 600; }

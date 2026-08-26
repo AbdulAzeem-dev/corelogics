@@ -1,7 +1,7 @@
 /* Case studies index — three featured cases as magazine-style covers */
 
 function PageCases() {
-  const { setPage } = useRouter();
+  const { setPage, theme } = useRouter();
 
   return (
     <main className="cases-page">
@@ -11,7 +11,7 @@ function PageCases() {
         lede="Three projects across education, food safety, and personal AI. Different industries, different challenges — the same level of quality on every one. Names are used with client permission; screenshots are from the live products."
       />
 
-      <section className="cases-stats hairline-b">
+      <section className="cases-stats on-accent">
         <div className="page cases-stats-grid">
           {[
             { v: 3, s: '', l: 'Featured projects, on this page' },
@@ -34,7 +34,7 @@ function PageCases() {
               <Reveal key={c.slug} delay={i * 100}>
                 <article
                   className={`cover ${i % 2 ? 'cover-flip' : ''}`}
-                  style={{ '--case-accent': c.accent, '--case-accent-soft': c.accentSoft }}
+                  style={{ '--case-accent': theme === 'dark' ? c.accentDark : c.accent, '--case-accent-dark': c.accentDark, '--case-accent-soft': c.accentSoft }}
                 >
                   <div className="cover-meta">
                     <div className="mono cover-n">Case 0{i + 1}</div>
@@ -105,9 +105,9 @@ function PageCases() {
   const s = document.createElement('style');
   s.id = 'cases-index-css';
   s.textContent = `
-    .cases-stats { padding: clamp(48px, 6vw, 72px) 0; background: var(--bg-2); border-bottom: 1px solid var(--border); }
+    .cases-stats { padding: clamp(48px, 6vw, 72px) 0; border-block: 1px solid var(--border-accent); }
     .cases-stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-    .stat-val { font-size: clamp(34px, 3.8vw, 52px); font-weight: 600; letter-spacing: -0.045em; line-height: 1; }
+    .stat-val { font-size: clamp(34px, 3.8vw, 52px); font-weight: 600; letter-spacing: -0.045em; line-height: 1; color: var(--accent); }
     .stat-l { font-size: 13px; color: var(--text-muted); line-height: 1.45; margin-top: 13px; max-width: 22ch; }
     @media (max-width: 880px) { .cases-stats-grid { grid-template-columns: repeat(2, 1fr); } }
 

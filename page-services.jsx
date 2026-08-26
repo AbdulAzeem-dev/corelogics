@@ -156,7 +156,7 @@ function PageServices() {
       </section>
 
       {/* ── INTEGRATED DELIVERY ───────────────────────────────────────── */}
-      <section className="integrated hairline-b hairline">
+      <section className="integrated on-accent">
         <div className="page integrated-inner">
           <Reveal className="integrated-text">
             <Eyebrow>Why one team</Eyebrow>
@@ -194,7 +194,7 @@ function PageServices() {
       </section>
 
       {/* ── TIER 2 — FULL-SPECTRUM SUITE ──────────────────────────────── */}
-      <section className="suite-tier">
+      <section className="suite-tier hairline-b hairline">
         <div className="page">
           <div className="tier-head">
             <Reveal><div className="tier-label"><span>Everything else your product needs</span></div></Reveal>
@@ -279,7 +279,7 @@ function EngagementShape() {
 // Shared page header
 function PageHeader({ eyebrow, title, lede }) {
   return (
-    <section className="page-header hairline-b">
+    <section className="page-header on-inverse">
       <div className="page page-header-inner">
         <Reveal><Eyebrow>{eyebrow}</Eyebrow></Reveal>
         <Reveal delay={120}>
@@ -301,7 +301,7 @@ function PageHeader({ eyebrow, title, lede }) {
   s.id = 'services-css';
   s.textContent = `
     /* ── Shared page header ──────────────────────────────────────────── */
-    .page-header { padding: clamp(64px, 8vw, 104px) 0 clamp(56px, 6vw, 80px); }
+    .page-header { padding: clamp(76px, 9vw, 116px) 0 clamp(72px, 8vw, 100px); position: relative; overflow: hidden; }
     .page-header-inner > * { max-width: 1060px; }
     .page-header-title { margin-top: 24px; max-width: 20ch; }
     .page-header-lede { margin-top: 26px; max-width: 64ch; }
@@ -323,7 +323,7 @@ function PageHeader({ eyebrow, title, lede }) {
     .tier-lede { margin-top: 18px; }
 
     /* ── Flagship AI tier ────────────────────────────────────────────── */
-    .ai-tier { padding: var(--section-y) 0; position: relative; overflow: hidden; background: var(--bg-2); }
+    .ai-tier { padding: var(--section-y) 0; position: relative; overflow: hidden; }
     .ai-tier-glow {
       position: absolute; top: -12%; right: -6%; width: 48%; height: 68%;
       background: radial-gradient(ellipse, var(--accent-wash), transparent 66%);
@@ -359,22 +359,23 @@ function PageHeader({ eyebrow, title, lede }) {
     .ai-card:hover .ai-learn-arrow, .ai-learn:hover .ai-learn-arrow { transform: translateX(4px); }
 
     .ai-card-cta {
-      background: var(--accent);
-      color: var(--accent-ink);
+      background: var(--brand);
+      color: var(--brand-ink);
       border: none;
       border-radius: var(--radius-lg);
       justify-content: center;
       box-shadow: var(--shadow-accent);
     }
-    .ai-card-cta .btn-accent { background: var(--accent-ink); color: var(--accent); box-shadow: none; }
-    .ai-card-cta .btn-accent:hover { background: var(--accent-ink); filter: brightness(0.94); }
+    /* On an azure panel the button inverts: paper fill, azure label. */
+    .ai-card-cta .btn-accent { background: var(--brand-ink); color: var(--brand); box-shadow: none; }
+    .ai-card-cta .btn-accent:hover { background: var(--brand-ink); filter: brightness(0.94); }
     .ai-cta-eyebrow { font-size: 11.5px; letter-spacing: 0.14em; opacity: 0.8; }
     .ai-cta-h { font-size: clamp(26px, 2.6vw, 32px); font-weight: 600; letter-spacing: -0.035em; line-height: 1.06; margin: 16px 0 14px; }
     .ai-cta-p { font-size: 14.5px; line-height: 1.55; margin-bottom: 24px; opacity: 0.88; }
     @media (max-width: 720px) { .ai-grid { grid-template-columns: 1fr; } }
 
     /* ── Integrated stack ────────────────────────────────────────────── */
-    .integrated { padding: var(--section-y) 0; }
+    .integrated { padding: var(--section-y) 0; border-block: 1px solid var(--border-accent); }
     .integrated-inner { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(40px, 6vw, 80px); align-items: center; }
     .integrated-text em { font-family: var(--font-serif); font-style: italic; color: var(--accent); }
     .integrated-stack { display: flex; flex-direction: column; gap: 8px; }
@@ -404,7 +405,7 @@ function PageHeader({ eyebrow, title, lede }) {
     @media (max-width: 520px) { .stack-row { grid-template-columns: 10px minmax(0, 1fr); } .stack-s { grid-column: 2; } }
 
     /* ── Suite tier ──────────────────────────────────────────────────── */
-    .suite-tier { padding: var(--section-y) 0; background: var(--bg-2); border-top: 1px solid var(--border); }
+    .suite-tier { padding: var(--section-y) 0; background: var(--bg-2); }
     .suite-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     .suite-card {
       padding: 26px;

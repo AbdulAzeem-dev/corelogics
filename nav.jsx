@@ -1,16 +1,30 @@
 /* Top navigation bar */
 
 function Nav() {
-  const { page, setPage, theme, toggleTheme } = useRouter();
+  const { page, slug, setPage, theme, toggleTheme } = useRouter();
   const [scrolled, setScrolled] = useState(false);
+  // True while the sticky bar still overlaps the page's ink hero, so the bar
+  // can invert its own colours instead of putting ink links on an ink ground.
+  const [overDark, setOverDark] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef(null);
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+      // Every page opens on an ink hero; find whichever one this page uses
+      // and compare its bottom edge against the bar's own height.
+      const hero = document.querySelector('.hero, .page-header, .case-hero, .notfound-hero');
+      const navH = navRef.current ? navRef.current.offsetHeight : 72;
+      setOverDark(!!hero && hero.getBoundingClientRect().bottom > navH * 0.6);
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [page, slug]);
 
   // Measure the visible nav bar height so the mobile drawer can sit flush beneath it
   useEffect(() => {
@@ -56,7 +70,7 @@ function Nav() {
   }, []);
 
   return (
-    <nav ref={navRef} className={`nav ${scrolled ? 'scrolled' : ''} ${menuOpen ? 'menu-open' : ''}`}>
+    <nav ref={navRef} className={`nav ${scrolled ? 'scrolled' : ''} ${overDark ? 'over-dark' : ''} ${menuOpen ? 'menu-open' : ''}`}>
       <div className="page nav-inner">
         <a
           href={pathFor('home')}
@@ -112,7 +126,7 @@ function Nav() {
       </div>
 
       {ReactDOM.createPortal(
-        <div className={`nav-mobile-menu ${menuOpen ? 'open' : ''}`} role="dialog" aria-modal="true">
+        <div className={`nav-mobile-menu ${menuOpen ? 'open' : ''} ${overDark ? 'on-inverse' : ''}`} role="dialog" aria-modal="true">
           <div className="nav-mobile-links">
             {links.map(([label, p]) => (
               <a key={p}
@@ -151,7 +165,7 @@ function Nav() {
                   backdrop-filter 0.3s var(--ease), box-shadow 0.3s var(--ease);
     }
     .nav.scrolled {
-      background: color-mix(in oklab, var(--bg) 82%, transparent);
+      background: color-mix(in oklab, var(--bg) 94%, transparent);
       backdrop-filter: blur(16px) saturate(1.4);
       -webkit-backdrop-filter: blur(16px) saturate(1.4);
       border-bottom-color: var(--border);

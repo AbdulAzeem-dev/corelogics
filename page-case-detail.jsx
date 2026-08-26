@@ -2,7 +2,7 @@
 
 function PageCaseDetail({ slug }) {
   const c = CASE_BY_SLUG[slug];
-  const { setPage } = useRouter();
+  const { setPage, theme } = useRouter();
   if (!c) {
     return (
       <main style={{ padding: '120px 0', textAlign: 'center' }}>
@@ -17,9 +17,11 @@ function PageCaseDetail({ slug }) {
     );
   }
 
-  // Inject case-specific accent
+  // Inject case-specific accent. Each client colour ships as a pair: the
+  // paper-weight value and a lifted twin for dark grounds.
   const styleVars = {
-    '--case-accent': c.accent,
+    '--case-accent': theme === 'dark' ? c.accentDark : c.accent,
+    '--case-accent-dark': c.accentDark,
     '--case-accent-soft': c.accentSoft,
   };
 
@@ -42,7 +44,7 @@ function PageCaseDetail({ slug }) {
   return (
     <main className="case-detail" style={styleVars}>
       {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <section className="case-hero">
+      <section className="case-hero on-inverse">
         <div className="case-hero-bg" aria-hidden>
           <div className="case-hero-glow"></div>
         </div>
@@ -102,7 +104,7 @@ function PageCaseDetail({ slug }) {
 
       {/* ── What we delivered ────────────────────────────────────────── */}
       {c.delivered && (
-        <section className="case-delivered hairline-b">
+        <section className="case-delivered">
           <div className="page case-delivered-inner">
             <Reveal className="case-delivered-label">
               <div className="mono" style={{ fontSize: 11, letterSpacing: '0.18em', color: 'var(--text-faint)', textTransform: 'uppercase' }}>What we delivered</div>
@@ -236,7 +238,7 @@ function PageCaseDetail({ slug }) {
       </section>
 
       {/* ── Outcomes ─────────────────────────────────────────────────── */}
-      <section className="case-section case-outcomes hairline-b hairline">
+      <section className="case-section case-outcomes on-inverse">
         <div className="page">
           <div className="section-head">
             <div>
@@ -388,12 +390,12 @@ function PageCaseDetail({ slug }) {
   const s = document.createElement('style');
   s.id = 'case-detail-css';
   s.textContent = `
-    .case-detail { --case-accent: var(--accent); --case-accent-soft: var(--accent-glow); }
+    .case-detail { --case-accent: var(--accent); --case-accent-dark: var(--accent); --case-accent-soft: var(--accent-glow); }
 
     .case-section { padding: var(--section-y) 0; position: relative; }
-    .case-section-dark { background: var(--bg-2); border-block: 1px solid var(--border); }
+    .case-section-dark { background: var(--bg-accent); border-block: 1px solid var(--border-accent); }
 
-    .case-delivered { padding: 40px 0; background: var(--bg-2); border-block: 1px solid var(--border); }
+    .case-delivered { padding: 40px 0; background: var(--bg-accent); border-block: 1px solid var(--border-accent); }
     .case-delivered-inner { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: center; }
     .case-delivered-tags { display: flex; flex-wrap: wrap; gap: 8px; }
     .delivered-chip { font-size: 12.5px; padding: 8px 13px; border-radius: var(--radius-sm); border: 1px solid var(--border); color: var(--text); background: var(--surface); box-shadow: var(--shadow-1); position: relative; transition: transform 0.2s var(--ease), border-color 0.2s var(--ease), box-shadow 0.2s var(--ease); }
@@ -470,9 +472,8 @@ function PageCaseDetail({ slug }) {
     @media (max-width: 980px) { .case-roles { grid-template-columns: 1fr; } }
 
     /* ── Outcomes ── */
-    .case-outcomes { background: var(--bg-2); border-block: 1px solid var(--border); }
     .outcomes-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
-    .outcome { padding: 34px 26px; background: var(--surface); }
+    .outcome { padding: 34px 26px; background: var(--bg-2); }
     .outcome-v { font-size: clamp(34px, 3.8vw, 52px); font-weight: 600; letter-spacing: -0.045em; line-height: 1; color: var(--case-accent); font-variant-numeric: tabular-nums; }
     .outcome-l { font-size: 13px; color: var(--text-muted); line-height: 1.45; margin-top: 15px; max-width: 22ch; }
     @media (max-width: 880px) { .outcomes-grid { grid-template-columns: repeat(2, 1fr); } }

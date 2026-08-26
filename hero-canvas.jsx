@@ -49,13 +49,16 @@ function HeroCanvas({ variant = 'particles' }) {
     };
 
     const readPalette = () => {
-      const css = getComputedStyle(root);
+      // Read from the canvas, not the root: the hero is an ink band that
+      // re-points these tokens, and root's paper-weight border drew a hard
+      // light grid straight across the dark plate.
+      const css = getComputedStyle(canvas);
       const accent = css.getPropertyValue('--accent') || 'oklch(0.565 0.116 238)';
       const faint = css.getPropertyValue('--border') || 'oklch(0.912 0.004 250)';
-      const dark = root.getAttribute('data-theme') === 'dark';
+      const dark = !!canvas.closest('.on-inverse') || root.getAttribute('data-theme') === 'dark';
       return {
         accent,
-        grid: withAlpha(faint, dark ? 0.7 : 1),
+        grid: withAlpha(faint, dark ? 0.45 : 1),
         // On paper the marks need to be firmer to register at all; on dark
         // they need to be softer so they don't glare.
         dotAlpha: dark ? 0.55 : 0.42,

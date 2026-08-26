@@ -13,37 +13,55 @@
 #__bundler_loading { display: none !important; }
 
 :root {
-  /* ── Surfaces — white paper, neutral grays (one gray family) ─────── */
+  /* ── Surfaces — cool paper. Every neutral carries a little of the brand
+        azure, so the whites read as one family with the accent instead of
+        as bare #fff. ──────────────────────────────────────────────────── */
   --bg: oklch(1 0 0);
-  --bg-2: oklch(0.974 0.002 250);
-  --bg-3: oklch(0.953 0.003 250);
+  --bg-2: oklch(0.972 0.006 240);
+  --bg-3: oklch(0.948 0.010 240);
   --surface: oklch(1 0 0);
-  --surface-2: oklch(0.977 0.002 250);
-  --surface-3: oklch(0.953 0.003 250);
-  --border: oklch(0.912 0.004 250);
-  --border-strong: oklch(0.840 0.006 250);
+  --surface-2: oklch(0.975 0.006 240);
+  --surface-3: oklch(0.948 0.010 240);
+  --border: oklch(0.905 0.012 240);
+  --border-strong: oklch(0.825 0.020 240);
 
-  /* Inverse block — full-bleed contrast section (footer, closing CTA) */
-  --inverse-bg: oklch(0.165 0.006 250);
-  --inverse-bg-2: oklch(0.215 0.008 250);
-  --inverse-border: oklch(0.300 0.010 250);
-  --inverse-text: oklch(0.975 0.002 250);
-  --inverse-text-muted: oklch(0.760 0.008 250);
-  --inverse-text-dim: oklch(0.615 0.010 250);
+  /* Blue band — a full-bleed azure-washed section. The third surface, so
+     the page alternates paper → azure → ink rather than white throughout. */
+  --bg-accent: oklch(0.930 0.042 240);
+  --bg-accent-2: oklch(0.896 0.055 240);
+  --border-accent: oklch(0.848 0.058 240);
+
+  /* Ink block — full-bleed near-black section (statement, stats, footer).
+     Tinted toward the logo's ink rather than a neutral gray. */
+  --inverse-bg: oklch(0.158 0.014 245);
+  --inverse-bg-2: oklch(0.212 0.018 245);
+  --inverse-border: oklch(0.305 0.022 245);
+  --inverse-text: oklch(0.980 0.004 240);
+  --inverse-text-muted: oklch(0.775 0.012 240);
+  --inverse-text-dim: oklch(0.630 0.016 240);
 
   /* ── Text — brand ink ─────────────────────────────────────────────── */
-  --text: oklch(0.190 0.005 250);
-  --text-muted: oklch(0.455 0.008 250);
-  --text-dim: oklch(0.575 0.008 250);
-  --text-faint: oklch(0.685 0.007 250);
+  --text: oklch(0.185 0.012 245);
+  --text-muted: oklch(0.450 0.018 243);
+  --text-dim: oklch(0.570 0.020 241);
+  --text-faint: oklch(0.680 0.020 240);
 
   /* ── Accent — the one brand azure, sampled from the logotype (#0080BA) */
-  --accent: oklch(0.565 0.116 238);
-  --accent-hover: oklch(0.495 0.112 238);
-  --accent-soft: oklch(0.700 0.098 236);
-  --accent-wash: oklch(0.565 0.116 238 / 0.09);
-  --accent-glow: oklch(0.565 0.116 238 / 0.16);
+  --accent: oklch(0.560 0.135 238);
+  --accent-hover: oklch(0.490 0.130 238);
+  --accent-soft: oklch(0.700 0.110 236);
+  --accent-wash: oklch(0.560 0.135 238 / 0.10);
+  --accent-glow: oklch(0.560 0.135 238 / 0.22);
   --accent-ink: oklch(1 0 0);              /* text on an accent fill */
+
+  /* The logotype's azure at full strength, for SOLID fills — buttons, the
+     CTA panel, selected chips. Unlike --accent it is never lifted by the
+     dark theme or by a band, because a filled azure with white text has
+     ample contrast on paper and on ink alike. Lifting it there turned the
+     services CTA panel into pale sky blue. */
+  --brand: oklch(0.560 0.135 238);
+  --brand-hover: oklch(0.495 0.132 238);
+  --brand-ink: oklch(1 0 0);
 
   /* ── Status ───────────────────────────────────────────────────────── */
   --green: oklch(0.545 0.128 155);
@@ -53,14 +71,14 @@
 
   /* ── Elevation — shadows tinted with the surface hue, one light source
         (above, slightly front) ─────────────────────────────────────── */
-  --shadow-1: 0 1px 2px oklch(0.26 0.012 250 / 0.05);
-  --shadow-2: 0 1px 2px oklch(0.26 0.012 250 / 0.04),
-              0 4px 10px -2px oklch(0.26 0.012 250 / 0.06);
-  --shadow-3: 0 2px 4px oklch(0.26 0.012 250 / 0.04),
-              0 12px 28px -6px oklch(0.26 0.012 250 / 0.10);
-  --shadow-4: 0 4px 8px oklch(0.26 0.012 250 / 0.05),
-              0 24px 56px -12px oklch(0.26 0.012 250 / 0.14);
-  --shadow-accent: 0 6px 20px -6px oklch(0.565 0.116 238 / 0.34);
+  --shadow-1: 0 1px 2px oklch(0.30 0.055 245 / 0.05);
+  --shadow-2: 0 1px 2px oklch(0.30 0.055 245 / 0.04),
+              0 4px 10px -2px oklch(0.30 0.055 245 / 0.06);
+  --shadow-3: 0 2px 4px oklch(0.30 0.055 245 / 0.04),
+              0 12px 28px -6px oklch(0.30 0.055 245 / 0.10);
+  --shadow-4: 0 4px 8px oklch(0.30 0.055 245 / 0.05),
+              0 24px 56px -12px oklch(0.30 0.055 245 / 0.14);
+  --shadow-accent: 0 6px 20px -6px oklch(0.560 0.135 238 / 0.40);
 
   /* ── Type ─────────────────────────────────────────────────────────── */
   --font-sans: "Geist", "Inter Tight", system-ui, -apple-system, sans-serif;
@@ -96,47 +114,51 @@
    accent lifted in lightness so the azure holds contrast on dark.
    ═══════════════════════════════════════════════════════════════════════ */
 [data-theme="dark"] {
-  --bg: oklch(0.150 0.007 250);
-  --bg-2: oklch(0.180 0.008 250);
-  --bg-3: oklch(0.205 0.009 250);
-  --surface: oklch(0.198 0.009 250);
-  --surface-2: oklch(0.228 0.010 250);
-  --surface-3: oklch(0.258 0.011 250);
-  --border: oklch(0.285 0.012 250);
-  --border-strong: oklch(0.375 0.014 250);
+  --bg: oklch(0.148 0.014 245);
+  --bg-2: oklch(0.180 0.017 245);
+  --bg-3: oklch(0.208 0.019 245);
+  --surface: oklch(0.198 0.018 245);
+  --surface-2: oklch(0.230 0.020 245);
+  --surface-3: oklch(0.262 0.022 245);
+  --border: oklch(0.288 0.024 245);
+  --border-strong: oklch(0.378 0.030 245);
 
-  --inverse-bg: oklch(0.118 0.010 258);
-  --inverse-bg-2: oklch(0.160 0.011 258);
-  --inverse-border: oklch(0.265 0.015 258);
-  --inverse-text: oklch(0.97 0.005 258);
-  --inverse-text-muted: oklch(0.72 0.012 258);
-  --inverse-text-dim: oklch(0.55 0.014 258);
+  --bg-accent: oklch(0.212 0.058 240);
+  --bg-accent-2: oklch(0.250 0.070 240);
+  --border-accent: oklch(0.335 0.075 240);
 
-  --text: oklch(0.968 0.005 258);
-  --text-muted: oklch(0.735 0.012 258);
-  --text-dim: oklch(0.585 0.014 258);
-  --text-faint: oklch(0.445 0.014 258);
+  --inverse-bg: oklch(0.108 0.014 245);
+  --inverse-bg-2: oklch(0.152 0.017 245);
+  --inverse-border: oklch(0.262 0.024 245);
+  --inverse-text: oklch(0.975 0.004 240);
+  --inverse-text-muted: oklch(0.730 0.014 240);
+  --inverse-text-dim: oklch(0.565 0.018 240);
 
-  --accent: oklch(0.745 0.108 232);
-  --accent-hover: oklch(0.805 0.092 232);
-  --accent-soft: oklch(0.600 0.105 236);
-  --accent-wash: oklch(0.745 0.108 232 / 0.12);
-  --accent-glow: oklch(0.745 0.108 232 / 0.20);
-  --accent-ink: oklch(0.17 0.020 238);
+  --text: oklch(0.968 0.006 240);
+  --text-muted: oklch(0.740 0.016 242);
+  --text-dim: oklch(0.590 0.020 243);
+  --text-faint: oklch(0.450 0.022 244);
+
+  --accent: oklch(0.745 0.125 232);
+  --accent-hover: oklch(0.810 0.105 232);
+  --accent-soft: oklch(0.600 0.120 236);
+  --accent-wash: oklch(0.745 0.125 232 / 0.14);
+  --accent-glow: oklch(0.745 0.125 232 / 0.26);
+  --accent-ink: oklch(0.15 0.030 240);
 
   --green: oklch(0.775 0.145 155);
   --green-wash: oklch(0.775 0.145 155 / 0.14);
   --red: oklch(0.700 0.175 26);
   --red-wash: oklch(0.700 0.175 26 / 0.12);
 
-  --shadow-1: 0 1px 2px oklch(0.05 0.02 258 / 0.40);
-  --shadow-2: 0 1px 2px oklch(0.05 0.02 258 / 0.35),
-              0 4px 10px -2px oklch(0.05 0.02 258 / 0.45);
-  --shadow-3: 0 2px 4px oklch(0.05 0.02 258 / 0.35),
-              0 12px 28px -6px oklch(0.05 0.02 258 / 0.55);
-  --shadow-4: 0 4px 8px oklch(0.05 0.02 258 / 0.40),
-              0 24px 56px -12px oklch(0.05 0.02 258 / 0.65);
-  --shadow-accent: 0 6px 24px -6px oklch(0.745 0.108 232 / 0.28);
+  --shadow-1: 0 1px 2px oklch(0.04 0.030 245 / 0.40);
+  --shadow-2: 0 1px 2px oklch(0.04 0.030 245 / 0.35),
+              0 4px 10px -2px oklch(0.04 0.030 245 / 0.45);
+  --shadow-3: 0 2px 4px oklch(0.04 0.030 245 / 0.35),
+              0 12px 28px -6px oklch(0.04 0.030 245 / 0.55);
+  --shadow-4: 0 4px 8px oklch(0.04 0.030 245 / 0.40),
+              0 24px 56px -12px oklch(0.04 0.030 245 / 0.65);
+  --shadow-accent: 0 6px 24px -6px oklch(0.745 0.125 232 / 0.32);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -249,6 +271,10 @@ h1, h2, h3, h4 { text-wrap: balance; }
   font-style: italic;
   letter-spacing: -0.015em;
 }
+/* On an ink hero the emphasised word takes the accent, so the headline
+   carries all three brand colours at once. */
+.on-inverse .h-display em,
+.on-inverse .h-section em { color: var(--accent); }
 
 .h-section {
   font-family: var(--font-sans);
@@ -344,11 +370,16 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .btn-primary:hover { background: oklch(from var(--text) calc(l + 0.08) c h); box-shadow: var(--shadow-3); }
 
 .btn-accent {
-  background: var(--accent);
-  color: var(--accent-ink);
+  background: var(--brand);
+  color: var(--brand-ink);
   box-shadow: var(--shadow-accent);
 }
-.btn-accent:hover { background: var(--accent-hover); }
+.btn-accent:hover { background: var(--brand-hover); }
+.on-inverse .btn-accent, .nav.over-dark .btn-accent {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.on-inverse .btn-accent:hover, .nav.over-dark .btn-accent:hover { background: var(--accent-hover); }
 
 .btn-ghost {
   color: var(--text);
@@ -448,8 +479,14 @@ h1, h2, h3, h4 { text-wrap: balance; }
 .on-inverse .logo-img.on-dark { display: block; }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   INVERSE BLOCK — for full-bleed contrast sections
+   BANDS — the two non-paper surfaces.
+
+   The page alternates paper → azure → ink instead of running white the
+   whole way down. Both bands re-point the same tokens, so any component
+   dropped inside one adapts without a bespoke rule.
    ═══════════════════════════════════════════════════════════════════════ */
+
+/* Ink band — statement blocks, stat rails, the closing CTA and footer. */
 .on-inverse {
   background: var(--inverse-bg);
   color: var(--inverse-text);
@@ -459,11 +496,76 @@ h1, h2, h3, h4 { text-wrap: balance; }
   --text-faint: var(--inverse-text-dim);
   --surface: var(--inverse-bg-2);
   --surface-2: var(--inverse-bg-2);
+  --surface-3: var(--inverse-bg-2);
   --border: var(--inverse-border);
   --border-strong: var(--inverse-border);
   --bg: var(--inverse-bg);
   --bg-2: var(--inverse-bg-2);
+  --bg-3: var(--inverse-bg-2);
+  /* The paper-weight azure is too dark to read on ink — lift it here so
+     figures, links and buttons inside the band stay legible. */
+  --accent: oklch(0.750 0.125 232);
+  --accent-hover: oklch(0.815 0.105 232);
+  --accent-soft: oklch(0.605 0.120 236);
+  --accent-wash: oklch(0.750 0.125 232 / 0.14);
+  --accent-glow: oklch(0.750 0.125 232 / 0.26);
+  --accent-ink: oklch(0.15 0.030 240);
+  /* Client colours travel as a pair; use the lifted one on ink. */
+  --case-accent: var(--case-accent-dark, var(--accent));
+  --shadow-1: 0 1px 2px oklch(0.02 0.02 245 / 0.5);
+  --shadow-2: 0 2px 8px -2px oklch(0.02 0.02 245 / 0.55);
+  --shadow-3: 0 12px 28px -8px oklch(0.02 0.02 245 / 0.6);
+  --shadow-4: 0 24px 56px -14px oklch(0.02 0.02 245 / 0.7);
 }
+
+/* Azure band — a washed section that carries the brand colour at full
+   width without shouting. Text stays ink; only the ground changes. */
+.on-accent {
+  background: var(--bg-accent);
+  color: var(--text);
+  --bg: var(--bg-accent);
+  --bg-2: var(--bg-accent-2);
+  --bg-3: var(--bg-accent-2);
+  --surface: oklch(1 0 0 / 0.85);
+  --surface-2: var(--bg-accent-2);
+  --surface-3: var(--bg-accent-2);
+  --border: var(--border-accent);
+  --border-strong: oklch(0.770 0.080 238);
+}
+[data-theme="dark"] .on-accent {
+  --surface: oklch(1 0 0 / 0.05);
+  --border-strong: oklch(0.420 0.070 240);
+}
+
+/* Nav sitting over an ink hero — it has to invert until the hero scrolls
+   past, or the ink links disappear into the ink. Nav.jsx measures the hero
+   and toggles .over-dark. */
+.nav.over-dark {
+  --text: var(--inverse-text);
+  --text-muted: var(--inverse-text-muted);
+  --text-dim: var(--inverse-text-dim);
+  --text-faint: var(--inverse-text-dim);
+  --surface: oklch(1 0 0 / 0.06);
+  --surface-2: oklch(1 0 0 / 0.10);
+  --border: oklch(1 0 0 / 0.14);
+  --border-strong: oklch(1 0 0 / 0.26);
+  --accent: oklch(0.750 0.125 232);
+  --accent-hover: oklch(0.815 0.105 232);
+  --accent-ink: oklch(0.15 0.030 240);
+  color: var(--inverse-text);
+  /* The bar is sticky, i.e. in flow — it does not overlay the hero, it sits
+     above it. So it needs its own ink ground to read as part of the plate
+     rather than as a white strip on top of it. */
+  background: var(--inverse-bg);
+  border-bottom-color: oklch(1 0 0 / 0.07);
+}
+.nav.over-dark.scrolled {
+  background: color-mix(in oklab, var(--inverse-bg) 90%, transparent);
+  border-bottom-color: oklch(1 0 0 / 0.12);
+  box-shadow: none;
+}
+.nav.over-dark .logo-img.on-paper { display: none; }
+.nav.over-dark .logo-img.on-dark { display: block; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    RESPONSIVE

@@ -135,42 +135,52 @@ function PageLegal({ doc }) {
 
 function PageNotFound() {
   const { setPage } = useRouter();
+  const links = [
+    ['Services', 'services', 'What we build, and how an engagement runs.'],
+    ['Case studies', 'cases', 'Three shipped systems, with the numbers.'],
+    ['Industries', 'industries', 'Where our domain knowledge already runs deep.'],
+    ['Contact', 'contact', 'Reach the founding team directly.'],
+  ];
   return (
     <main className="notfound-page">
-      <div className="page notfound-inner">
-        <Reveal>
-          <div className="mono notfound-code">404</div>
-        </Reveal>
-        <Reveal delay={110}>
-          <h1 className="h-display notfound-h">
-            That page isn&rsquo;t <em>here</em>.
-          </h1>
-        </Reveal>
-        <Reveal delay={220}>
-          <p className="lede notfound-lede">
-            The link may be out of date, or we may have moved something. Here is where most people
-            were heading.
-          </p>
-        </Reveal>
-        <Reveal delay={330}>
-          <ul className="notfound-links">
-            {[
-              ['Services', 'services', 'What we build, and how an engagement runs.'],
-              ['Case studies', 'cases', 'Three shipped systems, with the numbers.'],
-              ['Industries', 'industries', 'Where our domain knowledge already runs deep.'],
-              ['Contact', 'contact', 'Reach the founding team directly.'],
-            ].map(([label, p, d]) => (
-              <li key={p}>
-                <a href={pathFor(p)} onClick={(e) => { if (!isPlainClick(e)) return; e.preventDefault(); setPage(p); window.scrollTo({ top: 0 }); }}>
-                  <span className="notfound-link-t">{label}</span>
-                  <span className="notfound-link-d">{d}</span>
-                  <span className="notfound-link-a" aria-hidden="true">→</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </Reveal>
-      </div>
+      {/* Same ink plate as every other page's hero, so a wrong URL still
+          looks like part of the site rather than an error screen. */}
+      <section className="notfound-hero on-inverse">
+        <div className="page">
+          <Reveal>
+            <div className="mono notfound-code">404</div>
+          </Reveal>
+          <Reveal delay={110}>
+            <h1 className="h-display notfound-h">
+              That page isn&rsquo;t <em>here</em>.
+            </h1>
+          </Reveal>
+          <Reveal delay={220}>
+            <p className="lede notfound-lede">
+              The link may be out of date, or we may have moved something. Here is where most people
+              were heading.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="notfound-body">
+        <div className="page">
+          <Reveal>
+            <ul className="notfound-links">
+              {links.map(([label, p, d]) => (
+                <li key={p}>
+                  <a href={pathFor(p)} onClick={(e) => { if (!isPlainClick(e)) return; e.preventDefault(); setPage(p); window.scrollTo({ top: 0 }); }}>
+                    <span className="notfound-link-t">{label}</span>
+                    <span className="notfound-link-d">{d}</span>
+                    <span className="notfound-link-a" aria-hidden="true">&rarr;</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </section>
     </main>
   );
 }
@@ -200,12 +210,13 @@ function PageNotFound() {
     }
 
     /* 404 */
-    .notfound-page { padding: clamp(80px, 12vh, 140px) 0 calc(var(--section-y) * 1.1); min-height: 68dvh; }
-        .notfound-inner > * { max-width: 760px; }
+    .notfound-hero { padding: clamp(76px, 9vw, 116px) 0 clamp(72px, 8vw, 100px); }
+    .notfound-hero > .page > * { max-width: 760px; }
+    .notfound-body { padding: clamp(48px, 6vw, 72px) 0 var(--section-y); }
     .notfound-code { font-size: 12px; letter-spacing: 0.3em; color: var(--accent); }
     .notfound-h { margin-top: 20px; }
     .notfound-lede { margin-top: 22px; }
-    .notfound-links { list-style: none; margin-top: 44px; border-top: 1px solid var(--border); }
+    .notfound-links { list-style: none; border-top: 1px solid var(--border); }
     .notfound-links a { display: grid; grid-template-columns: 170px minmax(0, 1fr) 24px; align-items: baseline; gap: 20px; padding: 20px 4px; border-bottom: 1px solid var(--border); transition: background 0.2s var(--ease); }
     .notfound-links a:hover { background: var(--surface); }
     .notfound-link-t { font-size: 17px; font-weight: 600; letter-spacing: -0.02em; }

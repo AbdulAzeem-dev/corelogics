@@ -9,6 +9,7 @@ const CASE_STUDIES = [
     positioning: 'An AI-powered learning platform that turns decades of academic material into personalized exam preparation.',
     heroImage: 'assets/qefa-student.png',
     accent: 'oklch(0.545 0.148 254)',    // QEFA blue
+    accentDark: 'oklch(0.760 0.130 254)',   // lifted, for ink bands and dark mode
     accentSoft: 'oklch(0.545 0.148 254 / 0.12)',
     year: '2025',
     duration: '7 months',
@@ -66,6 +67,7 @@ const CASE_STUDIES = [
     positioning: 'An AI-powered compliance system bringing transparency and assurance to halal slaughterhouse operations.',
     heroImage: 'assets/amanah-admin.png',
     accent: 'oklch(0.545 0.118 163)',   // Amanah green
+    accentDark: 'oklch(0.790 0.135 163)',   // lifted, for ink bands and dark mode
     accentSoft: 'oklch(0.545 0.118 163 / 0.12)',
     year: '2025',
     duration: '9 months',
@@ -124,6 +126,7 @@ const CASE_STUDIES = [
     positioning: 'A personalized AI companion that knows you, plans with you, and grows with your ambitions.',
     heroImage: 'assets/morebetters-hero.png',
     accent: 'oklch(0.555 0.118 236)',   // MoreBetters blue
+    accentDark: 'oklch(0.770 0.120 236)',   // lifted, for ink bands and dark mode
     accentSoft: 'oklch(0.555 0.118 236 / 0.12)',
     year: '2025',
     duration: '5 months',

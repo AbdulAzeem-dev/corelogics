@@ -42,7 +42,7 @@ function PageAbout() {
         </div>
       </section>
 
-      <section className="principles">
+      <section className="principles on-accent">
         <div className="page">
           <div className="section-head">
             <div>
@@ -157,8 +157,9 @@ function PageAbout() {
         </div>
       </section>
 
-      <section className="facts">
-        <div className="page facts-grid">
+      <section className="facts hairline">
+        <div className="page">
+          <div className="facts-grid">
           {[
             { k: 'Founded', v: '2022' },
             { k: 'Headquarters', v: 'Ajman Free Zone, UAE' },
@@ -173,7 +174,8 @@ function PageAbout() {
               <div className="mono fact-k">{f.k}</div>
               <div className="fact-v">{f.v}</div>
             </Reveal>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -195,7 +197,7 @@ function PageAbout() {
     .about-story-text p:first-child { font-size: 19px; color: var(--text); }
     @media (max-width: 980px) { .about-story-inner { grid-template-columns: 1fr; } .about-story-side { position: static; } }
 
-    .principles { padding: var(--section-y) 0; }
+    .principles { padding: var(--section-y) 0; border-block: 1px solid var(--border-accent); }
     .principles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
     .principle { padding: 30px; height: 100%; }
     .principle-n { font-size: 11.5px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 18px; }
