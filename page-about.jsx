@@ -2,12 +2,12 @@
 
 function PageAbout() {
   const principles = [
-    { n: '01', t: 'Results first, tools second', d: 'We use the simplest approach that works, and only reach for something more advanced when the simple version can’t get the job done. Either way, we agree on what success looks like before we start building.' },
-    { n: '02', t: 'Built to last, not just to launch', d: 'Everything we hand you should still make sense — and still work — a year from now. Nothing held together with duct tape you can’t see.' },
-    { n: '03', t: 'We tell you the truth early', d: 'If a project is at risk of missing a deadline, you hear it from us weeks in advance — not at the finish line.' },
-    { n: '04', t: 'We build for real users, not benchmarks', d: 'Speed, cost, and reliability matter as much as accuracy. An AI feature that looks great in testing but is slow or expensive in real use isn’t a win.' },
-    { n: '05', t: 'We don’t just launch and leave', d: 'The version you launch with is rarely the version you keep. We stay on to watch how it’s used and keep making it better.' },
-    { n: '06', t: 'We’re honest when we’re not the right fit', d: 'If a project isn’t a good match for us, we’ll say so — and point you to someone who’s a better fit, if we know one.' },
+    { n: '01', tag: 'Product & UI design', kpi: '2 weeks', kpiLabel: 'from brief to a clickable prototype', t: 'Design before code, always', d: 'Every build starts as a real, clickable interface your team can use and argue with. Changing a screen takes an afternoon; changing a shipped feature takes a sprint.' },
+    { n: '02', tag: 'Quality assurance', kpi: '90%+', kpiLabel: 'automated coverage on critical paths', t: 'QA is built in, not bolted on', d: 'Critical flows are covered by automated tests that run on every change, and a person reviews what the tests can\u2019t judge \u2014 tone, edge cases, and how the AI behaves when users go off-script.' },
+    { n: '03', tag: 'Security', kpi: '0', kpiLabel: 'secrets or keys living in source code', t: 'Security from the first commit', d: 'Scoped access, encrypted data, dependency scanning on every build, and a documented answer for where your data goes and who can see it \u2014 before you have to ask.' },
+    { n: '04', tag: 'Performance', kpi: '<800ms', kpiLabel: 'median AI response in production', t: 'We build for real users, not benchmarks', d: 'Speed, cost, and reliability count as much as accuracy. An AI feature that scores well in testing but is slow or expensive in real use isn\u2019t a win \u2014 so we measure it where your customers are.' },
+    { n: '05', tag: 'Engineering', kpi: '99.9%', kpiLabel: 'uptime target on systems we operate', t: 'Built to last, not just to launch', d: 'Documented, tested, and handed over in a state another engineer can pick up. Nothing held together with duct tape you can\u2019t see \u2014 it should still make sense a year from now.' },
+    { n: '06', tag: 'Delivery', kpi: '94%', kpiLabel: 'of milestones hit on schedule', t: 'Fixed scope, fixed date, fixed price', d: 'Every phase is quoted and dated before it starts, and that number is what you pay \u2014 no surprise invoices, no open-ended hourly meters. If scope changes, you approve the new number before we build it.' },
   ];
 
   return (
@@ -59,11 +59,16 @@ function PageAbout() {
           <div className="principles-grid">
             {principles.map((p, i) => (
               <Reveal key={p.n} delay={i * 80}>
-                <CornerCard className="principle">
-                  <div className="mono principle-n">{p.n}</div>
+                <article className="principle">
+                  <span className="principle-ghost" aria-hidden="true">{p.n}</span>
+                  <div className="principle-tag mono">{p.tag}</div>
+                  <div className="principle-kpi">
+                    <div className="principle-kpi-val">{p.kpi}</div>
+                    <div className="principle-kpi-label">{p.kpiLabel}</div>
+                  </div>
                   <h3 className="h-card principle-t">{p.t}</h3>
                   <p className="principle-d muted">{p.d}</p>
-                </CornerCard>
+                </article>
               </Reveal>
             ))}
           </div>
@@ -198,12 +203,52 @@ function PageAbout() {
     @media (max-width: 980px) { .about-story-inner { grid-template-columns: 1fr; } .about-story-side { position: static; } }
 
     .principles { padding: var(--section-y) 0; border-block: 1px solid var(--border-accent); }
-    .principles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-    .principle { padding: 30px; height: 100%; }
-    .principle-n { font-size: 11.5px; letter-spacing: 0.12em; color: var(--accent); margin-bottom: 18px; }
-    .principle-t { margin-bottom: 12px; }
-    .principle-d { font-size: 14.5px; max-width: 32ch; }
-    @media (max-width: 980px) { .principles-grid { grid-template-columns: 1fr; } }
+    .principles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--border-accent); border: 1px solid var(--border-accent); border-radius: var(--radius-lg); overflow: hidden; }
+    .principles-grid > * { min-width: 0; }
+    .principle {
+      position: relative; isolation: isolate; height: 100%;
+      display: grid; grid-template-rows: auto auto auto 1fr; gap: 0;
+      padding: clamp(26px, 2.4vw, 34px);
+      background: var(--surface);
+      transition: background 320ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .principle::before {
+      content: ""; position: absolute; inset: 0 auto 0 0; width: 2px;
+      background: var(--accent); transform: scaleY(0); transform-origin: top;
+      transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .principle:hover { background: var(--surface-2); }
+    .principle:hover::before { transform: scaleY(1); }
+    .principle-ghost {
+      position: absolute; top: 12px; right: 16px; z-index: -1;
+      font-family: var(--font-sans);
+      font-size: clamp(64px, 6vw, 92px); font-weight: 600;
+      letter-spacing: -0.05em; line-height: 1;
+      color: var(--text); opacity: 0.045;
+      font-variant-numeric: tabular-nums; pointer-events: none;
+    }
+    .principle-tag {
+      font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .principle-kpi { margin-top: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    .principle-kpi-val {
+      font-family: var(--font-sans);
+      font-size: clamp(34px, 3.4vw, 46px); font-weight: 600;
+      letter-spacing: -0.045em; line-height: 0.95;
+      color: var(--text); font-variant-numeric: tabular-nums;
+    }
+    .principle-kpi-label { font-size: 12.5px; line-height: 1.45; color: var(--text-muted); margin-top: 10px; max-width: 26ch; text-wrap: balance; }
+    .principle-t { margin-top: 22px; margin-bottom: 10px; text-wrap: balance; }
+    .principle-d { font-size: 14.5px; line-height: 1.6; max-width: 36ch; }
+    /* Reserve two lines for the KPI label and the title so the rules and
+       body copy line up across every card in a row, however the text wraps. */
+    @media (min-width: 641px) {
+      .principle-kpi-label { min-height: 2.9em; }
+      .principle-t { min-height: 2.4em; }
+    }
+    @media (max-width: 980px) { .principles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 640px) { .principles-grid { grid-template-columns: 1fr; } }
 
     .team { padding: var(--section-y) 0; }
     .team-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }

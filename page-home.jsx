@@ -7,7 +7,7 @@ function PageHome() {
       <HeroSection />
       <ManifestoSection />
       <ServicesOverviewSection />
-      <PipelineSection />
+      <EngagementShape />
       <IndustriesPreviewSection />
       <CasesPreviewSection />
       <MetricsSection />
@@ -187,47 +187,6 @@ function ServicesOverviewSection() {
           <div style={{ marginTop: 32 }}>
             <Button kind="text" onClick={() => setPage('services')}>See all services</Button>
           </div>
-        </Reveal>
-      </div>
-    </section>
-  );
-}
-
-// ─── Pipeline visual ────────────────────────────────────────────────────
-function PipelineSection() {
-  return (
-    <section className="pipeline on-accent">
-      <div className="page pipeline-inner">
-        <div className="pipeline-text">
-          <Reveal><Eyebrow>How we deliver</Eyebrow></Reveal>
-          <Reveal delay={120}>
-            <h2 className="h-section" style={{ marginTop: 16 }}>
-              We stick around after launch.
-            </h2>
-          </Reveal>
-          <Reveal delay={220}>
-            <p className="lede" style={{ marginTop: 18 }}>
-              We don&rsquo;t hand you a product and disappear. We launch it, watch how real customers
-              use it, and keep improving it — so it gets better every month, not just on day one.
-            </p>
-          </Reveal>
-          <Reveal delay={300}>
-            <ul className="pipeline-list">
-              <li>Every update is tested before your customers ever see it.</li>
-              <li>A real person double-checks the AI&rsquo;s work — not just an algorithm.</li>
-              <li>We catch problems before your customers do, not after.</li>
-            </ul>
-          </Reveal>
-        </div>
-        <Reveal delay={200} className="pipeline-vis">
-          <CornerCard style={{ padding: 'clamp(24px, 3vw, 34px)', position: 'relative' }}>
-            <div className="pipeline-card-h">How a Corelogics product improves over time</div>
-            <PipelineDiagram height={210} />
-            <div className="pipeline-readout">
-              <span><span className="dim">Monitoring</span> <strong>always on</strong></span>
-              <span><span className="dim">Response</span> <strong>same day</strong></span>
-            </div>
-          </CornerCard>
         </Reveal>
       </div>
     </section>
@@ -563,38 +522,6 @@ function ClosingCtaSection() {
       .service-num { grid-row: 1; grid-column: 1; padding-top: 0; margin-bottom: -6px; }
       .service-body { grid-column: 1; }
       .service-arrow { grid-row: 1; grid-column: 2; }
-    }
-
-    /* ── Pipeline ────────────────────────────────────────────────────── */
-    .pipeline { padding: var(--section-y) 0; border-block: 1px solid var(--border-accent); }
-    .pipeline-inner { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: clamp(40px, 6vw, 80px); align-items: center; }
-    .pipeline-list { list-style: none; margin-top: 26px; }
-    .pipeline-list li {
-      font-size: 14.5px; color: var(--text-muted);
-      padding: 13px 0 13px 26px; position: relative;
-      border-bottom: 1px solid var(--border);
-    }
-    .pipeline-list li::before {
-      content: ""; position: absolute; left: 2px; top: 21px;
-      width: 10px; height: 1.5px; background: var(--accent); border-radius: 1px;
-    }
-    .pipeline-list li:last-child { border-bottom: none; }
-    .pipeline-vis .corner-card { background: var(--surface); }
-    .pipeline-card-h {
-      font-size: 11px; font-weight: 500; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--text-faint);
-      padding-bottom: 18px; margin-bottom: 6px;
-      border-bottom: 1px solid var(--border);
-    }
-    .pipeline-readout {
-      display: flex; gap: 26px; flex-wrap: wrap;
-      margin-top: 8px; padding-top: 18px;
-      border-top: 1px solid var(--border);
-      font-size: 13px; color: var(--text-muted);
-    }
-    .pipeline-readout strong { font-weight: 500; color: var(--text); }
-    @media (max-width: 980px) {
-      .pipeline-inner { grid-template-columns: 1fr; gap: 44px; }
     }
 
     /* ── Industries — lead card spans, the rest sit tighter beneath ───── */

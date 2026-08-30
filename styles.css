@@ -575,7 +575,7 @@ h1, h2, h3, h4 { text-wrap: balance; }
   :root { --section-y: 64px; }
   .about-story, .principles, .team, .locations, .case-section, .case-hero,
   .case-cross, .cases-featured, .contact-thanks, .services-overview,
-  .pipeline, .industries-preview, .cases-preview, .metrics, .closing-cta,
+  .industries-preview, .cases-preview, .metrics, .closing-cta,
   .page-header, .ai-tier, .integrated, .suite-tier, .engagement,
   .industries-list, .manifesto, .cases-stats, .contact-body {
     padding-block: 64px !important;

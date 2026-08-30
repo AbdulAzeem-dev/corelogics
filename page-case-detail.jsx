@@ -71,6 +71,15 @@ function PageCaseDetail({ slug }) {
             <p className="case-hero-position">{c.positioning}</p>
           </Reveal>
 
+          {c.alignment && (
+            <Reveal delay={260}>
+              <div className="case-alignment">
+                <img src={c.alignment.logo} alt={c.alignment.alt} className="case-alignment-logo" />
+                <p className="case-alignment-label">{c.alignment.label}</p>
+              </div>
+            </Reveal>
+          )}
+
           <div className="case-hero-rail">
             {[
               { k: 'Year', v: c.year },
@@ -424,6 +433,21 @@ function PageCaseDetail({ slug }) {
     .case-hero-name { margin-top: 48px; max-width: 16ch; }
     .case-hero-position { font-size: clamp(20px, 2.2vw, 28px); line-height: 1.3; color: var(--text-muted); margin-top: 28px; max-width: 36ch; font-family: var(--font-serif); font-style: italic; letter-spacing: -0.01em; font-weight: 400; }
 
+    /* Vision 2030 alignment badge — sits under the positioning line in the hero. */
+    .case-alignment {
+      margin-top: 34px; display: flex; align-items: center; gap: 20px;
+      padding: 16px 22px 16px 18px;
+      max-width: 620px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: color-mix(in oklab, var(--surface) 55%, transparent);
+      backdrop-filter: blur(6px);
+    }
+    .case-alignment-logo { width: 96px; height: auto; flex: none; opacity: 0.92; }
+    .case-alignment-label { font-size: 13.5px; line-height: 1.5; color: var(--text-muted); margin: 0; }
+    @media (max-width: 620px) {
+      .case-alignment { flex-direction: column; align-items: flex-start; gap: 14px; }
+    }
     .case-hero-rail { margin-top: 60px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
     .case-hero-rail-cell { background: var(--surface); padding: 24px 20px; }
     .case-rail-k { font-size: 11px; font-weight: 500; letter-spacing: 0.13em; color: var(--text-faint); text-transform: uppercase; margin-bottom: 10px; }
