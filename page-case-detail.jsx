@@ -85,7 +85,7 @@ function PageCaseDetail({ slug }) {
               { k: 'Year', v: c.year },
               { k: 'Duration', v: c.duration },
               { k: 'Scale', v: c.scale },
-              { k: 'Engagement', v: 'Full-stack delivery' },
+              { k: 'Engagement', v: c.engagement || 'Full-stack delivery' },
             ].map((it, i) => (
               <Reveal key={it.k} delay={280 + i * 60} className="case-hero-rail-cell">
                 <div className="mono case-rail-k">{it.k}</div>
@@ -312,15 +312,6 @@ function PageCaseDetail({ slug }) {
               </Reveal>
             ))}
 
-            {/* Additional system-topology visual */}
-            <Reveal delay={200}>
-              <figure className="gallery-fig">
-                <div style={{ borderRadius: 12, overflow: 'hidden' }}>
-                  <CaseExtraVisual caseStudy={c} />
-                </div>
-                <figcaption className="muted">A schematic view of the {c.name} system — pipeline stages and outcomes at a glance.</figcaption>
-              </figure>
-            </Reveal>
           </div>
         </div>
       </section>

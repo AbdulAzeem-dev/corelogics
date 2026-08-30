@@ -87,57 +87,6 @@ function TeamPhoto({ index, accent }) {
   );
 }
 
-// ── Keep the case system-topology SVG (schematic) ───────────────────────
-function CaseExtraVisual({ caseStudy }) {
-  const accent = caseStudy.accent;
-  const pipeline = caseStudy.architecture.pipeline;
-  return (
-    <PhotoFrameWrap label={`${caseStudy.slug}.system`} accent={accent} height={360}>
-      <svg viewBox="0 0 800 360" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style={{ display: 'block' }}>
-        <defs>
-          <linearGradient id={`cx-bg-${caseStudy.slug}`} x1="0" y1="0" x2="0" y2="360">
-            <stop offset="0" stopColor="var(--surface)" />
-            <stop offset="1" stopColor="var(--surface-3)" />
-          </linearGradient>
-          <radialGradient id={`cx-glow-${caseStudy.slug}`} cx="0.5" cy="0.5">
-            <stop offset="0" stopColor={accent} stopOpacity="0.16" />
-            <stop offset="1" stopColor={accent} stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <rect width="800" height="360" fill={`url(#cx-bg-${caseStudy.slug})`} />
-        <ellipse cx="400" cy="180" rx="280" ry="100" fill={`url(#cx-glow-${caseStudy.slug})`} />
-        <g transform="translate(0, 100)">
-          {pipeline.map((stage, i) => {
-            const x = 80 + i * ((720 - 80) / Math.max(1, pipeline.length - 1));
-            return (
-              <g key={stage}>
-                {i < pipeline.length - 1 && (
-                  <line x1={x} y1="80"
-                    x2={80 + (i + 1) * ((720 - 80) / Math.max(1, pipeline.length - 1))}
-                    y2="80" stroke={accent} strokeWidth="1" strokeDasharray="3 3" opacity="0.5" />
-                )}
-                <g transform={`translate(${x}, 80)`}>
-                  <circle r="24" fill="var(--surface)" stroke={accent} strokeWidth="1.4" />
-                  <text textAnchor="middle" y="4" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="9" fontWeight="600" fill="var(--text)" letterSpacing="1">{String(i + 1).padStart(2, '0')}</text>
-                  <text textAnchor="middle" y="46" fontFamily="Geist, system-ui, sans-serif" fontSize="12" fontWeight="500" fill="var(--text-muted)">{stage}</text>
-                </g>
-              </g>
-            );
-          })}
-        </g>
-        <g transform="translate(0, 260)">
-          {caseStudy.outcomes.map((o, i) => (
-            <g key={o.l} transform={`translate(${40 + i * 190}, 0)`}>
-              <text fontFamily="Geist, system-ui, sans-serif" fontSize="28" fontWeight="600" fill={accent} letterSpacing="-1">{o.v}</text>
-              <text y="20" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="8" letterSpacing="1.2" fill="var(--text-dim)">{o.l.length > 28 ? o.l.slice(0, 28) + '…' : o.l}</text>
-            </g>
-          ))}
-        </g>
-        <text x="32" y="36" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="9" letterSpacing="2" fill="var(--text-faint)">SYSTEM TOPOLOGY · {caseStudy.name.toUpperCase()}</text>
-      </svg>
-    </PhotoFrameWrap>
-  );
-}
 
 // Small wrapper for SVG-content frames (no img inside)
 function PhotoFrameWrap({ children, label, height = 360, accent = 'var(--accent)', style }) {
@@ -235,5 +184,5 @@ function PhotoFrameWrap({ children, label, height = 360, accent = 'var(--accent)
 })();
 
 Object.assign(window, {
-  IMG, PhotoFrame, PhotoFrameWrap, IndustryPhoto, ServicePhoto, TeamPhoto, CaseExtraVisual,
+  IMG, PhotoFrame, PhotoFrameWrap, IndustryPhoto, ServicePhoto, TeamPhoto,
 });

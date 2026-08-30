@@ -29,6 +29,8 @@ function HeroSection() {
           double delays, and it honours prefers-reduced-motion via the global
           rule in styles.css. */}
       <div className="page hero-content">
+        <div className="hero-grid">
+        <div className="hero-copy">
         <div className="hero-tag">
           <span className="hero-tag-mark" aria-hidden="true"></span>
           <span>Established 2022</span>
@@ -66,6 +68,10 @@ function HeroSection() {
             <dd>The UAE, working worldwide</dd>
           </div>
         </dl>
+        </div>
+
+        <HeroObject />
+        </div>
 
         <div className="hero-marquee">
           <div className="marquee-track">
@@ -249,7 +255,7 @@ function CasesPreviewSection() {
           <div>
             <Reveal><Eyebrow>Selected work</Eyebrow></Reveal>
             <Reveal delay={120}>
-              <h2 className="h-section" style={{ marginTop: 16 }}>Three real products. <em>Different</em> industries. Same quality bar.</h2>
+              <h2 className="h-section" style={{ marginTop: 16 }}>Four real products. <em>Different</em> industries. Same quality bar.</h2>
             </Reveal>
           </div>
           <Reveal delay={200} className="section-head-cta">
@@ -395,6 +401,20 @@ function ClosingCtaSection() {
       background: radial-gradient(ellipse 60% 45% at 50% 108%, transparent, var(--inverse-bg) 76%);
     }
     .hero-content { position: relative; z-index: 2; padding-top: 2vh; }
+    /* Copy holds the left column; the turning object sits opposite it, with
+       the marquee running full width beneath both. */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+      gap: clamp(28px, 4vw, 64px);
+      align-items: center;
+    }
+    @media (max-width: 1040px) {
+      .hero-grid { grid-template-columns: 1fr; }
+      /* Below two columns the object would push the CTAs off the fold, so it
+         steps aside rather than stacking. */
+      .hero-object { display: none; }
+    }
 
     .hero-tag {
       display: inline-flex; align-items: center; gap: 12px;
@@ -412,6 +432,13 @@ function ClosingCtaSection() {
        matching negative margin keep descenders and the italic's overhang from
        being clipped by that mask. */
     .hero-h { margin-top: 30px; max-width: 20ch; }
+    /* In the two-column hero the headline has a narrower measure, so the
+       display size steps down to keep it at two lines and the CTAs above the
+       fold on a laptop screen. */
+    @media (min-width: 1041px) {
+      .hero-h { font-size: clamp(38px, 3.9vw, 58px); max-width: 17ch; }
+      .hero-lede { max-width: 46ch; }
+    }
     .hero-line { display: block; overflow: hidden; padding-bottom: 0.12em; margin-bottom: -0.12em; }
     .hero-line > span {
       display: block;
@@ -559,8 +586,12 @@ function ClosingCtaSection() {
 
     /* ── Case studies — one lead, two supporting ─────────────────────── */
     .cases-preview { padding: var(--section-y) 0; }
-    .cases-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    /* One lead card across the top, the rest three-up beneath it. A trailing
+       card that would otherwise sit alone in a half-empty row stretches to
+       full width instead, so the block always reads as complete. */
+    .cases-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
     .cases-grid > *:first-child { grid-column: 1 / -1; }
+    .cases-grid > *:last-child:nth-child(3n + 2) { grid-column: 1 / -1; }
 
     .case-card {
       display: flex; flex-direction: column; height: 100%;
@@ -603,6 +634,12 @@ function ClosingCtaSection() {
     .case-card-l { font-size: 12.5px; line-height: 1.4; color: var(--text-muted); max-width: 26ch; }
     .case-arrow { color: var(--text-faint); transition: color 0.2s var(--ease), transform 0.2s var(--ease); font-size: 20px; line-height: 1; }
     .case-card:hover .case-arrow { color: var(--case-accent, var(--accent)); transform: translateX(4px); }
+    @media (max-width: 1080px) {
+      .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      /* Two-up: a trailing card is alone whenever its index is even. */
+      .cases-grid > *:last-child:nth-child(3n + 2) { grid-column: auto; }
+      .cases-grid > *:last-child:nth-child(even) { grid-column: 1 / -1; }
+    }
     @media (max-width: 900px) {
       .cases-grid { grid-template-columns: 1fr; }
       .cases-grid > *:first-child .case-card { flex-direction: column; }

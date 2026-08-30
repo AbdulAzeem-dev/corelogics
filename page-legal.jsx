@@ -137,7 +137,7 @@ function PageNotFound() {
   const { setPage } = useRouter();
   const links = [
     ['Services', 'services', 'What we build, and how an engagement runs.'],
-    ['Case studies', 'cases', 'Three shipped systems, with the numbers.'],
+    ['Case studies', 'cases', 'Four shipped systems, with the numbers.'],
     ['Industries', 'industries', 'Where our domain knowledge already runs deep.'],
     ['Contact', 'contact', 'Reach the founding team directly.'],
   ];

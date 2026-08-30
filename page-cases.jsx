@@ -1,4 +1,4 @@
-/* Case studies index — three featured cases as magazine-style covers */
+/* Case studies index — four featured cases as magazine-style covers */
 
 function PageCases() {
   const { setPage, theme } = useRouter();
@@ -8,13 +8,13 @@ function PageCases() {
       <PageHeader
         eyebrow="Case studies"
         title={<>Real products. <em>Real</em> results.</>}
-        lede="Three projects across education, food safety, and personal AI. Different industries, different challenges — the same level of quality on every one. Names are used with client permission; screenshots are from the live products."
+        lede="Four projects across education, food safety, media measurement, and personal AI. Different industries, different challenges — the same level of quality on every one. Names are used with client permission; screenshots are from the live products."
       />
 
       <section className="cases-stats on-accent">
         <div className="page cases-stats-grid">
           {[
-            { v: 3, s: '', l: 'Featured projects, on this page' },
+            { v: 4, s: '', l: 'Featured projects, on this page' },
             { v: 38, s: '', l: 'Total products delivered' },
             { v: 14, s: ' wk', l: 'Median time to first launch' },
             { v: 100, s: '%', l: 'Projects delivered on schedule' },

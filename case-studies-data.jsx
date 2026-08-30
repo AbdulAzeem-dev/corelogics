@@ -1,4 +1,4 @@
-/* Case study content — three real cases */
+/* Case study content — four real cases */
 
 const CASE_STUDIES = [
   {
@@ -177,6 +177,66 @@ const CASE_STUDIES = [
       text: 'It doesn\u2019t feel like a chatbot. It feels like something that\u2019s been paying attention for a while.',
       who: 'Beta user — week 8',
     },
+  },
+
+  {
+    slug: 'mrc',
+    name: 'MRC Saudi',
+    nameFull: 'Media Rating Company — Saudi Arabia',
+    domain: 'Media Measurement · Audience Analytics · Marketing AI',
+    positioning: 'A media rating dashboard that turns raw viewership into audience demographics, trending-topic guidance, and a measurable return on ad spend — proven on the company’s own data before a line of production code.',
+    heroImage: 'assets/mrc-dashboard.png',
+    accent: 'oklch(0.520 0.170 275)',    // MRC indigo
+    accentDark: 'oklch(0.760 0.130 275)',   // lifted, for ink bands and dark mode
+    accentSoft: 'oklch(0.520 0.170 275 / 0.12)',
+    year: '2026',
+    duration: '6 weeks',
+    scale: 'Live MRC datasets · 3 role views',
+    engagement: 'Proof of concept',
+    challenge: [
+      'A national media rating body sits on the one thing every broadcaster, agency, and advertiser wants — who is actually watching what. But that value only lands if it reaches them as a decision, not a spreadsheet. Reports arrived days late, split by platform, and stopped short of saying what a marketer should do next.',
+      'Meanwhile the audience had moved. Viewing is now spread across YouTube, streaming, and broadcast at once, and a campaign planned against one of those alone is planned half-blind. Advertisers were asking a question the reporting could not answer: what did this spend actually return?',
+      'The question was whether an AI layer could close that gap on real data — not whether a demo could be made to look good. So the engagement was scoped as a proof of concept with a hard bar: build it on MRC’s own datasets, and prove it holds up before anyone commits to a rollout.',
+    ],
+    solutionLede: 'A single dashboard that measures audiences across platforms, explains who they are, forecasts where attention is heading next, and closes the loop on what campaigns returned — with an AI layer that writes the report for you.',
+    capabilities: [
+      { t: 'Cross-platform audience measurement', d: 'Watch time unified across YouTube, streaming, and broadcast in one view — so share of attention is read against the whole market, not one channel at a time.', group: 'Measurement' },
+      { t: 'Demographic breakdown', d: 'Who is watching, on what device, in which region — resolved into segments a media plan can actually be built against.', group: 'Measurement' },
+      { t: 'Advertiser & brand ranking', d: 'Which advertisers hold the most attention in a period, and how that share moves week to week across categories.', group: 'Measurement' },
+      { t: 'Trending topic detection', d: 'Surfaces what audiences are shifting toward while it is still early, so campaigns are planned into rising attention rather than yesterday’s peak.', group: 'Intelligence' },
+      { t: 'Short-horizon viewership forecasting', d: 'Predicts movement in the next 24 hours at channel level — the difference between buying a slot and buying the right slot.', group: 'Intelligence' },
+      { t: 'AI insight feed', d: 'The dashboard opens with what changed and what it means, written in plain language, instead of leaving an analyst to find it in a chart.', group: 'Intelligence' },
+      { t: 'ROAS evaluation loop', d: 'Campaign spend is measured against the audience it actually reached, then fed back as recommendations for the next flight — evaluate, improve, repeat.', group: 'Activation' },
+      { t: 'Conversational report generation', d: 'Ask for a report in a sentence and get it built — the same numbers, without waiting on the analytics team for every cut of the data.', group: 'Activation' },
+    ],
+    architecture: {
+      title: 'One measurement layer, three ways to use it.',
+      lede: 'The same resolved audience data serves the analyst who validates it, the marketer who plans against it, and the executive who only needs the movement.',
+      roles: [
+        { n: '01', t: 'Analyst', d: 'Raw ingestion, data quality, and segment definitions — the layer where the numbers are proven before anyone acts on them.' },
+        { n: '02', t: 'Marketing & agency', d: 'Trending topics, audience segments, campaign planning, and the ROAS loop that says whether the last flight worked.' },
+        { n: '03', t: 'Executive', d: 'Share of attention, advertiser rankings, and period-on-period movement — the report, generated on request.' },
+      ],
+      pipeline: ['Ingest', 'Resolve', 'Segment', 'Forecast', 'Recommend', 'Report'],
+    },
+    outcomes: [
+      { v: '6 wks', l: 'From kickoff to a working POC on live data' },
+      { v: '100%', l: 'Built on actual MRC datasets, not synthetic samples' },
+      { v: '24 hr', l: 'Forward viewership forecast, at channel level' },
+      { v: '3', l: 'Role-based surfaces validated in the POC' },
+    ],
+    gallery: [
+      { label: 'Analyst dashboard — audience and advertiser view', img: 'assets/mrc-dashboard.png', caption: 'The opening surface: an AI insight feed, media player watch time split across platforms, device share, and the advertisers holding the most attention — with report generation available as a prompt.' },
+    ],
+    techHighlights: [
+      'Built using actual MRC datasets rather than dummy models',
+      'Structured to handle increasing data volume and complexity',
+      'Confirmed through realistic data checks and system validation',
+      'Aligned with the real inputs required for a live rollout',
+      'Bilingual by design — Arabic and English, right-to-left included',
+      'Reports generated from a plain-language prompt, on the analyst’s own data',
+    ],
+    delivered: ['Product & UI Design', 'Generative AI', 'Forecasting Models', 'Data Engineering', 'Web Platform', 'Dashboard System'],
   },
 ];
 

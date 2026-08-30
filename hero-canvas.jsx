@@ -22,8 +22,14 @@ function HeroCanvas({ variant = 'particles' }) {
     let raf, w, h, dpr;
     let particles = [];
     let sweeps = [];
-    const mouse = { x: -9999, y: -9999 };
+    // The pointer is tracked as a target the drawn position eases toward, so
+    // the field answers the cursor with the same damped feel as the rest of
+    // the motion design rather than snapping to it. `power` fades the whole
+    // interaction in and out as the pointer enters and leaves the hero.
+    const pointer = { tx: -9999, ty: -9999, x: -9999, y: -9999, power: 0, inside: false };
+    let ripples = [];
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const REACH = 190;   // px — how far the cursor's influence carries
 
     // ── Theme colours ────────────────────────────────────────────────────
     const root = document.documentElement;
@@ -84,7 +90,9 @@ function HeroCanvas({ variant = 'particles' }) {
       canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       init();
-      if (reduced) draw(performance.now());
+      // Paint one frame straight away rather than waiting on the first rAF —
+      // a background or throttled tab would otherwise show an empty plate.
+      draw(performance.now());
     };
 
     const init = () => {
@@ -105,22 +113,67 @@ function HeroCanvas({ variant = 'particles' }) {
       }));
     };
 
-    const onMouse = (e) => {
+    const onPointer = (e) => {
       const rect = canvas.getBoundingClientRect();
-      mouse.x = e.clientX - rect.left;
-      mouse.y = e.clientY - rect.top;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      pointer.inside = x >= 0 && y >= 0 && x <= rect.width && y <= rect.height;
+      if (pointer.inside) {
+        // First contact places the eased position rather than easing in from
+        // the far corner, which otherwise reads as a stray dart across frame.
+        if (pointer.power === 0) { pointer.x = x; pointer.y = y; }
+        pointer.tx = x; pointer.ty = y;
+      }
+    };
+
+    const onLeave = () => { pointer.inside = false; };
+
+    // A click drops a ring that expands and pushes the field outward as it
+    // passes — the one moment the background answers back directly.
+    const onPress = (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (x < 0 || y < 0 || x > rect.width || y > rect.height) return;
+      ripples.push({ x, y, r: 0 });
+      if (ripples.length > 4) ripples.shift();
     };
 
     const draw = (now) => {
       const p = palettes(now);
       ctx.clearRect(0, 0, w, h);
 
-      // Measured grid — the drafting-paper layer under everything else.
+      if (!reduced) {
+        pointer.x += (pointer.tx - pointer.x) * 0.12;
+        pointer.y += (pointer.ty - pointer.y) * 0.12;
+        const want = pointer.inside ? 1 : 0;
+        pointer.power += (want - pointer.power) * (pointer.inside ? 0.08 : 0.05);
+        if (pointer.power < 0.002) pointer.power = 0;
+      }
+      const px = pointer.x, py = pointer.y, pw = pointer.power;
+
+      // Measured grid — the drafting-paper layer under everything else. It
+      // shifts a few pixels against the cursor, which is what sells the plate
+      // as having depth rather than being a flat backdrop.
+      const parX = pw ? (px - w / 2) * -0.014 : 0;
+      const parY = pw ? (py - h / 2) * -0.014 : 0;
       ctx.strokeStyle = p.grid;
       ctx.lineWidth = 1;
       const gs = 72;
-      for (let x = gs; x < w; x += gs) { ctx.beginPath(); ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, h); ctx.stroke(); }
-      for (let y = gs; y < h; y += gs) { ctx.beginPath(); ctx.moveTo(0, y + 0.5); ctx.lineTo(w, y + 0.5); ctx.stroke(); }
+      for (let x = gs; x < w + gs; x += gs) { const gx = Math.round(x + parX) + 0.5; ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke(); }
+      for (let y = gs; y < h + gs; y += gs) { const gy = Math.round(y + parY) + 0.5; ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); }
+
+      // Soft halo under the cursor, so the pointer reads as a light source
+      // the field is responding to.
+      if (pw > 0.01) {
+        const halo = ctx.createRadialGradient(px, py, 0, px, py, REACH * 1.35);
+        halo.addColorStop(0, withAlpha(p.accent, 0.13 * pw));
+        halo.addColorStop(1, withAlpha(p.accent, 0));
+        ctx.fillStyle = halo;
+        ctx.beginPath();
+        ctx.arc(px, py, REACH * 1.35, 0, Math.PI * 2);
+        ctx.fill();
+      }
 
       // Slow horizontal sweeps, fading at both ends.
       for (const l of sweeps) {
@@ -143,16 +196,46 @@ function HeroCanvas({ variant = 'particles' }) {
           if (pt.x < 0) pt.x = w; else if (pt.x > w) pt.x = 0;
           if (pt.y < 0) pt.y = h; else if (pt.y > h) pt.y = 0;
 
-          // Mild repulsion so the field parts around the cursor.
-          const dx = pt.x - mouse.x, dy = pt.y - mouse.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < 150 * 150) {
-            const d = Math.sqrt(d2) || 0.01;
-            const f = 1 - d / 150;
-            pt.x += (dx / d) * f * 0.9;
-            pt.y += (dy / d) * f * 0.9;
+          // Mild repulsion so the field parts around the cursor, then drifts
+          // back once it leaves — the displacement is applied to position, not
+          // velocity, so nothing accumulates into a runaway.
+          if (pw > 0.01) {
+            const dx = pt.x - px, dy = pt.y - py;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < REACH * REACH) {
+              const d = Math.sqrt(d2) || 0.01;
+              const f = 1 - d / REACH;
+              pt.x += (dx / d) * f * f * 1.5 * pw;
+              pt.y += (dy / d) * f * f * 1.5 * pw;
+            }
+          }
+
+          // A passing ripple front carries the field with it.
+          for (const rp of ripples) {
+            const dx = pt.x - rp.x, dy = pt.y - rp.y;
+            const d = Math.hypot(dx, dy) || 0.01;
+            const band = Math.abs(d - rp.r);
+            if (band < 46) {
+              const f = (1 - band / 46) * Math.max(0, 1 - rp.r / (Math.max(w, h) * 0.7));
+              pt.x += (dx / d) * f * 1.7;
+              pt.y += (dy / d) * f * 1.7;
+            }
           }
         }
+
+        // Advance and retire the rings themselves.
+        for (const rp of ripples) rp.r += 5.5;
+        ripples = ripples.filter(rp => rp.r < Math.max(w, h) * 0.7);
+      }
+
+      // Expanding rings from a click.
+      for (const rp of ripples) {
+        const fade = 1 - rp.r / (Math.max(w, h) * 0.7);
+        ctx.strokeStyle = withAlpha(p.accent, 0.30 * fade * fade);
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+        ctx.stroke();
       }
 
       // Links between close nodes.
@@ -168,6 +251,23 @@ function HeroCanvas({ variant = 'particles' }) {
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
             ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      // The cursor behaves as one more node: everything close enough wires
+      // itself to it, so moving across the plate pulls a constellation along.
+      if (pw > 0.01) {
+        ctx.lineWidth = 1;
+        for (const pt of particles) {
+          const d = Math.hypot(pt.x - px, pt.y - py);
+          if (d < REACH) {
+            const f = 1 - d / REACH;
+            ctx.strokeStyle = withAlpha(p.accent, f * f * 0.42 * pw);
+            ctx.beginPath();
+            ctx.moveTo(px, py);
+            ctx.lineTo(pt.x, pt.y);
             ctx.stroke();
           }
         }
@@ -199,7 +299,12 @@ function HeroCanvas({ variant = 'particles' }) {
     resize();
     window.addEventListener('resize', resize);
     if (!reduced) {
-      window.addEventListener('mousemove', onMouse);
+      // Pointer events rather than mouse events, so a stylus or touch drag
+      // drives the same interaction.
+      window.addEventListener('pointermove', onPointer, { passive: true });
+      window.addEventListener('pointerdown', onPress, { passive: true });
+      window.addEventListener('pointerleave', onLeave, { passive: true });
+      window.addEventListener('blur', onLeave);
       raf = requestAnimationFrame(tick);
     }
 
@@ -215,11 +320,79 @@ function HeroCanvas({ variant = 'particles' }) {
       cancelAnimationFrame(raf);
       themeObserver.disconnect();
       window.removeEventListener('resize', resize);
-      window.removeEventListener('mousemove', onMouse);
+      window.removeEventListener('pointermove', onPointer);
+      window.removeEventListener('pointerdown', onPress);
+      window.removeEventListener('pointerleave', onLeave);
+      window.removeEventListener('blur', onLeave);
     };
   }, [variant]);
 
   return <canvas ref={ref} className="hero-canvas" aria-hidden="true"></canvas>;
+}
+
+
+// ── Hero object — animated mesh gradient, opposite the headline ────────
+//
+// Whatamesh (github.com/jordienr/whatamesh, MIT) — the open port of the mesh
+// gradient Stripe ships on its own marketing site. It is loaded from CDN at a
+// pinned version, takes its four colours from CSS custom properties so the
+// brand palette drives it, and is masked into a soft orb so it reads as light
+// in the room rather than a rectangle of video.
+//
+// Desktop and motion-allowed only: there is no reason to hand a phone a WebGL
+// shader for a decoration it never sees.
+const MESH_SRC = 'https://cdn.jsdelivr.net/npm/whatamesh@0.2.0/+esm';
+
+let meshPromise = null;
+const loadMesh = () => {
+  if (meshPromise) return meshPromise;
+  meshPromise = new Promise((resolve, reject) => {
+    // A module script, because the package ships ESM only.
+    const el = document.createElement('script');
+    el.type = 'module';
+    el.textContent = `import { Gradient } from '${MESH_SRC}';
+      window.__WhatameshGradient = Gradient;
+      window.dispatchEvent(new Event('whatamesh:ready'));`;
+    window.addEventListener('whatamesh:ready', () => resolve(window.__WhatameshGradient), { once: true });
+    el.addEventListener('error', reject);
+    document.head.appendChild(el);
+    setTimeout(() => reject(new Error('mesh gradient timed out')), 8000);
+  });
+  return meshPromise;
+};
+
+function HeroObject() {
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const canvas = ref.current;
+    if (!canvas) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!window.matchMedia('(min-width: 1041px)').matches) return;
+
+    let gradient = null, cancelled = false;
+
+    loadMesh().then((Gradient) => {
+      if (cancelled || !Gradient) return;
+      gradient = new Gradient();
+      gradient.initGradient('#hero-mesh');
+      // The library sizes its buffer off a resize event; without one it stays
+      // at the canvas default of 300×150 and renders a smeared thumbnail.
+      window.dispatchEvent(new Event('resize'));
+      canvas.classList.add('is-live');
+    }).catch(() => { /* CDN blocked or offline — the hero simply stays plain. */ });
+
+    return () => {
+      cancelled = true;
+      if (gradient && gradient.pause) gradient.pause();
+    };
+  }, []);
+
+  return (
+    <div className="hero-object" aria-hidden="true">
+      <canvas id="hero-mesh" className="hero-mesh" ref={ref}></canvas>
+    </div>
+  );
 }
 
 // Ambient light wash — used behind the closing CTA.
@@ -249,8 +422,33 @@ function HeroAurora() {
     .aurora-b { width: 48%; height: 48%; right: -8%; top: 12%; background: var(--accent-soft); animation-delay: -6s; }
     .aurora-c { width: 38%; height: 38%; left: 32%; bottom: -12%; background: var(--accent); opacity: 0.14; animation-delay: -12s; }
     @keyframes aur { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(7%, -5%) scale(1.12); } }
+
+    /* ── Hero object — mesh gradient orb ─────────────────────────────── */
+    .hero-object {
+      position: relative;
+      min-height: clamp(340px, 36vw, 520px);
+      display: grid; place-items: center;
+    }
+    .hero-mesh {
+      width: 100%; height: 100%;
+      /* The four stops the shader mixes — brand azure, kept off pure white so
+         the orb glows rather than glares against the ink plate. */
+      --gradient-color-1: #071a2b;
+      --gradient-color-2: #0f5f96;
+      --gradient-color-3: #2f9fd6;
+      --gradient-color-4: #8fd3f4;
+      opacity: 0;
+      transition: opacity 1.4s var(--ease);
+      /* Feathered to an orb, so the canvas edge never shows. */
+      -webkit-mask-image: radial-gradient(circle at 52% 50%, #000 34%, transparent 70%);
+      mask-image: radial-gradient(circle at 52% 50%, #000 34%, transparent 70%);
+    }
+    /* The library stamps .isLoaded once it has actually painted; fading on
+       that rather than on init avoids a flash of unpainted canvas. */
+    .hero-mesh.isLoaded, .hero-mesh.is-live { opacity: 0.92; }
+
   `;
   document.head.appendChild(s);
 })();
 
-Object.assign(window, { HeroCanvas, HeroAurora });
+Object.assign(window, { HeroCanvas, HeroAurora, HeroObject });
