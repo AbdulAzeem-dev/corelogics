@@ -331,70 +331,6 @@ function HeroCanvas({ variant = 'particles' }) {
 }
 
 
-// ── Hero object — animated mesh gradient, opposite the headline ────────
-//
-// Whatamesh (github.com/jordienr/whatamesh, MIT) — the open port of the mesh
-// gradient Stripe ships on its own marketing site. It is loaded from CDN at a
-// pinned version, takes its four colours from CSS custom properties so the
-// brand palette drives it, and is masked into a soft orb so it reads as light
-// in the room rather than a rectangle of video.
-//
-// Desktop and motion-allowed only: there is no reason to hand a phone a WebGL
-// shader for a decoration it never sees.
-const MESH_SRC = 'https://cdn.jsdelivr.net/npm/whatamesh@0.2.0/+esm';
-
-let meshPromise = null;
-const loadMesh = () => {
-  if (meshPromise) return meshPromise;
-  meshPromise = new Promise((resolve, reject) => {
-    // A module script, because the package ships ESM only.
-    const el = document.createElement('script');
-    el.type = 'module';
-    el.textContent = `import { Gradient } from '${MESH_SRC}';
-      window.__WhatameshGradient = Gradient;
-      window.dispatchEvent(new Event('whatamesh:ready'));`;
-    window.addEventListener('whatamesh:ready', () => resolve(window.__WhatameshGradient), { once: true });
-    el.addEventListener('error', reject);
-    document.head.appendChild(el);
-    setTimeout(() => reject(new Error('mesh gradient timed out')), 8000);
-  });
-  return meshPromise;
-};
-
-function HeroObject() {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.matchMedia('(min-width: 1041px)').matches) return;
-
-    let gradient = null, cancelled = false;
-
-    loadMesh().then((Gradient) => {
-      if (cancelled || !Gradient) return;
-      gradient = new Gradient();
-      gradient.initGradient('#hero-mesh');
-      // The library sizes its buffer off a resize event; without one it stays
-      // at the canvas default of 300×150 and renders a smeared thumbnail.
-      window.dispatchEvent(new Event('resize'));
-      canvas.classList.add('is-live');
-    }).catch(() => { /* CDN blocked or offline — the hero simply stays plain. */ });
-
-    return () => {
-      cancelled = true;
-      if (gradient && gradient.pause) gradient.pause();
-    };
-  }, []);
-
-  return (
-    <div className="hero-object" aria-hidden="true">
-      <canvas id="hero-mesh" className="hero-mesh" ref={ref}></canvas>
-    </div>
-  );
-}
-
 // Ambient light wash — used behind the closing CTA.
 function HeroAurora() {
   return (
@@ -423,32 +359,8 @@ function HeroAurora() {
     .aurora-c { width: 38%; height: 38%; left: 32%; bottom: -12%; background: var(--accent); opacity: 0.14; animation-delay: -12s; }
     @keyframes aur { 0% { transform: translate(0,0) scale(1); } 100% { transform: translate(7%, -5%) scale(1.12); } }
 
-    /* ── Hero object — mesh gradient orb ─────────────────────────────── */
-    .hero-object {
-      position: relative;
-      min-height: clamp(340px, 36vw, 520px);
-      display: grid; place-items: center;
-    }
-    .hero-mesh {
-      width: 100%; height: 100%;
-      /* The four stops the shader mixes — brand azure, kept off pure white so
-         the orb glows rather than glares against the ink plate. */
-      --gradient-color-1: #071a2b;
-      --gradient-color-2: #0f5f96;
-      --gradient-color-3: #2f9fd6;
-      --gradient-color-4: #8fd3f4;
-      opacity: 0;
-      transition: opacity 1.4s var(--ease);
-      /* Feathered to an orb, so the canvas edge never shows. */
-      -webkit-mask-image: radial-gradient(circle at 52% 50%, #000 34%, transparent 70%);
-      mask-image: radial-gradient(circle at 52% 50%, #000 34%, transparent 70%);
-    }
-    /* The library stamps .isLoaded once it has actually painted; fading on
-       that rather than on init avoids a flash of unpainted canvas. */
-    .hero-mesh.isLoaded, .hero-mesh.is-live { opacity: 0.92; }
-
   `;
   document.head.appendChild(s);
 })();
 
-Object.assign(window, { HeroCanvas, HeroAurora, HeroObject });
+Object.assign(window, { HeroCanvas, HeroAurora });
