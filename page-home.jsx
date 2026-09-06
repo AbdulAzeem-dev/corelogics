@@ -249,7 +249,7 @@ function CasesPreviewSection() {
           <div>
             <Reveal><Eyebrow>Selected work</Eyebrow></Reveal>
             <Reveal delay={120}>
-              <h2 className="h-section" style={{ marginTop: 16 }}>Four real products. <em>Different</em> industries. Same quality bar.</h2>
+              <h2 className="h-section" style={{ marginTop: 16 }}>Five real products. <em>Different</em> industries. Same quality bar.</h2>
             </Reveal>
           </div>
           <Reveal delay={200} className="section-head-cta">
@@ -557,14 +557,13 @@ function ClosingCtaSection() {
       .industry-card.lead .industry-kpi { border-right: none; border-bottom: 1px solid var(--border); padding-right: 0; padding-bottom: 20px; }
     }
 
-    /* ── Case studies — one lead, two supporting ─────────────────────── */
+    /* ── Case studies — one lead, the rest two-up ────────────────────── */
     .cases-preview { padding: var(--section-y) 0; }
-    /* One lead card across the top, the rest three-up beneath it. A trailing
-       card that would otherwise sit alone in a half-empty row stretches to
-       full width instead, so the block always reads as complete. */
-    .cases-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    /* Lead case full width, the rest two-up. A trailing card is alone in its
+       row whenever its index is even, so it takes the full width instead. */
+    .cases-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
     .cases-grid > *:first-child { grid-column: 1 / -1; }
-    .cases-grid > *:last-child:nth-child(3n + 2) { grid-column: 1 / -1; }
+    .cases-grid > *:last-child:nth-child(even) { grid-column: 1 / -1; }
 
     .case-card {
       display: flex; flex-direction: column; height: 100%;
@@ -607,12 +606,6 @@ function ClosingCtaSection() {
     .case-card-l { font-size: 12.5px; line-height: 1.4; color: var(--text-muted); max-width: 26ch; }
     .case-arrow { color: var(--text-faint); transition: color 0.2s var(--ease), transform 0.2s var(--ease); font-size: 20px; line-height: 1; }
     .case-card:hover .case-arrow { color: var(--case-accent, var(--accent)); transform: translateX(4px); }
-    @media (max-width: 1080px) {
-      .cases-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      /* Two-up: a trailing card is alone whenever its index is even. */
-      .cases-grid > *:last-child:nth-child(3n + 2) { grid-column: auto; }
-      .cases-grid > *:last-child:nth-child(even) { grid-column: 1 / -1; }
-    }
     @media (max-width: 900px) {
       .cases-grid { grid-template-columns: 1fr; }
       .cases-grid > *:first-child .case-card { flex-direction: column; }

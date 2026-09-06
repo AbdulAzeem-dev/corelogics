@@ -2,12 +2,36 @@
 
 function PageAbout() {
   const principles = [
-    { n: '01', tag: 'Product & UI design', kpi: '2 weeks', kpiLabel: 'from brief to a clickable prototype', t: 'Design before code, always', d: 'Every build starts as a real, clickable interface your team can use and argue with. Changing a screen takes an afternoon; changing a shipped feature takes a sprint.' },
-    { n: '02', tag: 'Quality assurance', kpi: '90%+', kpiLabel: 'automated coverage on critical paths', t: 'QA is built in, not bolted on', d: 'Critical flows are covered by automated tests that run on every change, and a person reviews what the tests can\u2019t judge \u2014 tone, edge cases, and how the AI behaves when users go off-script.' },
-    { n: '03', tag: 'Security', kpi: '0', kpiLabel: 'secrets or keys living in source code', t: 'Security from the first commit', d: 'Scoped access, encrypted data, dependency scanning on every build, and a documented answer for where your data goes and who can see it \u2014 before you have to ask.' },
-    { n: '04', tag: 'Performance', kpi: '<800ms', kpiLabel: 'median AI response in production', t: 'We build for real users, not benchmarks', d: 'Speed, cost, and reliability count as much as accuracy. An AI feature that scores well in testing but is slow or expensive in real use isn\u2019t a win \u2014 so we measure it where your customers are.' },
-    { n: '05', tag: 'Engineering', kpi: '99.9%', kpiLabel: 'uptime target on systems we operate', t: 'Built to last, not just to launch', d: 'Documented, tested, and handed over in a state another engineer can pick up. Nothing held together with duct tape you can\u2019t see \u2014 it should still make sense a year from now.' },
-    { n: '06', tag: 'Delivery', kpi: '94%', kpiLabel: 'of milestones hit on schedule', t: 'Fixed scope, fixed date, fixed price', d: 'Every phase is quoted and dated before it starts, and that number is what you pay \u2014 no surprise invoices, no open-ended hourly meters. If scope changes, you approve the new number before we build it.' },
+    {
+      trait: 'Deliberate', discipline: 'Product & UI design',
+      t: 'We design it before we build it',
+      d: 'Every project starts as a real, clickable interface your team can use and argue with — not a spec document. Changing a screen takes an afternoon. Changing a shipped feature takes a sprint.',
+    },
+    {
+      trait: 'Rigorous', discipline: 'Quality assurance',
+      t: 'We test it like it is already live',
+      d: 'Critical flows are covered by automated tests that run on every change, and a person reviews what tests cannot judge — tone, edge cases, and how the AI behaves when users go off-script.',
+    },
+    {
+      trait: 'Trustworthy', discipline: 'Security & data',
+      t: 'We treat your data as yours',
+      d: 'Scoped access, encryption, and dependency scanning from the first commit — plus a documented answer for where your data lives and who can reach it, ready before you have to ask for it.',
+    },
+    {
+      trait: 'Pragmatic', discipline: 'Performance',
+      t: 'We build for real users, not benchmarks',
+      d: 'Speed, cost, and reliability count as much as accuracy. An AI feature that scores well in testing but is slow or expensive in real use is not a win, so we measure it where your customers are.',
+    },
+    {
+      trait: 'Durable', discipline: 'Engineering',
+      t: 'We build it to be maintained',
+      d: 'Documented, tested, and handed over in a state another engineer can pick up. Nothing held together with duct tape you cannot see — it should still make sense a year from now.',
+    },
+    {
+      trait: 'Accountable', discipline: 'Delivery',
+      t: 'We commit to a date and hold it',
+      d: 'Every phase is scoped, quoted, and dated before it starts, and that is what you pay. If something is at risk, you hear it from us early enough to decide what to do about it.',
+    },
   ];
 
   return (
@@ -58,13 +82,11 @@ function PageAbout() {
 
           <div className="principles-grid">
             {principles.map((p, i) => (
-              <Reveal key={p.n} delay={i * 80}>
+              <Reveal key={p.trait} delay={i * 80}>
                 <article className="principle">
-                  <span className="principle-ghost" aria-hidden="true">{p.n}</span>
-                  <div className="principle-tag mono">{p.tag}</div>
-                  <div className="principle-kpi">
-                    <div className="principle-kpi-val">{p.kpi}</div>
-                    <div className="principle-kpi-label">{p.kpiLabel}</div>
+                  <div className="principle-head">
+                    <span className="principle-trait">{p.trait}</span>
+                    <span className="principle-discipline mono">{p.discipline}</span>
                   </div>
                   <h3 className="h-card principle-t">{p.t}</h3>
                   <p className="principle-d muted">{p.d}</p>
@@ -116,45 +138,12 @@ function PageAbout() {
                     </a>
                   </div>
                 </div>
-                <div className="location-map" aria-hidden>
-                  <svg viewBox="0 0 400 280" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-                    <defs>
-                      <radialGradient id="loc-glow" cx="60%" cy="40%">
-                        <stop offset="0" stopColor="var(--accent)" stopOpacity="0.4" />
-                        <stop offset="1" stopColor="var(--accent)" stopOpacity="0" />
-                      </radialGradient>
-                    </defs>
-                    <rect width="400" height="280" fill="var(--bg-2)" />
-                    {/* Grid */}
-                    <g stroke="var(--border)" strokeWidth="0.5">
-                      {Array.from({ length: 8 }).map((_, i) => (
-                        <line key={`v${i}`} x1={i * 50} y1="0" x2={i * 50} y2="280" />
-                      ))}
-                      {Array.from({ length: 6 }).map((_, i) => (
-                        <line key={`h${i}`} x1="0" y1={i * 50} x2="400" y2={i * 50} />
-                      ))}
-                    </g>
-                    {/* Stylized coastline / arabian peninsula */}
-                    <path d="M 60 100 Q 100 80 140 90 L 180 70 Q 230 60 270 90 Q 310 110 320 160 Q 310 200 270 220 Q 220 230 180 220 L 140 200 Q 100 190 80 160 Q 60 130 60 100 Z"
-                          fill="var(--surface-3)" stroke="var(--border-strong)" strokeWidth="1" />
-                    {/* Glow at location */}
-                    <circle cx="240" cy="120" r="80" fill="url(#loc-glow)" />
-                    {/* Location pin */}
-                    <g transform="translate(240, 120)">
-                      <circle r="14" fill="none" stroke="var(--accent)" strokeWidth="1" opacity="0.5">
-                        <animate attributeName="r" from="6" to="22" dur="2.4s" repeatCount="indefinite" />
-                        <animate attributeName="opacity" from="0.6" to="0" dur="2.4s" repeatCount="indefinite" />
-                      </circle>
-                      <circle r="5" fill="var(--accent)" />
-                      <circle r="2.5" fill="var(--accent-ink)" />
-                    </g>
-                    {/* Label */}
-                    <g transform="translate(258, 116)">
-                      <line x1="0" y1="0" x2="20" y2="-20" stroke="var(--text-dim)" strokeWidth="0.6" />
-                      <text x="24" y="-24" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="9" letterSpacing="2" fill="var(--text-muted)">AJMAN · AE</text>
-                      <text x="24" y="-12" fontFamily="Geist Mono, ui-monospace, monospace" fontSize="8" fill="var(--text-faint)">25.4°N · 55.5°E</text>
-                    </g>
-                  </svg>
+                <div className="location-photo">
+                  <img src="assets/ajman-skyline.png"
+                       alt="The Ajman waterfront at dusk, United Arab Emirates"
+                       loading="lazy" decoding="async" />
+                  <div className="location-photo-tint" aria-hidden="true"></div>
+                  <div className="location-photo-label mono" aria-hidden="true">Ajman &middot; AE</div>
                 </div>
               </div>
             </CornerCard>
@@ -206,9 +195,9 @@ function PageAbout() {
     .principles-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-3); }
     .principles-grid > * { min-width: 0; }
     .principle {
-      position: relative; isolation: isolate; height: 100%;
-      display: grid; grid-template-rows: auto auto auto 1fr; gap: 0;
-      padding: clamp(26px, 2.4vw, 34px);
+      position: relative; height: 100%;
+      display: flex; flex-direction: column;
+      padding: clamp(28px, 2.6vw, 38px);
       background: var(--surface);
       transition: background 320ms cubic-bezier(0.22, 1, 0.36, 1);
     }
@@ -219,34 +208,28 @@ function PageAbout() {
     }
     .principle:hover { background: var(--surface-2); }
     .principle:hover::before { transform: scaleY(1); }
-    .principle-ghost {
-      position: absolute; top: 12px; right: 16px; z-index: -1;
-      font-family: var(--font-sans);
-      font-size: clamp(64px, 6vw, 92px); font-weight: 600;
-      letter-spacing: -0.05em; line-height: 1;
-      color: var(--accent); opacity: 0.11;
-      font-variant-numeric: tabular-nums; pointer-events: none;
+
+    /* The trait leads — that is what the card is actually about — with the
+       discipline it applies to sitting beside it as a quiet qualifier. */
+    .principle-head {
+      display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+      padding-bottom: 20px; margin-bottom: 22px;
+      border-bottom: 1px solid var(--border);
     }
-    .principle-tag {
-      font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase;
-      color: var(--accent);
+    .principle-trait {
+      font-family: var(--font-serif); font-style: italic;
+      font-size: clamp(24px, 2.3vw, 30px); line-height: 1;
+      letter-spacing: -0.015em; color: var(--accent);
     }
-    .principle-kpi { margin-top: 22px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-    .principle-kpi-val {
-      font-family: var(--font-sans);
-      font-size: clamp(34px, 3.4vw, 46px); font-weight: 600;
-      letter-spacing: -0.045em; line-height: 0.95;
-      color: var(--text); font-variant-numeric: tabular-nums;
+    .principle-discipline {
+      font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--text-faint);
     }
-    .principle-kpi-label { font-size: 12.5px; line-height: 1.45; color: var(--text-muted); margin-top: 10px; max-width: 26ch; text-wrap: balance; }
-    .principle-t { margin-top: 22px; margin-bottom: 10px; text-wrap: balance; }
-    .principle-d { font-size: 14.5px; line-height: 1.6; max-width: 36ch; }
-    /* Reserve two lines for the KPI label and the title so the rules and
-       body copy line up across every card in a row, however the text wraps. */
-    @media (min-width: 641px) {
-      .principle-kpi-label { min-height: 2.9em; }
-      .principle-t { min-height: 2.4em; }
-    }
+    .principle-t { margin-bottom: 12px; text-wrap: balance; }
+    .principle-d { font-size: 14.5px; line-height: 1.62; max-width: 38ch; }
+    /* Reserve two lines for the title so the body copy starts on the same
+       line across every card in a row, however the headings wrap. */
+    @media (min-width: 641px) { .principle-t { min-height: 2.4em; } }
     @media (max-width: 980px) { .principles-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
     @media (max-width: 640px) { .principles-grid { grid-template-columns: 1fr; } }
 
@@ -269,11 +252,24 @@ function PageAbout() {
     .location-link { font-family: var(--font-mono); font-size: 13px; color: var(--text); transition: color 0.2s ease; letter-spacing: 0.02em; display: inline-flex; align-items: center; gap: 9px; }
     .location-link:hover { color: var(--accent); }
     .loc-ico { width: 15px; height: 15px; flex-shrink: 0; color: var(--accent); }
-    .location-map { border-left: 1px solid var(--border); min-height: 360px; background: var(--bg-2); }
-    .location-map svg { display: block; width: 100%; height: 100%; }
+    .location-photo { position: relative; border-left: 1px solid var(--border); min-height: 360px; overflow: hidden; }
+    .location-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    /* A wash in the accent hue so a warm photograph still belongs to the
+       page's cool palette, plus a foot gradient to seat the label. */
+    .location-photo-tint {
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        linear-gradient(to top, oklch(0.16 0.022 245 / 0.62), transparent 46%),
+        linear-gradient(200deg, var(--accent-wash), transparent 62%);
+    }
+    .location-photo-label {
+      position: absolute; left: 24px; bottom: 20px;
+      font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: oklch(1 0 0 / 0.82);
+    }
     @media (max-width: 980px) {
       .location-grid { grid-template-columns: 1fr; }
-      .location-map { border-left: none; border-top: 1px solid var(--border); min-height: 280px; }
+      .location-photo { border-left: none; border-top: 1px solid var(--border); min-height: 240px; }
       .location-meta { padding: 32px; }
     }
 

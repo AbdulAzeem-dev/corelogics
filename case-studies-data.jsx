@@ -1,4 +1,4 @@
-/* Case study content — four real cases */
+/* Case study content — five real cases */
 
 const CASE_STUDIES = [
   {
@@ -237,6 +237,65 @@ const CASE_STUDIES = [
       'Reports generated from a plain-language prompt, on the analyst’s own data',
     ],
     delivered: ['Product & UI Design', 'Generative AI', 'Forecasting Models', 'Data Engineering', 'Web Platform', 'Dashboard System'],
+  },
+
+  {
+    slug: 'ad-sight',
+    name: 'Ad-Sight',
+    nameFull: 'Ad-Sight Audience Intelligence',
+    domain: 'Retail Media · Computer Vision · Audience Analytics',
+    positioning: 'AI-powered audience analytics for digital advertising screens — computer vision that turns real-world ad exposure into viewer counts, attention time, demographics, and emotional response.',
+    heroImage: 'assets/adsight-hero.png',
+    accent: 'oklch(0.585 0.165 45)',     // Ad-Sight amber
+    accentDark: 'oklch(0.790 0.125 55)',    // lifted, for ink bands and dark mode
+    accentSoft: 'oklch(0.585 0.165 45 / 0.12)',
+    year: '2026',
+    duration: '4 months',
+    scale: 'Retail & mall screen networks',
+    challenge: [
+      'Digital advertising screens are sold like billboards and measured like billboards — footfall estimates and playback logs. The operator can prove the ad played. Nobody can prove anyone watched it.',
+      'So the whole category negotiates on a proxy. An advertiser putting real budget into in-store and mall networks gets impressions modelled from foot traffic, with no read on who stopped, how long they looked, or whether the creative landed. Digital and social sell them the opposite — exact audiences, exact attention — and win the comparison every time.',
+      'Screen owners feel the same gap from the other side. Without evidence of attention they cannot price a premium location above a corridor one, cannot show an advertiser which creative held people, and cannot renew a contract on anything stronger than reach.',
+    ],
+    solutionLede: 'A camera-based measurement layer that sits with the screen and reports what actually happened in front of it — how many people looked, for how long, who they were, and how they reacted — as anonymous counts, never as identities.',
+    capabilities: [
+      { t: 'Viewer detection & count', d: 'Separates the people who turned toward the screen from the people who simply walked past — the difference between opportunity-to-see and attention actually earned.', group: 'Measurement' },
+      { t: 'Engagement time', d: 'Dwell time per viewer, per creative, per slot. A three-second glance and a fifteen-second watch stop being the same impression.', group: 'Measurement' },
+      { t: 'Demographic estimation', d: 'Age bracket, gender split, and solo-versus-group viewing, estimated on the device — so a media plan can be built against the audience that was really in front of the screen.', group: 'Measurement' },
+      { t: 'Emotional response', d: 'Expression read at the moment of exposure and reduced to positive, neutral, or negative — creative judged by reaction, not just by exposure.', group: 'Intelligence' },
+      { t: 'Creative & slot performance', d: 'Every play is joined to the audience standing in front of it, so a schedule can be ranked by attention earned instead of plays served.', group: 'Intelligence' },
+      { t: 'Location & daypart insight', d: 'Which screen holds which audience at which hour — the input that turns a network of identical screens into differently priced inventory.', group: 'Intelligence' },
+      { t: 'Anonymous by design', d: 'Frames are processed locally and discarded. Only anonymous aggregates leave the device — no images, no identities, nothing that could be traced back to a shopper.', group: 'Privacy & deployment' },
+      { t: 'Edge deployment behind existing screens', d: 'A small compute box behind the screen already installed. No new hardware fleet, no video streamed to the cloud, no site rewiring.', group: 'Privacy & deployment' },
+    ],
+    architecture: {
+      title: 'One sensor at the screen, three audiences for the data.',
+      lede: 'The same anonymous exposure record serves the network operator running the screens, the advertiser buying them, and the site owner hosting them.',
+      roles: [
+        { n: '01', t: 'Network operator', d: 'Screens, devices, and health across the estate — plus the inventory view that shows which locations are earning attention and which are not.' },
+        { n: '02', t: 'Advertiser & agency', d: 'Campaign reporting in the metrics the rest of the media plan already uses: reach, attention time, audience profile, and creative comparison.' },
+        { n: '03', t: 'Site & retail owner', d: 'Footfall against attention by zone and daypart — evidence for what a placement inside the store is actually worth.' },
+      ],
+      pipeline: ['Detect', 'Attend', 'Profile', 'React', 'Attribute', 'Report'],
+    },
+    outcomes: [
+      { v: '4', l: 'Signals per exposure: count, dwell, demographic, reaction' },
+      { v: '100%', l: 'On-device processing — no video or identities leave the screen' },
+      { v: '<1s', l: 'Detection to logged impression, at the edge' },
+      { v: '24/7', l: 'Continuous measurement across the screen network' },
+    ],
+    gallery: [
+      { label: 'Ad-Sight — campaign analytics', img: 'assets/adsight-hero.png', caption: 'A live brand campaign measured end to end: total engagement, win-versus-loss split, and engagement broken down by location and segment — the same view on desktop and on the floor.' },
+    ],
+    techHighlights: [
+      'Counts the people who actually looked, not the people who walked past',
+      'Every impression carries dwell time, a demographic estimate, and a reaction',
+      'Faces are processed on the device and discarded — only anonymous counts are stored',
+      'Runs on a small edge box behind the screen that is already installed',
+      'Creative tested against real attention in the real world, not in a focus group',
+      'Reports in the same metrics as the rest of the advertiser’s media plan',
+    ],
+    delivered: ['Computer Vision', 'Edge AI Deployment', 'Product & UI Design', 'Data Engineering', 'Analytics Dashboard', 'Web Platform'],
   },
 ];
 

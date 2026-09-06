@@ -450,7 +450,9 @@ function PageCaseDetail({ slug }) {
     .case-frame-bar { display: flex; align-items: center; gap: 8px; padding: 12px 18px; background: var(--surface-2); border-bottom: 1px solid var(--border); }
     .case-frame-bar .dot { width: 11px; height: 11px; border-radius: 999px; }
     .case-frame-url { margin-left: 18px; font-size: 11px; letter-spacing: 0.06em; color: var(--text-dim); }
-    .case-hero-image { display: block; width: 100%; height: auto; }
+    /* Wide product screenshots land well under this; a near-square one gets
+       capped so every case hero reads at roughly the same height. */
+    .case-hero-image { display: block; width: 100%; height: auto; max-height: 680px; object-fit: cover; object-position: top center; }
     .case-hero-image-glow { position: absolute; left: 0; right: 0; bottom: -40px; height: 100px; background: radial-gradient(ellipse, var(--case-accent-soft), transparent 70%); filter: blur(50px); z-index: 1; }
 
     /* ── Solution ── */
