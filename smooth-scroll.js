@@ -21,6 +21,17 @@
   var self = false;      // true while we are the ones moving the page
   var selfTimer = 0;
 
+  // The SPA router resets scroll to top on every page change, but an
+  // in-flight glide from the previous page keeps its own stale 'target'
+  // (e.g. mid-page) and would otherwise drag the new page away from 0 on
+  // the very next frame. Expose a reset the router can call right after it
+  // sets scrollY, so this loop's target stays in sync instead of fighting it.
+  window.__clScrollReset = function () {
+    running = false;
+    target = 0;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
   function maxScroll() {
     return Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
   }

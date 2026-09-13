@@ -98,8 +98,14 @@ function App() {
     try { localStorage.setItem('cl-theme', theme); } catch (e) {}
   }, [theme]);
 
-  // Reset scroll on page change
-  useEffect(() => { window.scrollTo({ top: 0 }); }, [page, slug]);
+  // Reset scroll on page change. Route through smooth-scroll.js's own reset
+  // when it's active so its in-flight inertial glide target is resynced too —
+  // otherwise a glide left over from the previous page can drag the new page
+  // back down away from the top on the next frame.
+  useEffect(() => {
+    if (window.__clScrollReset) window.__clScrollReset();
+    else window.scrollTo({ top: 0 });
+  }, [page, slug]);
 
   const router = { page, slug, setPage, theme, toggleTheme };
 
